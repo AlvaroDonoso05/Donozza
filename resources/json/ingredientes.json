@@ -1,0 +1,18 @@
+{
+    "ingredientes": [
+        {
+            "id": 1,
+            "nombre": "Mozzarella",
+            "precio": 12.5,
+            "stock" : 15,
+            "especificaciones": ["lactosa"]
+        },
+        {
+            "id": 2,
+            "nombre": "Tomate",
+            "precio": 12.5,
+            "stock" : 15,
+            "especificaciones": []
+        }
+    ]
+}

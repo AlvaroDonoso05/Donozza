@@ -1,0 +1,42 @@
+{
+    "pizzas": [
+        {
+            "id": 1,
+            "nombre": "Pizza1",
+            "precio": 12.5,
+            "ingredientes": [
+                {
+                    "nombre": "",
+                    "cantidad": "2"
+                },
+                {
+                    "nombre": "",
+                    "cantidad": "2"
+                },
+                {
+                    "nombre": "",
+                    "cantidad": "2"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "nombre": "Pizza2",
+            "precio": 10.5,
+            "ingredientes": [
+                {
+                    "nombre": "",
+                    "cantidad": "2"
+                },
+                {
+                    "nombre": "",
+                    "cantidad": "2"
+                },
+                {
+                    "nombre": "",
+                    "cantidad": "2"
+                }
+            ]
+        }
+    ]
+}

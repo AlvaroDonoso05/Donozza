@@ -3,13 +3,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import modelo.Pizza;
+import modelo.Logger;
+import modelo.Pizzas;
 import modelo.Comanda;
 import vista.Vista;
 
 public class Controlador implements ActionListener{
 	
 	Vista vista;
+	Logger logger = new Logger();
 	public ArrayList<Comanda>comandas = new ArrayList<>();
 
 	public Controlador(Vista frame) {
@@ -30,6 +32,7 @@ public class Controlador implements ActionListener{
 	public void llenarTabla() {
 		
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		

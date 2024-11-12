@@ -12,15 +12,22 @@ import javax.swing.JButton;
 
 import controlador.Controlador;
 import modelo.Comanda;
+import modelo.FileWatcher;
+import modelo.Logger;
+import modelo.Pizzas;
 import modelo.Mesa;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
 public class Vista extends JFrame {
-
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public JPanel panel;
@@ -43,7 +50,20 @@ public class Vista extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) throws Exception {
+		Logger logger = new Logger();
 		Vista vista = new Vista();
+		
+		try {
+			Pizzas listaPizzas = new Pizzas("resources/json/pizzas.json");
+			
+			FileWatcher watcherPizzas = new FileWatcher(listaPizzas);
+			
+			watcherPizzas.start();
+			
+		} catch(Exception e) {
+			logger.error(e);
+		}
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -51,16 +71,13 @@ public class Vista extends JFrame {
 					vista.controlador = new Controlador(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(e);
 				}
 			}
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public Vista() throws Exception{
+	public Vista() throws Exception {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 934, 840);
