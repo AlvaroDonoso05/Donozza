@@ -12,8 +12,8 @@ import javax.swing.JButton;
 
 import controlador.Controlador;
 import modelo.Comanda;
-import modelo.FileWatcher;
-import modelo.Logger;
+import controlador.FileWatcher;
+import controlador.Logger;
 import modelo.Pizzas;
 import modelo.Mesa;
 
