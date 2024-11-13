@@ -1,0 +1,10 @@
+13-11-2024 09:08:54 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json
+13-11-2024 09:08:54 [LOGGER] Observando cambios en el archivo: resources\json\pizzas.json
+13-11-2024 09:09:05 [SUCCESS] El archivo pizzas.json ha sido modificado.
+13-11-2024 09:09:16 [SUCCESS] El archivo pizzas.json ha sido modificado.
+13-11-2024 09:09:21 [SUCCESS] El archivo pizzas.json ha sido modificado.
+13-11-2024 09:09:26 [SUCCESS] El archivo ingredientes.json ha sido modificado.
+13-11-2024 09:09:32 [SUCCESS] El archivo ingredientes.json ha sido modificado.
+13-11-2024 09:09:37 [SUCCESS] El archivo ingredientes.json ha sido modificado.
+13-11-2024 09:12:36 [LOGGER] Observando cambios en el archivo: resources\json\pizzas.json
+13-11-2024 09:12:36 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json

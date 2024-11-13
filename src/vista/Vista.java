@@ -11,9 +11,10 @@ import java.awt.Color;
 import javax.swing.JButton;
 
 import controlador.Controlador;
+import controlador.FileWatcher;
+import controlador.Logger;
 import modelo.Comanda;
-import modelo.FileWatcher;
-import modelo.Logger;
+import modelo.Ingredientes;
 import modelo.Pizzas;
 import modelo.Mesa;
 
@@ -55,10 +56,13 @@ public class Vista extends JFrame {
 		
 		try {
 			Pizzas listaPizzas = new Pizzas("resources/json/pizzas.json");
+			Ingredientes listaIngredientes = new Ingredientes("resources/json/ingredientes.json");
 			
 			FileWatcher watcherPizzas = new FileWatcher(listaPizzas);
+			FileWatcher watcherIngredientes = new FileWatcher(listaIngredientes);
 			
 			watcherPizzas.start();
+			watcherIngredientes.start();
 			
 		} catch(Exception e) {
 			logger.error(e);

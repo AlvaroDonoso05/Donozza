@@ -1,7 +1,12 @@
-package modelo;
+package controlador;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 public class Logger {
@@ -25,6 +30,8 @@ public class Logger {
 	public static final String ANSI_BRIGHT_WHITE = "\u001B[97m";
 	
 	private Properties properties;
+	private FileWriter fw;
+	private File logFile;
 	
 	public Logger() {
 		try {
@@ -36,8 +43,27 @@ public class Logger {
 		}
 	}
 	
+	private void loggerFile(String texto) {
+		logFile = new File("resources/logs.txt");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		try {
+				LocalDateTime now = LocalDateTime.now();
+				fw = new FileWriter(logFile, true);
+				fw.write(now.format(formatter) + " " + texto + "\n");
+		} catch(Exception e) {
+			this.error(e);
+		} finally {
+			try {
+				fw.close();
+			} catch (IOException e) {
+				this.error(e);
+			}
+		};
+	}
+	
 	public void warning(String texto) {
 		System.out.println(ANSI_YELLOW + "[WARN] " + ANSI_BRIGHT_YELLOW + texto);
+		loggerFile("[WARN] " + texto);
 	}
 	
 	public void error(Exception e) {
@@ -47,13 +73,16 @@ public class Logger {
 		} else {
 			e.printStackTrace();
 		}
+		loggerFile("[ERROR] " + e);
 	}
 	
 	public void log(String texto) {
 		System.out.println(ANSI_BLUE + "[LOGGER] " + ANSI_BRIGHT_BLUE + texto);
+		loggerFile("[LOGGER] " + texto);
 	}
 	
 	public void success(String texto) {
 		System.out.println(ANSI_GREEN + "[SUCCESS] " + ANSI_BRIGHT_GREEN + texto);
+		loggerFile("[SUCCESS] " + texto);
 	}
 }

@@ -1,4 +1,4 @@
-package modelo;
+package controlador;
 
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -7,6 +7,9 @@ import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
+
+import modelo.Ingredientes;
+import modelo.Pizzas;
 
 public class FileWatcher extends Thread {
     private Path filePath;
@@ -36,7 +39,7 @@ public class FileWatcher extends Thread {
                     StandardWatchEventKinds.ENTRY_MODIFY, 
                     StandardWatchEventKinds.ENTRY_DELETE);
 
-            logger.log("Observando cambios en el directorio: " + directoryPath);
+            logger.log("Observando cambios en el archivo: " + directoryPath + "\\" + filePath.getFileName());
 
             while (true) {
                 WatchKey key = watchService.take();
