@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import controlador.Logger;
+
 public class Database {
 	private File fileDb;
 	private ObjectMapper mapper = new ObjectMapper();
@@ -18,8 +20,11 @@ public class Database {
 	}
 	
 	private void generarEstructura() {
+		Logger logger = new Logger();
 		ObjectNode rootNode = mapper.createObjectNode();
 		ArrayNode mesas = mapper.createArrayNode();
+		
+		logger.log("Generando Bases de Datos");
 		
 		for(int i = 0; i < 8; i++) {
 			ObjectNode mesaDefault = mapper.createObjectNode();
@@ -54,5 +59,8 @@ public class Database {
 		}
 		
 		rootNode.set("mesas", mesas);
+		
+		
+		logger.success("Base de datos de Comandas Generada");
 	}
 }

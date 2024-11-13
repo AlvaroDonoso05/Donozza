@@ -13,6 +13,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 
 import controlador.Controlador;
+import modelo.Database;
 import modelo.Ingredientes;
 import controlador.FileWatcher;
 import controlador.Logger;
@@ -48,6 +49,7 @@ public class Vista extends JFrame {
 		Vista vista = new Vista();
 		
 		try {
+			Database database = new Database();
 			Pizzas listaPizzas = new Pizzas("resources/json/pizzas.json");
 			Ingredientes listaIngredientes = new Ingredientes("resources/json/ingredientes.json");
 			
@@ -136,8 +138,8 @@ public class Vista extends JFrame {
 		
 
 		//tablaMesa = new JTable(mesa.llenarMatrizComandas(), nombreColumnas);
-		tablaMesa.setBounds(22, 77, 320, 251);
-		panelMesa.add(tablaMesa);
+		//tablaMesa.setBounds(22, 77, 320, 251);
+		//panelMesa.add(tablaMesa);
 		
 		JScrollPane scrollPane = new JScrollPane(tablaMesa);
 		scrollPane.setBounds(22, 77, 320, 251);
