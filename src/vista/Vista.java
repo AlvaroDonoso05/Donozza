@@ -13,12 +13,10 @@ import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 
 import controlador.Controlador;
-import modelo.Comanda;
 import modelo.Ingredientes;
 import controlador.FileWatcher;
 import controlador.Logger;
 import modelo.Pizzas;
-import modelo.Mesa;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -136,12 +134,8 @@ public class Vista extends JFrame {
 		lblMesa.setBounds(159, 36, 45, 13);
 		panelMesa.add(lblMesa);
 		
-		Mesa mesa = new Mesa(1);
-		Comanda comanda = new Comanda("Pepe", 1, 3);
-		mesa.getComandasMesa().add(comanda);
-		
 
-		tablaMesa = new JTable(mesa.llenarMatrizComandas(), nombreColumnas);
+		//tablaMesa = new JTable(mesa.llenarMatrizComandas(), nombreColumnas);
 		tablaMesa.setBounds(22, 77, 320, 251);
 		panelMesa.add(tablaMesa);
 		
