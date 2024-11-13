@@ -11,34 +11,22 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
-<<<<<<< HEAD
-=======
 
 import controlador.Controlador;
 import modelo.Comanda;
+import modelo.Ingredientes;
 import controlador.FileWatcher;
 import controlador.Logger;
 import modelo.Pizzas;
 import modelo.Mesa;
 
-import java.awt.Component;
-import java.awt.GridLayout;
 import java.util.Properties;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
->>>>>>> branch 'master' of https://github.com/Donoso005/Donozza.git
 import javax.swing.JLabel;
 import javax.swing.JTable;
-
-import controlador.Controlador;
-import controlador.FileWatcher;
-import controlador.Logger;
-import modelo.Comanda;
-import modelo.Ingredientes;
-import modelo.Pizzas;
-import modelo.Mesa;
 
 public class Vista extends JFrame {
 	private static final long serialVersionUID = 1L;

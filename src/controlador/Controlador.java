@@ -3,11 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-<<<<<<< HEAD
-=======
 import controlador.Logger;
 import modelo.Pizzas;
->>>>>>> branch 'master' of https://github.com/Donoso005/Donozza.git
 import modelo.Comanda;
 import vista.Vista;
 
