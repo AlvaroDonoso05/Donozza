@@ -5,14 +5,12 @@ import java.util.ArrayList;
 
 import controlador.Logger;
 import modelo.Pizzas;
-import modelo.Comanda;
 import vista.Vista;
 
 public class Controlador implements ActionListener{
 	
 	Vista vista;
 	Logger logger = new Logger();
-	public ArrayList<Comanda>comandas = new ArrayList<>();
 
 	public Controlador(Vista frame) {
 		this.vista=frame;
