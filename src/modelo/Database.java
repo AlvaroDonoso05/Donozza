@@ -40,17 +40,8 @@ public class Database {
 			/*
 			 * Estructura de Pedido
 			 * {
-			 * 		"pizza": "Carbonara",
-			 * 		"ingredientesExtra": [
-			 * 			{
-			 * 				"nombre": "tomate",
-			 * 				"cantidad": 3
-			 * 			},
-			 * 			{
-			 * 				"nombre": "salami",
-			 * 				"cantidad": 1
-			 * 			}
-			 * 		]
+			 * 		"producto": "Carbonara",
+			 * 		"ingredientesExtra": [1,3,4]
 			 * 		"precio": (Pizza + Extras)
 			 * }
 			 * 
