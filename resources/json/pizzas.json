@@ -6,15 +6,15 @@
             "precio": 12.5,
             "ingredientes": [
                 {
-                    "nombre": "",
+                    "id": 1,
                     "cantidad": "2"
                 },
                 {
-                    "nombre": "",
+                    "id": 2,
                     "cantidad": "2"
                 },
                 {
-                    "nombre": "",
+                    "id": 3,
                     "cantidad": "2"
                 }
             ]
@@ -25,15 +25,15 @@
             "precio": 10.5,
             "ingredientes": [
                 {
-                    "nombre": "",
+                    "id": 1,
                     "cantidad": "2"
                 },
                 {
-                    "nombre": "",
+                    "id": 2,
                     "cantidad": "2"
                 },
                 {
-                    "nombre": "",
+                    "id": 3,
                     "cantidad": "2"
                 }
             ]
