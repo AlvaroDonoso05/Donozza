@@ -11,6 +11,24 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
+<<<<<<< HEAD
+=======
+
+import controlador.Controlador;
+import modelo.Comanda;
+import controlador.FileWatcher;
+import controlador.Logger;
+import modelo.Pizzas;
+import modelo.Mesa;
+
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+>>>>>>> branch 'master' of https://github.com/Donoso005/Donozza.git
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
