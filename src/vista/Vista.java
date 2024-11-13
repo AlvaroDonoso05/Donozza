@@ -1,14 +1,18 @@
 package vista;
 
 import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTable;
 
 import controlador.Controlador;
 import controlador.FileWatcher;
@@ -17,12 +21,6 @@ import modelo.Comanda;
 import modelo.Ingredientes;
 import modelo.Pizzas;
 import modelo.Mesa;
-
-import java.awt.Component;
-import java.awt.GridLayout;
-
-import javax.swing.JLabel;
-import javax.swing.JTable;
 
 public class Vista extends JFrame {
 	private static final long serialVersionUID = 1L;
