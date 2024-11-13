@@ -20,11 +20,6 @@ import controlador.Logger;
 import modelo.Pizzas;
 import modelo.Mesa;
 
-import java.util.Properties;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
