@@ -20,10 +20,6 @@ import modelo.Mesa;
 
 import java.awt.Component;
 import java.awt.GridLayout;
-import java.util.Properties;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
