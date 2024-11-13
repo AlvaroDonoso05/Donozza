@@ -3,14 +3,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
 import controlador.Logger;
+import modelo.Database;
+import modelo.Ingredientes;
 import modelo.Pizzas;
 import vista.Vista;
 
 public class Controlador implements ActionListener{
 	
-	Vista vista;
-	Logger logger = new Logger();
+	private Vista vista;
+	private Logger logger = new Logger();
+	private Database database;
+	private Pizzas listaPizzas;
+	private Ingredientes listaIngredientes;
 
 	public Controlador(Vista frame) {
 		this.vista=frame;
@@ -23,13 +31,67 @@ public class Controlador implements ActionListener{
 		this.vista.btnMesa7.addActionListener(this);
 		this.vista.btnMesa8.addActionListener(this);
 		this.vista.btnPMVolver.addActionListener(this);
+
+		try {
+			this.database = new Database();
+			this.listaPizzas = new Pizzas("resources/json/pizzas.json");
+			this.listaIngredientes = new Ingredientes("resources/json/ingredientes.json");
+			
+			FileWatcher watcherPizzas = new FileWatcher(listaPizzas);
+			FileWatcher watcherIngredientes = new FileWatcher(listaIngredientes);
+			
+			watcherPizzas.start();
+			watcherIngredientes.start();
+			
+		} catch(Exception e) {
+			logger.error(e);
+		}
+
 		
 	}
 	
 	
-	public void llenarTabla() {
+	public String[][] llenarMatrizComandas(int idMesa) {
 		
-	}
+		ArrayNode pedidos = (ArrayNode) database.getComandas().get(idMesa).get("pedido");
+	
+		String[][]comandas = new String[pedidos.size()][3];
+		
+		 for(int i=0;i<pedidos.size();i++) {
+			 comandas[i][0]= pedidos.get(i).get("producto").asText();
+			 comandas[i][2]= pedidos.get(i).get("precio").asText();
+			 
+			 
+			 if(pedidos.get("ingredientesExtra")!=null) {
+				 ArrayNode ingredientesExtra = (ArrayNode) pedidos.get(i).get("ingredientesExtra");
+				 String nombreIngredientes = "";
+				 for(int j = 0; j<ingredientesExtra.size(); j++) {
+					 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ", "; 
+				 }
+				 comandas[i][1] = nombreIngredientes;
+			 }else {
+	             comandas[i][1]= pedidos.get(i).get("cantidad").asText();
+				 
+			 }
+         }
+		
+		return comandas;
+		
+        //String[][] comandas = new String[this.comandasMesa.size()][3];
+	
+        
+        /*try {
+            for(int i=0;i<this.comandasMesa.size();i++) {
+                comandas[i][0]=this.comandasMesa.get(i).getNombre();
+                comandas[i][1]=String.valueOf(this.comandasMesa.get(i).getCantidad());
+                comandas[i][2]=String.valueOf(this.comandasMesa.get(i).getPrecio());
+            }
+        }catch(Exception e) {
+            throw e;
+        }
+        return comandas;
+     */   
+    }
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

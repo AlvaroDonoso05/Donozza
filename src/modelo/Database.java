@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -15,16 +17,29 @@ import controlador.Logger;
 public class Database {
 	private File fileDb;
 	private ObjectMapper mapper = new ObjectMapper();
+	private ArrayNode comandas;
+	private Logger logger = new Logger();
 	
 	public Database() {
 		this.fileDb = new File("resources/db.json");
 		if(!fileDb.exists()) {
 			generarEstructura();
 		}
+		
+		 JsonNode rootNode;
+		try {
+			rootNode = mapper.readTree(fileDb);
+			this.comandas = (ArrayNode) rootNode.get("mesas");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error(e);
+		}
+        
 	}
+		
+	
 	
 	private void generarEstructura() {
-		Logger logger = new Logger();
 		ObjectNode rootNode = mapper.createObjectNode();
 		ArrayNode mesas = mapper.createArrayNode();
 		
@@ -41,8 +56,14 @@ public class Database {
 			 * Estructura de Pedido
 			 * {
 			 * 		"producto": "Carbonara",
-			 * 		"ingredientesExtra": [1,3,4]
-			 * 		"precio": (Pizza + Extras)
+			 * 		"ingredientesExtra": [1,3,4],
+			 * 		"precio": (Pizza + Extra)
+			 * }
+			 *  {
+			 * 		"producto": "Fanta",
+			 * 		"Cantidad": 2,
+			 * 		"precio": Precio* cantidad
+
 			 * }
 			 * 
 			 */
@@ -57,11 +78,17 @@ public class Database {
 		
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		try {
-			mapper.writeValue(new File("resources/db.json"), rootNode);
+			mapper.writeValue(fileDb, rootNode);
 		} catch (Exception e) {
 			logger.error(e);
 		}
 		
 		logger.success("Base de datos de Comandas Generada");
 	}
+
+
+	public ArrayNode getComandas() {
+		return comandas;
+	}
+
 }
