@@ -1,8 +1,12 @@
 package modelo;
 
 import java.io.File;
+import java.io.IOException;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -60,6 +64,12 @@ public class Database {
 		
 		rootNode.set("mesas", mesas);
 		
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		try {
+			mapper.writeValue(new File("resources/db.json"), rootNode);
+		} catch (Exception e) {
+			logger.error(e);
+		}
 		
 		logger.success("Base de datos de Comandas Generada");
 	}
