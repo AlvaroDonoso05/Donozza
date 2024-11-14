@@ -1,13 +1,9 @@
 package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-import javax.swing.JTable;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import controlador.Logger;
 import modelo.Database;
 import modelo.Ingredientes;
 import modelo.Carta;

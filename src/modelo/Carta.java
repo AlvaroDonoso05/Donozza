@@ -1,14 +1,12 @@
 package modelo;
 
 import java.io.File;
-
-import java.util.Iterator;
+import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import controlador.Logger;
 
@@ -70,31 +68,43 @@ public class Carta {
 	public String getUrl() {
 		return url;
 	}
+	
+	public ArrayNode obtenerProducto(int id, String categoria) {
+		ArrayNode producto = null;
+		
+		try {
+			switch (categoria) {
+			case "pizzas":
+				producto = (ArrayNode) pizzas.get(id);
+				break;
+			case "bebidas":
+				producto = (ArrayNode) bebidas.get(id);
+				break;
+			case "entrantes":
+				producto = (ArrayNode) entrantes.get(id);
+				break;
+			case "postres":
+				producto = (ArrayNode) postres.get(id);
+				break;
+			default:
+				break;
+		}
+		} catch(Exception e) {
+			logger.error(e);
+		}
+		
+		
+		return producto;
+	}
 
-	public Boolean deleteProducto(int id, String producto) { // producto (pizzas, bebidas, entrantes, postres)
+	public Boolean deleteProducto(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
 		Boolean eliminado = false;
 		synchronized (object) {
 			try {
-				ArrayNode categoria = null;
-				switch (producto) {
-					case "pizzas":
-						categoria = (ArrayNode) pizzas.get(id);
-						break;
-					case "bebidas":
-						categoria = (ArrayNode) bebidas.get(id);
-						break;
-					case "entrantes":
-						categoria = (ArrayNode) entrantes.get(id);
-						break;
-					case "postres":
-						categoria = (ArrayNode) postres.get(id);
-						break;
-					default:
-						break;
-				}
+				ArrayNode producto = obtenerProducto(id, categoria);
 				
-				if(categoria != null) {
-					switch (producto) {
+				if(producto != null) {
+					switch (categoria) {
 						case "pizzas":
 							pizzas.remove(id);
 							break;
@@ -108,7 +118,7 @@ public class Carta {
 							postres.remove(id);
 							break;
 					}
-					logger.success(producto + " " + id + " eliminado.");
+					logger.success(categoria + " " + id + " eliminado.");
 					actualizarCarta(true);
 					eliminado = true;
 				}
@@ -119,8 +129,80 @@ public class Carta {
 		}
 	}
 	
+	public Double getPrecio(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
+		ArrayNode producto = null;
+		
+		try {
+			producto = obtenerProducto(id, categoria);
+		} catch(Exception e) {
+			logger.error(e);
+		}
+		return producto.get("precio").asDouble();
+	}
+	
+	public ArrayList<Integer> getIngredientes(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
+		ArrayNode producto = null;
+		ArrayList<Integer> listaIngredientes = new ArrayList<>();
+		
+		try {
+			producto = obtenerProducto(id, categoria);
+			
+			for(int i = 0; i < producto.get("ingredientes").size(); i++) {
+				listaIngredientes.add(producto.get("ingredientes").get(i).asInt());
+			}
+		} catch(Exception e) {
+			logger.error(e);
+		}
+		
+		return listaIngredientes;
+	}
+	
+	public String getNombre(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
+		ArrayNode producto = null;
+		
+		try {
+			producto = obtenerProducto(id, categoria);
+		} catch(Exception e) {
+			logger.error(e);
+		}
+		return producto.get("nombre").asText();
+	}
+	
+	public Boolean exist(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
+		ArrayNode producto = null;
+		
+		try {
+			producto = obtenerProducto(id, categoria);
+		} catch(Exception e) {
+			logger.error(e);
+		}
+		
+		if(producto == null) {
+			return false;
+		} else {
+			return true;
+		}
+		
+	}
+	
+	public File getImg(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
+		ArrayNode producto = null;
+		File file = null;
+		
+		try {
+			producto = obtenerProducto(id, categoria);
+			if(producto != null) {
+				file = new File(producto.get("url").asText());
+			}
+		} catch(Exception e) {
+			logger.error(e);
+		}
+		
+		return file;
+	}
+	
 	/*
-	public Boolean addPizza(String nombre, Double precio, Ingredientes ingredientes) {
+	public Boolean addProducto(String nombre, Double precio, Ingredientes ingredientes) {
 		Boolean added = false;
 		synchronized (object) {
 			try {
