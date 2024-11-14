@@ -3,6 +3,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
@@ -19,6 +22,10 @@ public class Controlador implements ActionListener{
 	private Database database;
 	private Pizzas listaPizzas;
 	private Ingredientes listaIngredientes;
+	private String [] nombreColumnas = {"Nombre","Cantidad","Precio"};
+	private String [][] prueba = new String[][]{{"hola", "adios", "hola"},
+			{"hola", "adios", "hola"}};
+
 
 	public Controlador(Vista frame) {
 		this.vista=frame;
@@ -31,6 +38,7 @@ public class Controlador implements ActionListener{
 		this.vista.btnMesa7.addActionListener(this);
 		this.vista.btnMesa8.addActionListener(this);
 		this.vista.btnPMVolver.addActionListener(this);
+		
 
 		try {
 			this.database = new Database();
@@ -50,32 +58,45 @@ public class Controlador implements ActionListener{
 		
 	}
 	
-	
+	/*Lee el fichero db.json y guarda todos los pedidos en el ArrayNode "pedidos"
+	 * Con un bucle se obtiene cada pedido (pedidos.get(i)), que corresponde por orden a su mesa
+	 * Si el pedido es una pizza tendrá ingredientesExtra, por lo que se procesará de una forma
+	 * El resto de productos se procesarán de la misma forma
+	 * 
+	 * */
 	public String[][] llenarMatrizComandas(int idMesa) {
 		
 		ArrayNode pedidos = (ArrayNode) database.getComandas().get(idMesa).get("pedido");
 	
-		String[][]comandas = new String[pedidos.size()][3];
+		this.vista.comandas = new String[pedidos.size()][3];
 		
 		 for(int i=0;i<pedidos.size();i++) {
-			 comandas[i][0]= pedidos.get(i).get("producto").asText();
-			 comandas[i][2]= pedidos.get(i).get("precio").asText();
 			 
-			 
-			 if(pedidos.get("ingredientesExtra")!=null) {
+			this.vista.comandas[i][2]= pedidos.get(i).get("precio").asText();
+			
+			 if(pedidos.get(i).get("ingredientesExtra")!=null) {
+		
 				 ArrayNode ingredientesExtra = (ArrayNode) pedidos.get(i).get("ingredientesExtra");
-				 String nombreIngredientes = "";
-				 for(int j = 0; j<ingredientesExtra.size(); j++) {
-					 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ", "; 
-				 }
-				 comandas[i][1] = nombreIngredientes;
-			 }else {
-	             comandas[i][1]= pedidos.get(i).get("cantidad").asText();
+				 String nombreIngredientes =   pedidos.get(i).get("producto").asText() + " (";
 				 
+				 for(int j = 0; j<ingredientesExtra.size(); j++) {
+					 if(j == ingredientesExtra.size()-1) {
+						 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ")"; 
+					 }else {
+						 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ", "; 
+					 }
+				 }
+				 this.vista.comandas[i][0] = nombreIngredientes;
+				 this.vista.comandas[i][1] = "1";
+						 
+			 }else {
+				 this.vista.comandas[i][0] = pedidos.get(i).get("producto").asText();
+				 this.vista.comandas[i][1]= pedidos.get(i).get("cantidad").asText();
 			 }
+			 
          }
 		
-		return comandas;
+		return this.vista.comandas;
 		
         //String[][] comandas = new String[this.comandasMesa.size()][3];
 	
@@ -97,17 +118,18 @@ public class Controlador implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		//BOTONES MESAS
+		//Recupera el JTable y JScrollPane, llama al método generar pedido y lo añade a la tabla
 		if(e.getSource()==vista.btnMesa1) {
-			vista.lblMesa.setText("MESA 1");
+			mostrarTabla(0);
 		}
 		if(e.getSource()==vista.btnMesa2) {
-			vista.lblMesa.setText("MESA 2");
+			mostrarTabla(1);
 		}
 		if(e.getSource()==vista.btnMesa3) {
-			vista.lblMesa.setText("MESA 3");
+			mostrarTabla(2);
 		}
 		if(e.getSource()==vista.btnMesa4) {
-			vista.lblMesa.setText("MESA 4");
+			mostrarTabla(3);
 		}
 		if(e.getSource()==vista.btnMesa5) {
 			vista.lblMesa.setText("MESA 5");
@@ -129,7 +151,22 @@ public class Controlador implements ActionListener{
 			vista.panel.setVisible(true);
 			vista.panelMesa.setVisible(false);
 		}
+		
+		
 	}
 
+	public void mostrarTabla (int idMesa) {
+		this.vista.tablaMesa = new JTable(llenarMatrizComandas(idMesa), this.vista.nombreColumnas);
+		vista.lblMesa.setText("MESA " + (idMesa+1));
+		this.vista.tablaMesa.updateUI();
+		vista.panel.setVisible(false);
+		vista.panelMesa.setVisible(true);
+		this.vista.tablaMesa.setBounds(22, 77, 320, 251);
+		this.vista.panelMesa.add(this.vista.tablaMesa);
+		
+		this.vista.scrollPane = new JScrollPane(this.vista.tablaMesa);
+		this.vista.scrollPane.setBounds(22, 77, 320, 251);
+		this.vista.panelMesa.add(this.vista.scrollPane);
+	}
 	
 }

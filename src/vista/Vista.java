@@ -40,7 +40,10 @@ public class Vista extends JFrame {
 	public JTable tablaMesa;
 	public Controlador controlador;
 	public String [] nombreColumnas = {"Nombre","Cantidad","Precio"};
+	public String[][]comandas;
+	public JScrollPane scrollPane;
 
+	
 	/**
 	 * Launch the application.
 	 */
@@ -122,13 +125,13 @@ public class Vista extends JFrame {
 		panelMesa.add(lblMesa);
 		
 
-		//tablaMesa = new JTable(mesa.llenarMatrizComandas(), nombreColumnas);
+		tablaMesa = new JTable();
 		//tablaMesa.setBounds(22, 77, 320, 251);
 		//panelMesa.add(tablaMesa);
 		
-		JScrollPane scrollPane = new JScrollPane(tablaMesa);
-		scrollPane.setBounds(22, 77, 320, 251);
-		panelMesa.add(scrollPane);
+		//scrollPane = new JScrollPane(tablaMesa);
+		//scrollPane.setBounds(22, 77, 320, 251);
+		//panelMesa.add(scrollPane);
 		
 	}
 }

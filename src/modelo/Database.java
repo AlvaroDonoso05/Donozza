@@ -61,7 +61,7 @@ public class Database {
 			 * }
 			 *  {
 			 * 		"producto": "Fanta",
-			 * 		"Cantidad": 2,
+			 * 		"cantidad": 2,
 			 * 		"precio": Precio* cantidad
 
 			 * }
