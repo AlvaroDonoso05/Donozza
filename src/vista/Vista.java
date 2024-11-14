@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class Vista extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -53,6 +54,14 @@ public class Vista extends JFrame {
 	public JPanel panelBotonesPizzas;
 	public JPanel panelBotonesPostres;
 	public JPanel panelBotonesBebidas;
+	public JButton btnEliminarIngrediente;
+	public JButton btnAgregarIngrediente;
+	public JPanel panelImgIngredientes;
+	public JButton btnIngrediente1;
+	public JLabel lblCantidad;
+	public JLabel lblNumCantidad;
+	public JButton btnCobrar;
+	public JButton btnQuitarProducto;
 	
 	
 
@@ -87,7 +96,7 @@ public class Vista extends JFrame {
 		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel.setToolTipText("");
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(10, 92, 373, 436);
+		panel.setBounds(10, 78, 373, 405);
 		contentPane.add(panel);
 		panel.setLayout(new GridLayout(0, 2, 20, 10));
 		
@@ -119,7 +128,7 @@ public class Vista extends JFrame {
 		
 		panelMesa = new JPanel();
 		panelMesa.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMesa.setBounds(10, 92, 373, 436);
+		panelMesa.setBounds(10, 78, 373, 405);
 		contentPane.add(panelMesa);
 		panelMesa.setLayout(null);
 		panelMesa.setVisible(false);
@@ -142,8 +151,16 @@ public class Vista extends JFrame {
 		scrollPane.setBounds(22, 77, 320, 251);
 		panelMesa.add(scrollPane);
 		
+		btnCobrar = new JButton("Cobrar");
+		btnCobrar.setBounds(257, 338, 85, 57);
+		panelMesa.add(btnCobrar);
+		
+		btnQuitarProducto = new JButton("Quitar Producto");
+		btnQuitarProducto.setBounds(32, 338, 85, 57);
+		panelMesa.add(btnQuitarProducto);
+		
 		panelCarta = new JPanel();
-		panelCarta.setBounds(434, 92, 450, 436);
+		panelCarta.setBounds(433, 78, 450, 436);
 		contentPane.add(panelCarta);
 		panelCarta.setLayout(null);
 		
@@ -188,8 +205,39 @@ public class Vista extends JFrame {
 		panelCarta.add(panelBotonesBebidas);
 		
 		panelIngredientes = new JPanel();
-		panelIngredientes.setBounds(0, 431, 450, 334);
+		panelIngredientes.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelIngredientes.setBounds(10, 493, 373, 253);
 		contentPane.add(panelIngredientes);
+		panelIngredientes.setLayout(null);
+		
+		btnEliminarIngrediente = new JButton("Eliminar");
+		btnEliminarIngrediente.setEnabled(false);
+		btnEliminarIngrediente.setBounds(10, 175, 96, 49);
+		panelIngredientes.add(btnEliminarIngrediente);
+		
+		btnAgregarIngrediente = new JButton("Agregar");
+		btnAgregarIngrediente.setBounds(267, 175, 96, 49);
+		panelIngredientes.add(btnAgregarIngrediente);
+		
+		panelImgIngredientes = new JPanel();
+		panelImgIngredientes.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelImgIngredientes.setBounds(10, 10, 353, 155);
+		panelIngredientes.add(panelImgIngredientes);
+		panelImgIngredientes.setLayout(null);
+		
+		btnIngrediente1 = new JButton("New button");
+		btnIngrediente1.setBounds(10, 10, 48, 45);
+		btnIngrediente1.setBackground(getForeground());
+		panelImgIngredientes.add(btnIngrediente1);
+		
+		lblCantidad = new JLabel("Cantidad");
+		lblCantidad.setBounds(159, 175, 45, 13);
+		panelIngredientes.add(lblCantidad);
+		
+		lblNumCantidad = new JLabel("0");
+		lblNumCantidad.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNumCantidad.setBounds(159, 198, 45, 13);
+		panelIngredientes.add(lblNumCantidad);
 		
 	}
 }
