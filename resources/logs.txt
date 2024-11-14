@@ -1,4 +1,0 @@
-14-11-2024 11:11:02 [LOGGER] Generando Bases de Datos
-14-11-2024 11:11:02 [SUCCESS] Base de datos de Comandas Generada
-14-11-2024 11:11:02 [LOGGER] Observando cambios en el archivo: resources\json\carta.json
-14-11-2024 11:11:02 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json
