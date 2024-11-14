@@ -4,76 +4,64 @@
             "nombre": "PizzaBarbacoa",
             "precio": 12.5,
             "ingredientes": [1,2,6,8],
-            "url" : ""
+            "url" : "/resources/img/pizzas/barbacoa.png"
         },
         {
             "nombre": "PizzaCarbonara",
             "precio": 10.5,
             "ingredientes": [1,2,4,7],
-            "url" : ""
+            "url" : "/resources/img/pizzas/carbonara.png"
         },
         {
             "nombre": "PizzaAtun",
             "precio": 10.5,
             "ingredientes": [1,2,3],
-            "url" : ""
+            "url" : "/resources/img/pizzas/atun.png"
         },
         {
-            "nombre": "PizzaCarbonara",
-            "precio": 10.5,
-            "ingredientes": [1,2,4],
-            "url" : ""
-        },
-        {
-            "nombre": "PizzaCarbonara",
-            "precio": 10.5,
-            "ingredientes": [1,2,4],
-            "url" : ""
-        },
-        {
-            "nombre": "PizzaMargarina",
+            "nombre": "PizzaMargarita",
             "precio": 10.5,
             "ingredientes": [1,2],
-            "url" : ""
+            "url" : "/resources/img/pizzas/margarita.png"
         }
     ],
 	
 	"bebidas": [
 	        {
-	            "nombre": "bebida1",
+	            "nombre": "agua",
 	            "precio": 12.5,
-	            "url" : ""
+	            "url" : "/resources/img/bebidas/agua.png"
 	        },
 	        {
-	            "nombre": "bebida2",
+	            "nombre": "cocacola",
 	            "precio": 10.5,
-	            "url" : ""
+	            "url" : "/resources/img/bebidas/cocacola.png"
 	        }
 	],
 	
 	"postres": [
 	        {
-	            "nombre": "postre1",
+	            "nombre": "tartaqueso",
 	            "precio": 12.5,
-	            "url" : ""
+	            "url" : "/resources/img/postres/tartaqueso.png"
 	        },
 	        {
-	            "nombre": "postre2",
+	            "nombre": "helado",
 	            "precio": 10.5,
-	            "url" : ""
+	            "url" : "/resources/img/postres/helado.png"
 	        }
 	],
 	
 	"entrantes": [
 	        {
-	            "nombre": "entrante1",
+	            "nombre": "alitas",
 	            "precio": 12.5,
-	            "url" : ""
+	            "url" : "/resources/img/entrantes/alitas.png"
 	        },
 	        {
-	            "nombre": "entrante2",
+	            "nombre": "quesofrito",
 	            "precio": 10.5,
-	            "url" : ""
+	            "url" : "/resources/img/entrantes/quesofrito.png"
 	        }
 	    ]
 }
