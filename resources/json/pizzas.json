@@ -12,5 +12,44 @@
             "ingredientes": [1,2,3],
             "url" : ""
         }
-    ]
+    ],
+	
+	"bebidas": [
+	        {
+	            "nombre": "bebida1",
+	            "precio": 12.5,
+	            "url" : ""
+	        },
+	        {
+	            "nombre": "bebida2",
+	            "precio": 10.5,
+	            "url" : ""
+	        }
+	],
+	
+	"postres": [
+	        {
+	            "nombre": "postre1",
+	            "precio": 12.5,
+	            "url" : ""
+	        },
+	        {
+	            "nombre": "postre2",
+	            "precio": 10.5,
+	            "url" : ""
+	        }
+	],
+	
+	"entrantes": [
+	        {
+	            "nombre": "entrante1",
+	            "precio": 12.5,
+	            "url" : ""
+	        },
+	        {
+	            "nombre": "entrante2",
+	            "precio": 10.5,
+	            "url" : ""
+	        }
+	    ]
 }
