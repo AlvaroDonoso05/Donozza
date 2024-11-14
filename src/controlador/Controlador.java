@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JTable;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
@@ -31,6 +32,10 @@ public class Controlador implements ActionListener{
 		this.vista.btnMesa7.addActionListener(this);
 		this.vista.btnMesa8.addActionListener(this);
 		this.vista.btnPMVolver.addActionListener(this);
+		this.vista.btnCartaPizzas.addActionListener(this);
+		this.vista.btnCartaEntrantes.addActionListener(this);
+		this.vista.btnCartaBebidas.addActionListener(this);
+		this.vista.btnCartaPostres.addActionListener(this);
 
 		try {
 			this.database = new Database();
@@ -129,6 +134,9 @@ public class Controlador implements ActionListener{
 			vista.panel.setVisible(true);
 			vista.panelMesa.setVisible(false);
 		}
+		
+		
+		//SECCIÓN CARTA
 	}
 
 	

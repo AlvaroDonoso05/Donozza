@@ -21,6 +21,8 @@ import modelo.Pizzas;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Vista extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -40,6 +42,19 @@ public class Vista extends JFrame {
 	public JTable tablaMesa;
 	public Controlador controlador;
 	public String [] nombreColumnas = {"Nombre","Cantidad","Precio"};
+	
+	public JPanel panelCarta;
+	public JButton btnCartaEntrantes;
+	public JButton btnCartaPizzas;
+	public JButton btnCartaPostres;
+	public JButton btnCartaBebidas;
+	public JPanel panelBotonesEntrantes;
+	public JPanel panelIngredientes;
+	public JPanel panelBotonesPizzas;
+	public JPanel panelBotonesPostres;
+	public JPanel panelBotonesBebidas;
+	
+	
 
 	/**
 	 * Launch the application.
@@ -122,13 +137,62 @@ public class Vista extends JFrame {
 		panelMesa.add(lblMesa);
 		
 
-		//tablaMesa = new JTable(mesa.llenarMatrizComandas(), nombreColumnas);
-		//tablaMesa.setBounds(22, 77, 320, 251);
-		//panelMesa.add(tablaMesa);
+		tablaMesa = new JTable();
+		tablaMesa.setBounds(22, 77, 320, 251);
+		panelMesa.add(tablaMesa);
 		
 		JScrollPane scrollPane = new JScrollPane(tablaMesa);
 		scrollPane.setBounds(22, 77, 320, 251);
 		panelMesa.add(scrollPane);
+		
+		panelCarta = new JPanel();
+		panelCarta.setBounds(434, 92, 450, 436);
+		contentPane.add(panelCarta);
+		panelCarta.setLayout(null);
+		
+		btnCartaEntrantes = new JButton("Entrantes");
+		btnCartaEntrantes.setBackground(new Color(128, 128, 255));
+		btnCartaEntrantes.setBounds(0, 0, 105, 82);
+		panelCarta.add(btnCartaEntrantes);
+		
+		btnCartaPizzas = new JButton("Pizza");
+		btnCartaPizzas.setBackground(new Color(128, 128, 255));
+		btnCartaPizzas.setBounds(115, 0, 105, 82);
+		panelCarta.add(btnCartaPizzas);
+		
+		btnCartaPostres = new JButton("Postres");
+		btnCartaPostres.setBackground(new Color(128, 128, 255));
+		btnCartaPostres.setBounds(230, 0, 105, 82);
+		panelCarta.add(btnCartaPostres);
+		
+		btnCartaBebidas = new JButton("Bebidas");
+		btnCartaBebidas.setBackground(new Color(128, 128, 255));
+		btnCartaBebidas.setBounds(345, 0, 105, 82);
+		panelCarta.add(btnCartaBebidas);
+		
+		panelBotonesEntrantes = new JPanel();
+		panelBotonesEntrantes.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelBotonesEntrantes.setBounds(0, 102, 450, 334);
+		panelCarta.add(panelBotonesEntrantes);
+		
+		panelBotonesPizzas = new JPanel();
+		panelBotonesPizzas.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelBotonesPizzas.setBounds(0, 102, 450, 334);
+		panelCarta.add(panelBotonesPizzas);
+		
+		panelBotonesPostres = new JPanel();
+		panelBotonesPostres.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelBotonesPostres.setBounds(0, 102, 450, 334);
+		panelCarta.add(panelBotonesPostres);
+		
+		panelBotonesBebidas = new JPanel();
+		panelBotonesBebidas.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelBotonesBebidas.setBounds(0, 102, 450, 334);
+		panelCarta.add(panelBotonesBebidas);
+		
+		panelIngredientes = new JPanel();
+		panelIngredientes.setBounds(0, 431, 450, 334);
+		contentPane.add(panelIngredientes);
 		
 	}
 }
