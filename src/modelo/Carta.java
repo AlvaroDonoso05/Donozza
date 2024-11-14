@@ -19,15 +19,20 @@ public class Carta {
 	private static Logger logger = new Logger();
 	
 	private JsonNode rootNode;
-	private ArrayNode carta;
+	
+	private ArrayNode pizzas;
+	private ArrayNode bebidas;
+	private ArrayNode entrantes;
+	private ArrayNode postres;
+	
 	private String url;
 
 	public Carta(String url) throws Exception {
 		this.url = url;
-		actualizarPizzas(false);
+		actualizarCarta(false);
 	}
 	
-	public void actualizarPizzas(Boolean generarArchivo) throws Exception {
+	public void actualizarCarta(Boolean generarArchivo) throws Exception {
 		synchronized (object) {
 			try {
 				if(generarArchivo) {
@@ -35,7 +40,10 @@ public class Carta {
 					objectMapper.writeValue(new File("resources/json/pizzas.json"), rootNode);
 				} else {
 					rootNode = objectMapper.readTree(new File(this.url));
-					carta = (ArrayNode) rootNode.get("pizzas");
+					pizzas = (ArrayNode) rootNode.get("pizzas");
+					bebidas = (ArrayNode) rootNode.get("bebidas");
+					entrantes = (ArrayNode) rootNode.get("entrantes");
+					postres = (ArrayNode) rootNode.get("postres");
 				}
 			} catch (Exception e) {
 				logger.error(e);
@@ -43,40 +51,70 @@ public class Carta {
 		}
 	}
 
-	public ArrayNode getListaPizzas() {
-		return carta;
+	public ArrayNode getPizzas() {
+		return pizzas;
+	}
+
+	public ArrayNode getBebidas() {
+		return bebidas;
+	}
+
+	public ArrayNode getEntrantes() {
+		return entrantes;
+	}
+
+	public ArrayNode getPostres() {
+		return postres;
 	}
 
 	public String getUrl() {
 		return url;
 	}
 
-	public void deletePizza(int id) {
-		Boolean delete = false;
+	public Boolean deleteProducto(int id, String producto) { // producto (pizzas, bebidas, entrantes, postres)
+		Boolean eliminado = false;
 		synchronized (object) {
 			try {
-				Iterator<JsonNode> iterator = carta.iterator();
-				
-				while(iterator.hasNext()) {
-					JsonNode pizza = iterator.next();
-					if(pizza.get("id").asInt() == id) {
-						iterator.remove();
-						delete = true;
-						logger.success("Pizza " + id + " eliminado.");
+				ArrayNode categoria = null;
+				switch (producto) {
+					case "pizzas":
+						categoria = (ArrayNode) pizzas.get(id);
+						break;
+					case "bebidas":
+						categoria = (ArrayNode) bebidas.get(id);
+						break;
+					case "entrantes":
+						categoria = (ArrayNode) entrantes.get(id);
+						break;
+					case "postres":
+						categoria = (ArrayNode) postres.get(id);
+						break;
+					default:
+						break;
+				}
+				if(categoria != null) {
+					switch (producto) {
+						case "pizzas":
+							pizzas.remove(id);
+							break;
+						case "bebidas":
+							bebidas.remove(id);
+							break;
+						case "entrantes":
+							entrantes.remove(id);
+							break;
+						case "postres":
+							postres.remove(id);
+							break;
 					}
+					logger.success(producto + " " + id + " eliminado.");
+					actualizarCarta(true);
+					eliminado = true;
 				}
-				
-				for(int i = 0; i < carta.size(); i++) {
-					((ObjectNode)carta.get(i)).put("id", i + 1);
-				}
-				
-				if(delete) {
-					actualizarPizzas(true);
-				}
-				
 			} catch(Exception e) {
 				logger.error(e);
 			}
+			return eliminado;
 		}
 	}
 	

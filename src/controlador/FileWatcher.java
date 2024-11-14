@@ -54,7 +54,7 @@ public class FileWatcher extends Thread {
 
                             if (clase instanceof Carta) {
                                 Carta listaPizzas = (Carta) clase;
-                                listaPizzas.actualizarPizzas(false);
+                                listaPizzas.actualizarCarta(false);
                             } else if (clase instanceof Ingredientes) {
                                 Ingredientes ingredientes = (Ingredientes) clase;
                                 ingredientes.actualizarIngredientes(false);
