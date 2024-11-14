@@ -1,13 +1,11 @@
 {
     "ingredientes": [
         {
-            "id": 1,
             "nombre": "Mozzarella",
             "precio": 1.75,
             "stock" : 15
         },
         {
-            "id": 2,
             "nombre": "Tomate",
             "precio": 1.5,
             "stock" : 15

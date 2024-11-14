@@ -63,21 +63,6 @@ public class Vista extends JFrame {
 		Logger logger = new Logger();
 		Vista vista = new Vista();
 		
-		try {
-			Database database = new Database();
-			Pizzas listaPizzas = new Pizzas("resources/json/pizzas.json");
-			Ingredientes listaIngredientes = new Ingredientes("resources/json/ingredientes.json");
-			
-			FileWatcher watcherPizzas = new FileWatcher(listaPizzas);
-			FileWatcher watcherIngredientes = new FileWatcher(listaIngredientes);
-			
-			watcherPizzas.start();
-			watcherIngredientes.start();
-			
-		} catch(Exception e) {
-			logger.error(e);
-		}
-		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
