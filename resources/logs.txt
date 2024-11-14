@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 13-11-2024 10:36:25 [LOGGER] Generando Bases de Datos
 13-11-2024 10:36:25 [SUCCESS] Base de datos de Comandas Generada
 13-11-2024 10:36:25 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json
@@ -17,3 +18,6 @@
 14-11-2024 10:04:24 [SUCCESS] Base de datos de Comandas Generada
 14-11-2024 10:04:24 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json
 14-11-2024 10:04:24 [LOGGER] Observando cambios en el archivo: resources\json\pizzas.json
+=======
+
+>>>>>>> branch 'master' of https://github.com/Donoso005/Donozza.git
