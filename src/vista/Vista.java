@@ -17,7 +17,7 @@ import modelo.Database;
 import modelo.Ingredientes;
 import controlador.FileWatcher;
 import controlador.Logger;
-import modelo.Pizzas;
+import modelo.Carta;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;

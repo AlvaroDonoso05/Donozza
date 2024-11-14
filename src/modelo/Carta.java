@@ -12,17 +12,17 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import controlador.Logger;
 
-public class Pizzas {
+public class Carta {
 	
 	private static Object object = new Object();
 	private static ObjectMapper objectMapper = new ObjectMapper();
 	private static Logger logger = new Logger();
 	
 	private JsonNode rootNode;
-	private ArrayNode listaPizzas;
+	private ArrayNode carta;
 	private String url;
 
-	public Pizzas(String url) throws Exception {
+	public Carta(String url) throws Exception {
 		this.url = url;
 		actualizarPizzas(false);
 	}
@@ -35,7 +35,7 @@ public class Pizzas {
 					objectMapper.writeValue(new File("resources/json/pizzas.json"), rootNode);
 				} else {
 					rootNode = objectMapper.readTree(new File(this.url));
-					listaPizzas = (ArrayNode) rootNode.get("pizzas");
+					carta = (ArrayNode) rootNode.get("pizzas");
 				}
 			} catch (Exception e) {
 				logger.error(e);
@@ -44,7 +44,7 @@ public class Pizzas {
 	}
 
 	public ArrayNode getListaPizzas() {
-		return listaPizzas;
+		return carta;
 	}
 
 	public String getUrl() {
@@ -55,7 +55,7 @@ public class Pizzas {
 		Boolean delete = false;
 		synchronized (object) {
 			try {
-				Iterator<JsonNode> iterator = listaPizzas.iterator();
+				Iterator<JsonNode> iterator = carta.iterator();
 				
 				while(iterator.hasNext()) {
 					JsonNode pizza = iterator.next();
@@ -66,8 +66,8 @@ public class Pizzas {
 					}
 				}
 				
-				for(int i = 0; i < listaPizzas.size(); i++) {
-					((ObjectNode)listaPizzas.get(i)).put("id", i + 1);
+				for(int i = 0; i < carta.size(); i++) {
+					((ObjectNode)carta.get(i)).put("id", i + 1);
 				}
 				
 				if(delete) {

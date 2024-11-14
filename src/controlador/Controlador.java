@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import controlador.Logger;
 import modelo.Database;
 import modelo.Ingredientes;
-import modelo.Pizzas;
+import modelo.Carta;
 import vista.Vista;
 
 public class Controlador implements ActionListener{
@@ -18,7 +18,7 @@ public class Controlador implements ActionListener{
 	private Vista vista;
 	private Logger logger = new Logger();
 	private Database database;
-	private Pizzas listaPizzas;
+	private Carta listaPizzas;
 	private Ingredientes listaIngredientes;
 
 	public Controlador(Vista frame) {
@@ -39,7 +39,7 @@ public class Controlador implements ActionListener{
 
 		try {
 			this.database = new Database();
-			this.listaPizzas = new Pizzas("resources/json/pizzas.json");
+			this.listaPizzas = new Carta("resources/json/pizzas.json");
 			this.listaIngredientes = new Ingredientes("resources/json/ingredientes.json");
 			
 			FileWatcher watcherPizzas = new FileWatcher(listaPizzas);

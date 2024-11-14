@@ -9,7 +9,7 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 
 import modelo.Ingredientes;
-import modelo.Pizzas;
+import modelo.Carta;
 
 public class FileWatcher extends Thread {
     private Path filePath;
@@ -17,8 +17,8 @@ public class FileWatcher extends Thread {
     private Object clase;
 
     public FileWatcher(Object clase) {
-        if (clase instanceof Pizzas) {
-            Pizzas listaPizzas = (Pizzas) clase;
+        if (clase instanceof Carta) {
+            Carta listaPizzas = (Carta) clase;
             this.filePath = Paths.get(listaPizzas.getUrl());
             this.directoryPath = filePath.getParent();
         } else if (clase instanceof Ingredientes) {
@@ -52,8 +52,8 @@ public class FileWatcher extends Thread {
                         if (tipo == StandardWatchEventKinds.ENTRY_MODIFY) {
                             logger.success("El archivo " + filePath.getFileName() + " ha sido modificado.");
 
-                            if (clase instanceof Pizzas) {
-                                Pizzas listaPizzas = (Pizzas) clase;
+                            if (clase instanceof Carta) {
+                                Carta listaPizzas = (Carta) clase;
                                 listaPizzas.actualizarPizzas(false);
                             } else if (clase instanceof Ingredientes) {
                                 Ingredientes ingredientes = (Ingredientes) clase;
