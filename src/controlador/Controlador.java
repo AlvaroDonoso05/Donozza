@@ -101,7 +101,7 @@ public class Controlador implements ActionListener{
 		int i=0;
 		while(carta.exist(i, "entrantes")) {
 			i++;
-			JButton button = new JButton();
+			JButton button = new JButton("Hola");
 			button.setPreferredSize(new Dimension(150, 50));
 		    button.addActionListener(new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {

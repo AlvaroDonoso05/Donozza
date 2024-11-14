@@ -69,22 +69,22 @@ public class Carta {
 		return url;
 	}
 	
-	private ArrayNode obtenerProducto(int id, String categoria) {
-		ArrayNode producto = null;
+	private JsonNode obtenerProducto(int id, String categoria) {
+		JsonNode producto = null;
 		
 		try {
 			switch (categoria) {
 			case "pizzas":
-				producto = (ArrayNode) pizzas.get(id);
+				producto = (JsonNode) pizzas.get(id);
 				break;
 			case "bebidas":
-				producto = (ArrayNode) bebidas.get(id);
+				producto = (JsonNode) bebidas.get(id);
 				break;
 			case "entrantes":
-				producto = (ArrayNode) entrantes.get(id);
+				producto = (JsonNode) entrantes.get(id);
 				break;
 			case "postres":
-				producto = (ArrayNode) postres.get(id);
+				producto = (JsonNode) postres.get(id);
 				break;
 			default:
 				break;
@@ -101,7 +101,7 @@ public class Carta {
 		Boolean eliminado = false;
 		synchronized (object) {
 			try {
-				ArrayNode producto = obtenerProducto(id, categoria);
+				JsonNode producto = obtenerProducto(id, categoria);
 				
 				if(producto != null) {
 					switch (categoria) {
@@ -130,7 +130,7 @@ public class Carta {
 	}
 	
 	public Double getPrecio(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
-		ArrayNode producto = null;
+		JsonNode producto = null;
 		
 		try {
 			producto = obtenerProducto(id, categoria);
@@ -141,7 +141,7 @@ public class Carta {
 	}
 	
 	public ArrayList<Integer> getIngredientes(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
-		ArrayNode producto = null;
+		JsonNode producto = null;
 		ArrayList<Integer> listaIngredientes = new ArrayList<>();
 		
 		try {
@@ -158,7 +158,7 @@ public class Carta {
 	}
 	
 	public String getNombre(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
-		ArrayNode producto = null;
+		JsonNode producto = null;
 		
 		try {
 			producto = obtenerProducto(id, categoria);
@@ -169,7 +169,7 @@ public class Carta {
 	}
 	
 	public Boolean exist(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
-		ArrayNode producto = null;
+		JsonNode producto = null;
 		
 		try {
 			producto = obtenerProducto(id, categoria);
@@ -186,7 +186,7 @@ public class Carta {
 	}
 	
 	public File getImg(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
-		ArrayNode producto = null;
+		JsonNode producto = null;
 		File file = null;
 		
 		try {
