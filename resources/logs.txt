@@ -1,23 +1,4 @@
-<<<<<<< HEAD
-13-11-2024 10:36:25 [LOGGER] Generando Bases de Datos
-13-11-2024 10:36:25 [SUCCESS] Base de datos de Comandas Generada
-13-11-2024 10:36:25 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json
-13-11-2024 10:36:25 [LOGGER] Observando cambios en el archivo: resources\json\pizzas.json
-13-11-2024 10:40:19 [LOGGER] Generando Bases de Datos
-13-11-2024 10:40:19 [SUCCESS] Base de datos de Comandas Generada
-13-11-2024 10:40:19 [LOGGER] Observando cambios en el archivo: resources\json\pizzas.json
-13-11-2024 10:40:19 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json
-13-11-2024 13:54:15 [LOGGER] Observando cambios en el archivo: resources\json\pizzas.json
-13-11-2024 13:54:15 [LOGGER] Observando cambios en el archivo: resources\json\pizzas.json
-13-11-2024 13:54:15 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json
-13-11-2024 13:54:15 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json
-14-11-2024 10:03:48 [ERROR] java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.JsonNode.get(String)" because "rootNode" is null
-14-11-2024 10:03:48 [LOGGER] Observando cambios en el archivo: resources\json\pizzas.json
-14-11-2024 10:03:48 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json
-14-11-2024 10:04:24 [LOGGER] Generando Bases de Datos
-14-11-2024 10:04:24 [SUCCESS] Base de datos de Comandas Generada
-14-11-2024 10:04:24 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json
-14-11-2024 10:04:24 [LOGGER] Observando cambios en el archivo: resources\json\pizzas.json
-=======
-
->>>>>>> branch 'master' of https://github.com/Donoso005/Donozza.git
+14-11-2024 11:11:02 [LOGGER] Generando Bases de Datos
+14-11-2024 11:11:02 [SUCCESS] Base de datos de Comandas Generada
+14-11-2024 11:11:02 [LOGGER] Observando cambios en el archivo: resources\json\carta.json
+14-11-2024 11:11:02 [LOGGER] Observando cambios en el archivo: resources\json\ingredientes.json

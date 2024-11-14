@@ -39,7 +39,7 @@ public class Controlador implements ActionListener{
 
 		try {
 			this.database = new Database();
-			this.listaPizzas = new Carta("resources/json/pizzas.json");
+			this.listaPizzas = new Carta("resources/json/carta.json");
 			this.listaIngredientes = new Ingredientes("resources/json/ingredientes.json");
 			
 			FileWatcher watcherPizzas = new FileWatcher(listaPizzas);
