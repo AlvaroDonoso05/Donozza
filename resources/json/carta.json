@@ -1,15 +1,39 @@
 {
     "pizzas": [
         {
-            "nombre": "Pizza1",
+            "nombre": "PizzaBarbacoa",
             "precio": 12.5,
+            "ingredientes": [1,2,6,8],
+            "url" : ""
+        },
+        {
+            "nombre": "PizzaCarbonara",
+            "precio": 10.5,
+            "ingredientes": [1,2,4,7],
+            "url" : ""
+        },
+        {
+            "nombre": "PizzaAtun",
+            "precio": 10.5,
             "ingredientes": [1,2,3],
             "url" : ""
         },
         {
-            "nombre": "Pizza2",
+            "nombre": "PizzaCarbonara",
             "precio": 10.5,
-            "ingredientes": [1,2,3],
+            "ingredientes": [1,2,4],
+            "url" : ""
+        },
+        {
+            "nombre": "PizzaCarbonara",
+            "precio": 10.5,
+            "ingredientes": [1,2,4],
+            "url" : ""
+        },
+        {
+            "nombre": "PizzaMargarina",
+            "precio": 10.5,
+            "ingredientes": [1,2],
             "url" : ""
         }
     ],

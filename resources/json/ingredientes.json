@@ -4,13 +4,49 @@
             "nombre": "Mozzarella",
             "precio": 1.75,
             "stock" : 15,
-            "url" : ""
+            "url" : "/resources/img/mozzarella.png"
         },
         {
             "nombre": "Tomate",
             "precio": 1.5,
             "stock" : 15,
-            "url" : ""
+            "url" : "/resources/img/tomate.png"
+        },
+        {
+            "nombre": "Atun",
+            "precio": 1.5,
+            "stock" : 15,
+            "url" : "/resources/img/tomate.png"
+        },
+        {
+            "nombre": "Bacon",
+            "precio": 1.5,
+            "stock" : 15,
+            "url" : "/resources/img/tomate.png"
+        },
+        {
+            "nombre": "Cheddar",
+            "precio": 1.5,
+            "stock" : 15,
+            "url" : "/resources/img/.png"
+        },
+        {
+            "nombre": "Pollo",
+            "precio": 1.5,
+            "stock" : 15,
+            "url" : "/resources/img/tomate.png"
+        },
+        {
+            "nombre": "Champi",
+            "precio": 1.5,
+            "stock" : 15,
+            "url" : "/resources/img/champi.png"
+        },
+        {
+            "nombre": "Barbacoa",
+            "precio": 1.5,
+            "stock" : 15,
+            "url" : "/resources/img/champi.png"
         }
     ]
 }
