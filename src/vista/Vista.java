@@ -21,6 +21,8 @@ import modelo.Carta;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
@@ -101,18 +103,23 @@ public class Vista extends JFrame {
 		panel.setLayout(new GridLayout(0, 2, 20, 10));
 		
 		btnMesa1 = new JButton("MESA 1");
+		btnMesa1.setBackground(new Color(255, 255, 255));
 		panel.add(btnMesa1);
 		
 		btnMesa2 = new JButton("MESA 2");
+		btnMesa2.setBackground(new Color(255, 255, 255));
 		panel.add(btnMesa2);
 		
 		btnMesa3 = new JButton("MESA 3");
+		btnMesa3.setBackground(new Color(255, 255, 255));
 		panel.add(btnMesa3);
 		
 		btnMesa4 = new JButton("MESA 4");
+		btnMesa4.setBackground(new Color(255, 255, 255));
 		panel.add(btnMesa4);
 		
 		btnMesa5 = new JButton("MESA 5");
+		btnMesa5.setBackground(new Color(255, 255, 255));
 		panel.add(btnMesa5);
 		
 		btnMesa6 = new JButton("MESA 6");
@@ -170,6 +177,10 @@ public class Vista extends JFrame {
 		panelCarta.add(btnCartaEntrantes);
 		
 		btnCartaPizzas = new JButton("Pizza");
+		btnCartaPizzas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnCartaPizzas.setBackground(new Color(128, 128, 255));
 		btnCartaPizzas.setBounds(115, 0, 105, 82);
 		panelCarta.add(btnCartaPizzas);
@@ -185,9 +196,11 @@ public class Vista extends JFrame {
 		panelCarta.add(btnCartaBebidas);
 		
 		panelBotonesEntrantes = new JPanel();
-		panelBotonesEntrantes.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelBotonesEntrantes.setBounds(0, 102, 450, 334);
-		panelCarta.add(panelBotonesEntrantes);
+		panelBotonesEntrantes.setLayout(new GridLayout(0, 1));
+		JScrollPane cartaBoton = new JScrollPane(panelBotonesEntrantes);
+		cartaBoton.setBounds(0, 102, 450, 334);
+		cartaBoton.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		panelCarta.add(cartaBoton);
 		
 		panelBotonesPizzas = new JPanel();
 		panelBotonesPizzas.setBorder(new LineBorder(new Color(0, 0, 0)));

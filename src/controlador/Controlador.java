@@ -1,6 +1,9 @@
 package controlador;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
@@ -14,7 +17,7 @@ public class Controlador implements ActionListener{
 	private Vista vista;
 	private Logger logger = new Logger();
 	private Database database;
-	private Carta listaPizzas;
+	private Carta carta;
 	private Ingredientes listaIngredientes;
 
 	public Controlador(Vista frame) {
@@ -35,10 +38,10 @@ public class Controlador implements ActionListener{
 
 		try {
 			this.database = new Database();
-			this.listaPizzas = new Carta("resources/json/carta.json");
+			this.carta = new Carta("resources/json/carta.json");
 			this.listaIngredientes = new Ingredientes("resources/json/ingredientes.json");
 			
-			FileWatcher watcherPizzas = new FileWatcher(listaPizzas);
+			FileWatcher watcherPizzas = new FileWatcher(carta);
 			FileWatcher watcherIngredientes = new FileWatcher(listaIngredientes);
 			
 			watcherPizzas.start();
@@ -94,6 +97,22 @@ public class Controlador implements ActionListener{
      */   
     }
 	
+	public void cargarEntrantes() {
+		int i=0;
+		while(carta.exist(i, "entrantes")) {
+			i++;
+			JButton button = new JButton();
+			button.setPreferredSize(new Dimension(150, 50));
+		    button.addActionListener(new ActionListener() {
+		        public void actionPerformed(ActionEvent e) {
+		            
+		        }
+		    });
+		    vista.btnCartaEntrantes.add(button);
+		};
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -123,6 +142,9 @@ public class Controlador implements ActionListener{
 			vista.panel.setVisible(false);
 			vista.panelMesa.setVisible(true);
 			vista.lblMesa.setText("MESA 8");
+		}
+		if(e.getSource()==vista.btnCartaEntrantes) {
+			cargarEntrantes();
 		}
 		
 		//BOTONES SECCIÓN COMANDAS

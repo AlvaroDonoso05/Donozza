@@ -69,7 +69,7 @@ public class Carta {
 		return url;
 	}
 	
-	public ArrayNode obtenerProducto(int id, String categoria) {
+	private ArrayNode obtenerProducto(int id, String categoria) {
 		ArrayNode producto = null;
 		
 		try {
