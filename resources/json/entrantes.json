@@ -1,12 +1,14 @@
 {
     "pizzas": [
         {
+            "id": 1,
             "nombre": "Pizza1",
             "precio": 12.5,
             "ingredientes": [1,2,3],
             "url" : ""
         },
         {
+            "id": 2,
             "nombre": "Pizza2",
             "precio": 10.5,
             "ingredientes": [1,2,3],

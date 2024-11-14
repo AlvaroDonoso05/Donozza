@@ -41,9 +41,6 @@ public class Vista extends JFrame {
 	public Controlador controlador;
 	public String [] nombreColumnas = {"Nombre","Cantidad","Precio"};
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) throws Exception {
 		Logger logger = new Logger();
 		Vista vista = new Vista();

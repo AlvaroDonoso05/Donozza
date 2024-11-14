@@ -31,7 +31,6 @@ public class Database {
 			rootNode = mapper.readTree(fileDb);
 			this.comandas = (ArrayNode) rootNode.get("mesas");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error(e);
 		}
         
@@ -47,7 +46,6 @@ public class Database {
 		
 		for(int i = 0; i < 8; i++) {
 			ObjectNode mesaDefault = mapper.createObjectNode();
-			mesaDefault.put("id", i + 1);
 			mesaDefault.put("ocupado", false);
 			
 			ArrayNode pedido = mapper.createArrayNode();
@@ -73,6 +71,12 @@ public class Database {
 			
 			mesas.add(mesaDefault);
 		}
+		
+		ArrayNode usuarios = mapper.createArrayNode();
+		ObjectNode userDefault = mapper.createObjectNode();
+		userDefault.put("name", "admin");
+		userDefault.put("password", "admin");
+		userDefault.put("isAdmin", true);
 		
 		rootNode.set("mesas", mesas);
 		

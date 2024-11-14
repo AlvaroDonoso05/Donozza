@@ -3,12 +3,14 @@
         {
             "nombre": "Mozzarella",
             "precio": 1.75,
-            "stock" : 15
+            "stock" : 15,
+            "url" : ""
         },
         {
             "nombre": "Tomate",
             "precio": 1.5,
-            "stock" : 15
+            "stock" : 15,
+            "url" : ""
         }
     ]
 }
