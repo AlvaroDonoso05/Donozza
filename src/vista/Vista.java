@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 
 import controlador.Controlador;
@@ -42,6 +43,8 @@ public class Vista extends JFrame {
 	public String [] nombreColumnas = {"Nombre","Cantidad","Precio"};
 	public String[][]comandas;
 	public JScrollPane scrollPane;
+	public DefaultTableModel dtm;
+	
 
 	
 	/**
@@ -124,14 +127,14 @@ public class Vista extends JFrame {
 		lblMesa.setBounds(159, 36, 45, 13);
 		panelMesa.add(lblMesa);
 		
-
-		tablaMesa = new JTable();
-		//tablaMesa.setBounds(22, 77, 320, 251);
-		//panelMesa.add(tablaMesa);
+		DefaultTableModel dtm= new DefaultTableModel();
+		tablaMesa = new JTable(dtm);
+		tablaMesa.setBounds(22, 77, 320, 251);
+		panelMesa.add(tablaMesa);
 		
-		//scrollPane = new JScrollPane(tablaMesa);
-		//scrollPane.setBounds(22, 77, 320, 251);
-		//panelMesa.add(scrollPane);
+		scrollPane = new JScrollPane(tablaMesa);
+		scrollPane.setBounds(22, 77, 320, 251);
+		panelMesa.add(scrollPane);
 		
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -25,6 +26,8 @@ public class Controlador implements ActionListener{
 	private String [] nombreColumnas = {"Nombre","Cantidad","Precio"};
 	private String [][] prueba = new String[][]{{"hola", "adios", "hola"},
 			{"hola", "adios", "hola"}};
+			
+	private boolean firstTime = true;
 
 
 	public Controlador(Vista frame) {
@@ -97,21 +100,7 @@ public class Controlador implements ActionListener{
          }
 		
 		return this.vista.comandas;
-		
-        //String[][] comandas = new String[this.comandasMesa.size()][3];
-	
-        
-        /*try {
-            for(int i=0;i<this.comandasMesa.size();i++) {
-                comandas[i][0]=this.comandasMesa.get(i).getNombre();
-                comandas[i][1]=String.valueOf(this.comandasMesa.get(i).getCantidad());
-                comandas[i][2]=String.valueOf(this.comandasMesa.get(i).getPrecio());
-            }
-        }catch(Exception e) {
-            throw e;
-        }
-        return comandas;
-     */   
+		  
     }
 	
 	@Override
@@ -156,17 +145,36 @@ public class Controlador implements ActionListener{
 	}
 
 	public void mostrarTabla (int idMesa) {
-		this.vista.tablaMesa = new JTable(llenarMatrizComandas(idMesa), this.vista.nombreColumnas);
+		//Creación estructuras a usar
+		String [][] pedidos = llenarMatrizComandas(idMesa);
+		String [] producto = new String[3];
+		DefaultTableModel dtm = (DefaultTableModel) this.vista.tablaMesa.getModel();
+		
+		//Resetear Tablas
+		dtm.setRowCount(0);
+		
+		//La primera vez se añaden las columnas
+		if(firstTime) {
+			dtm.addColumn("Producto");
+			dtm.addColumn("Informacion");
+			dtm.addColumn("Precio");
+			firstTime = false;
+		}
+		
+		//Rellenar tabla con los nuevos datos
+		for(int i = 0; i < pedidos.length; i++) {
+			for(int j = 0; j < pedidos[i].length; j++) {
+			 producto[j] = pedidos[i][j];
+			 }
+			 dtm.addRow(producto);
+			 }
+		dtm.fireTableDataChanged();
+
+	
 		vista.lblMesa.setText("MESA " + (idMesa+1));
-		this.vista.tablaMesa.updateUI();
 		vista.panel.setVisible(false);
 		vista.panelMesa.setVisible(true);
-		this.vista.tablaMesa.setBounds(22, 77, 320, 251);
-		this.vista.panelMesa.add(this.vista.tablaMesa);
 		
-		this.vista.scrollPane = new JScrollPane(this.vista.tablaMesa);
-		this.vista.scrollPane.setBounds(22, 77, 320, 251);
-		this.vista.panelMesa.add(this.vista.scrollPane);
 	}
 	
 }
