@@ -2,13 +2,16 @@ package controlador;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.table.DefaultTableModel;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import modelo.Database;
 import modelo.Ingredientes;
+import modelo.TablaPedidos;
 import modelo.Carta;
 import vista.Vista;
 
@@ -19,6 +22,7 @@ public class Controlador implements ActionListener{
 	private Database database;
 	private Carta carta;
 	private Ingredientes listaIngredientes;
+	private boolean firstTime;
 
 	public Controlador(Vista frame) {
 		this.vista=frame;
@@ -55,47 +59,6 @@ public class Controlador implements ActionListener{
 	}
 	
 	
-	public String[][] llenarMatrizComandas(int idMesa) {
-		
-		ArrayNode pedidos = (ArrayNode) database.getComandas().get(idMesa).get("pedido");
-	
-		String[][]comandas = new String[pedidos.size()][3];
-		
-		 for(int i=0;i<pedidos.size();i++) {
-			 comandas[i][0]= pedidos.get(i).get("producto").asText();
-			 comandas[i][2]= pedidos.get(i).get("precio").asText();
-			 
-			 
-			 if(pedidos.get("ingredientesExtra")!=null) {
-				 ArrayNode ingredientesExtra = (ArrayNode) pedidos.get(i).get("ingredientesExtra");
-				 String nombreIngredientes = "";
-				 for(int j = 0; j<ingredientesExtra.size(); j++) {
-					 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ", "; 
-				 }
-				 comandas[i][1] = nombreIngredientes;
-			 }else {
-	             comandas[i][1]= pedidos.get(i).get("cantidad").asText();
-				 
-			 }
-         }
-		
-		return comandas;
-		
-        //String[][] comandas = new String[this.comandasMesa.size()][3];
-	
-        
-        /*try {
-            for(int i=0;i<this.comandasMesa.size();i++) {
-                comandas[i][0]=this.comandasMesa.get(i).getNombre();
-                comandas[i][1]=String.valueOf(this.comandasMesa.get(i).getCantidad());
-                comandas[i][2]=String.valueOf(this.comandasMesa.get(i).getPrecio());
-            }
-        }catch(Exception e) {
-            throw e;
-        }
-        return comandas;
-     */   
-    }
 	
 	public void cargarEntrantes() {
 		int i=0;
@@ -118,30 +81,26 @@ public class Controlador implements ActionListener{
 		
 		//BOTONES MESAS
 		if(e.getSource()==vista.btnMesa1) {
-			vista.lblMesa.setText("MESA 1");
+			mostrarTabla(0);
 		}
 		if(e.getSource()==vista.btnMesa2) {
-			vista.lblMesa.setText("MESA 2");
+			mostrarTabla(1);
 		}
 		if(e.getSource()==vista.btnMesa3) {
-			vista.lblMesa.setText("MESA 3");
+			mostrarTabla(2);
 		}
 		if(e.getSource()==vista.btnMesa4) {
-			vista.lblMesa.setText("MESA 4");
+			mostrarTabla(3);
 		}
 		if(e.getSource()==vista.btnMesa5) {
-			vista.lblMesa.setText("MESA 5");
-		}
+			mostrarTabla(4);		}
 		if(e.getSource()==vista.btnMesa6) {
-			vista.lblMesa.setText("MESA 6");
-		}
+			mostrarTabla(5);		}
 		if(e.getSource()==vista.btnMesa7) {
-			vista.lblMesa.setText("MESA 7");
-		}
+			mostrarTabla(6);		}
 		if(e.getSource()==vista.btnMesa8) {
-			vista.panel.setVisible(false);
-			vista.panelMesa.setVisible(true);
-			vista.lblMesa.setText("MESA 8");
+			mostrarTabla(7);
+	
 		}
 		if(e.getSource()==vista.btnCartaEntrantes) {
 			cargarEntrantes();
@@ -153,6 +112,86 @@ public class Controlador implements ActionListener{
 			vista.panelMesa.setVisible(false);
 		}
 		
+	}
+		public void mostrarTabla (int idMesa) {
+			//Recuperación del modelo de tabla
+			
+			TablaPedidos tP= (TablaPedidos) this.vista.tablaMesa.getModel();
+			tP.clearData();
+			
+			ArrayNode pedidos = (ArrayNode) database.getComandas().get(idMesa).get("pedido");
+			
+			List pedidosLista = tP.getPedidos();
+			tP.setColumnNames(this.vista.nombreColumnas);
+			
+			 for(int i=0;i<pedidos.size();i++) {
+				 String [] pedido = new String[3];
+				pedido [2] = pedidos.get(i).get("precio").asText();
+				
+				 if(pedidos.get(i).get("ingredientesExtra")!=null) {
+			
+					 ArrayNode ingredientesExtra = (ArrayNode) pedidos.get(i).get("ingredientesExtra");
+					 pedido[0] =   pedidos.get(i).get("producto").asText();
+					 String nombreIngredientes = "(";
+					 
+					 for(int j = 0; j<ingredientesExtra.size(); j++) {
+						 if(j == ingredientesExtra.size()-1) {
+							 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ")"; 
+						 }else {
+							 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ", "; 
+						 }
+					 }
+					 pedido[1] = nombreIngredientes;
+							 
+				 }else {
+					 pedido[0] = pedidos.get(i).get("producto").asText();
+					 pedido[1]= pedidos.get(i).get("cantidad").asText();
+				 }
+				 pedidosLista.add(pedido);
+	         }
+			
+
+			tP.fireTableDataChanged();
+			this.vista.lblMesa.setText("MESA " + (idMesa+1));
+			this.vista.panel.setVisible(false);
+			this.vista.panelMesa.setVisible(true);
+			
+		}
+
+
+	public String[][] llenarMatrizComandas(int idMesa) {
+			
+			ArrayNode pedidos = (ArrayNode) database.getComandas().get(idMesa).get("pedido");
+		
+			this.vista.comandas = new String[pedidos.size()][3];
+			
+			 for(int i=0;i<pedidos.size();i++) {
+				 
+				this.vista.comandas[i][2]= pedidos.get(i).get("precio").asText();
+				
+				 if(pedidos.get(i).get("ingredientesExtra")!=null) {
+			
+					 ArrayNode ingredientesExtra = (ArrayNode) pedidos.get(i).get("ingredientesExtra");
+					 String nombreIngredientes =   pedidos.get(i).get("producto").asText() + " (";
+					 
+					 for(int j = 0; j<ingredientesExtra.size(); j++) {
+						 if(j == ingredientesExtra.size()-1) {
+							 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ")"; 
+						 }else {
+							 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ", "; 
+						 }
+					 }
+					 this.vista.comandas[i][0] = nombreIngredientes;
+					 this.vista.comandas[i][1] = "1";
+							 
+				 }else {
+					 this.vista.comandas[i][0] = pedidos.get(i).get("producto").asText();
+					 this.vista.comandas[i][1]= pedidos.get(i).get("cantidad").asText();
+				 }
+				 
+	         }
+			
+			return this.vista.comandas;
 		
 		//SECCIÓN CARTA
 	}
