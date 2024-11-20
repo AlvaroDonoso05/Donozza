@@ -158,6 +158,7 @@ public class Vista extends JFrame {
 		tablaMesa = new JTable(tP);
 		TableColumn column = tablaMesa.getColumnModel().getColumn(1);
 		column.setPreferredWidth(200);
+		tablaMesa.getTableHeader().setReorderingAllowed(false);
 		tablaMesa.setBounds(22, 77, 320, 251);
 		panelMesa.add(tablaMesa);
 		
