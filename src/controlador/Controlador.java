@@ -122,7 +122,6 @@ public class Controlador implements ActionListener{
 			ArrayNode pedidos = (ArrayNode) database.getComandas().get(idMesa).get("pedido");
 			
 			List pedidosLista = tP.getPedidos();
-			tP.setColumnNames(this.vista.nombreColumnas);
 			
 			 for(int i=0;i<pedidos.size();i++) {
 				 String [] pedido = new String[3];
@@ -159,42 +158,9 @@ public class Controlador implements ActionListener{
 		}
 
 
-	public String[][] llenarMatrizComandas(int idMesa) {
-			
-			ArrayNode pedidos = (ArrayNode) database.getComandas().get(idMesa).get("pedido");
-		
-			this.vista.comandas = new String[pedidos.size()][3];
-			
-			 for(int i=0;i<pedidos.size();i++) {
-				 
-				this.vista.comandas[i][2]= pedidos.get(i).get("precio").asText();
-				
-				 if(pedidos.get(i).get("ingredientesExtra")!=null) {
-			
-					 ArrayNode ingredientesExtra = (ArrayNode) pedidos.get(i).get("ingredientesExtra");
-					 String nombreIngredientes =   pedidos.get(i).get("producto").asText() + " (";
-					 
-					 for(int j = 0; j<ingredientesExtra.size(); j++) {
-						 if(j == ingredientesExtra.size()-1) {
-							 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ")"; 
-						 }else {
-							 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ", "; 
-						 }
-					 }
-					 this.vista.comandas[i][0] = nombreIngredientes;
-					 this.vista.comandas[i][1] = "1";
-							 
-				 }else {
-					 this.vista.comandas[i][0] = pedidos.get(i).get("producto").asText();
-					 this.vista.comandas[i][1]= pedidos.get(i).get("cantidad").asText();
-				 }
-				 
-	         }
-			
-			return this.vista.comandas;
-		
-		//SECCIÓN CARTA
-	}
-
 	
+		//SECCIÓN CARTA
+	
+
+
 }

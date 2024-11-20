@@ -47,8 +47,6 @@ public class Vista extends JFrame {
 	public JLabel lblMesa;
 	public JTable tablaMesa;
 	public Controlador controlador;
-	public String [] nombreColumnas = {"Nombre","Cantidad","Precio"};
-	public String[][] comandas;
 	public JScrollPane scrollPane;
 	public DefaultTableModel dtm;
 	
