@@ -2,11 +2,13 @@ package modelo;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import controlador.Logger;
 
@@ -201,38 +203,62 @@ public class Carta {
 		return file;
 	}
 	
-	/*
-	public Boolean addProducto(String nombre, Double precio, Ingredientes ingredientes) {
-		Boolean added = false;
-		synchronized (object) {
-			try {
-				for(JsonNode pizza: listaPizzas) {
-					if(pizza.get("nombre").asText().equalsIgnoreCase(nombre)) {
-						return added;
-					}
-				}
-				
-				
-				
-				ObjectNode pizza = objectMapper.createObjectNode();
-				
-				pizza.put("id", listaPizzas.size());
-				pizza.put("nombre", nombre);
-				pizza.put("precio", precio);
-				
-				ArrayNode ingredientesLista = objectMapper.createArrayNode();
-				
-				for(ingre)
-				
-				ObjectNode ingrediente = objectMapper.createObjectNode();
-				
-				listaPizzas.add(pizza);
-				
-			} catch(Exception e) {
-				logger.error(e.toString());
-			}
-		}
-		
-		return added;
-	}*/
+	public void addProducto(String categoria, String nombre, Double precio, List<Integer> ingredientes, String url) {
+	    synchronized (object) {
+	        try {
+	            ArrayNode categoriaArray = obtenerCategoriaArray(categoria);
+	            if (categoriaArray != null) {
+	                logger.warning("Categoría '" + categoria + "' no encontrada.");
+	                return;
+	            }
+
+	            for (JsonNode producto : categoriaArray) {
+	                if (producto.get("nombre").asText().equalsIgnoreCase(nombre)) {
+	                    logger.warning("El producto con nombre '" + nombre + "' ya existe en la categoría '" + categoria + "'.");
+	                    return;
+	                }
+	            }
+
+	            ObjectNode producto = objectMapper.createObjectNode();
+
+	            producto.put("id", categoriaArray.size());
+	            producto.put("nombre", nombre);
+	            producto.put("precio", precio);
+	            producto.put("url", url);
+
+	            // Si la categoría es "pizzas", agregar la lista de ingredientes
+	            if (categoria.equalsIgnoreCase("pizzas") && ingredientes != null) {
+	                ArrayNode ingredientesLista = objectMapper.createArrayNode();
+	                for (Integer ingredienteId : ingredientes) {
+	                    ingredientesLista.add(ingredienteId);
+	                }
+	                producto.set("ingredientes", ingredientesLista);
+	            }
+
+	            categoriaArray.add(producto);
+	            actualizarCarta(true);
+
+
+	            logger.success("Producto '" + nombre + "' añadido correctamente en la categoría '" + categoria + "'.");
+	        } catch (Exception e) {
+	            logger.error(e);
+	        }
+	    }
+	}
+	
+	private ArrayNode obtenerCategoriaArray(String categoria) {
+	    switch (categoria.toLowerCase()) {
+	        case "pizzas":
+	            return pizzas;
+	        case "bebidas":
+	            return bebidas;
+	        case "entrantes":
+	            return entrantes;
+	        case "postres":
+	            return postres;
+	        default:
+	            return null;
+	    }
+	}
+
 }

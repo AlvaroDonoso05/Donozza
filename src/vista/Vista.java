@@ -1,9 +1,12 @@
 package vista;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,6 +15,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import controlador.Controlador;
@@ -105,38 +110,7 @@ public class Vista extends JFrame {
 		panel.setBounds(10, 78, 373, 405);
 		contentPane.add(panel);
 		panel.setLayout(new GridLayout(0, 2, 20, 10));
-		
-		btnMesa1 = new JButton("MESA 1");
-		btnMesa1.setBackground(new Color(255, 255, 255));
-		panel.add(btnMesa1);
-		
-		btnMesa2 = new JButton("MESA 2");
-		btnMesa2.setBackground(new Color(255, 255, 255));
-		panel.add(btnMesa2);
-		
-		btnMesa3 = new JButton("MESA 3");
-		btnMesa3.setBackground(new Color(255, 255, 255));
-		panel.add(btnMesa3);
-		
-		btnMesa4 = new JButton("MESA 4");
-		btnMesa4.setBackground(new Color(255, 255, 255));
-		panel.add(btnMesa4);
-		
-		btnMesa5 = new JButton("MESA 5");
-		btnMesa5.setBackground(new Color(255, 255, 255));
-		panel.add(btnMesa5);
-		
-		btnMesa6 = new JButton("MESA 6");
-		panel.add(btnMesa6);
-		
-		btnMesa7 = new JButton("MESA 7");
-		panel.add(btnMesa7);
-		
-		btnMesa8 = new JButton("MESA 8");
-		panel.add(btnMesa8);
-		
-		
-		
+
 		panelMesa = new JPanel();
 		panelMesa.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelMesa.setBounds(10, 78, 373, 405);
@@ -204,11 +178,14 @@ public class Vista extends JFrame {
 		panelCarta.add(btnCartaBebidas);
 		
 		panelBotonesEntrantes = new JPanel();
-		panelBotonesEntrantes.setLayout(new GridLayout(0, 1));
+		panelBotonesEntrantes.setLayout(new GridLayout(0, 3, 15, 15));
+		panelBotonesEntrantes.setBackground(Color.LIGHT_GRAY);
+
 		JScrollPane cartaBoton = new JScrollPane(panelBotonesEntrantes);
 		cartaBoton.setBounds(0, 102, 450, 334);
 		cartaBoton.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelCarta.add(cartaBoton);
+
 		
 		panelBotonesPizzas = new JPanel();
 		panelBotonesPizzas.setBorder(new LineBorder(new Color(0, 0, 0)));

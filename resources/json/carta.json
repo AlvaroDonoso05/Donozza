@@ -1,67 +1,97 @@
 {
-    "pizzas": [
-        {
-            "nombre": "PizzaBarbacoa",
-            "precio": 12.5,
-            "ingredientes": [1,2,6,8],
-            "url" : "/resources/img/pizzas/barbacoa.png"
-        },
-        {
-            "nombre": "PizzaCarbonara",
-            "precio": 10.5,
-            "ingredientes": [1,2,4,7],
-            "url" : "/resources/img/pizzas/carbonara.png"
-        },
-        {
-            "nombre": "PizzaAtun",
-            "precio": 10.5,
-            "ingredientes": [1,2,3],
-            "url" : "/resources/img/pizzas/atun.png"
-        },
-        {
-            "nombre": "PizzaMargarita",
-            "precio": 10.5,
-            "ingredientes": [1,2],
-            "url" : "/resources/img/pizzas/margarita.png"
-        }
-    ],
-	
-	"bebidas": [
-	        {
-	            "nombre": "agua",
-	            "precio": 12.5,
-	            "url" : "/resources/img/bebidas/agua.png"
-	        },
-	        {
-	            "nombre": "cocacola",
-	            "precio": 10.5,
-	            "url" : "/resources/img/bebidas/cocacola.png"
-	        }
-	],
-	
-	"postres": [
-	        {
-	            "nombre": "tartaqueso",
-	            "precio": 12.5,
-	            "url" : "/resources/img/postres/tartaqueso.png"
-	        },
-	        {
-	            "nombre": "helado",
-	            "precio": 10.5,
-	            "url" : "/resources/img/postres/helado.png"
-	        }
-	],
-	
-	"entrantes": [
-	        {
-	            "nombre": "alitas",
-	            "precio": 12.5,
-	            "url" : "/resources/img/entrantes/alitas.png"
-	        },
-	        {
-	            "nombre": "quesofrito",
-	            "precio": 10.5,
-	            "url" : "/resources/img/entrantes/quesofrito.png"
-	        }
-	    ]
+  "pizzas": [
+    {
+      "nombre": "Barbacoa",
+      "precio": 12.5,
+      "ingredientes": [1, 2, 6, 8],
+      "url": "resources/img/pizzas/barbacoa.png"
+    },
+    {
+      "nombre": "Carbonara",
+      "precio": 10.5,
+      "ingredientes": [1, 2, 4, 7],
+      "url": "resources/img/pizzas/carbonara.png"
+    },
+    {
+      "nombre": "Atun",
+      "precio": 10.5,
+      "ingredientes": [1, 2, 3],
+      "url": "resources/img/pizzas/atun.png"
+    },
+    {
+      "nombre": "Margarita",
+      "precio": 10.5,
+      "ingredientes": [1, 2],
+      "url": "resources/img/pizzas/margarita.png"
+    }
+  ],
+
+  "bebidas": [
+    {
+      "nombre": "Agua",
+      "precio": 12.5,
+      "url": "resources/img/bebidas/agua.png"
+    },
+    {
+      "nombre": "Cocacola",
+      "precio": 10.5,
+      "url": "resources/img/bebidas/cocacola.png"
+    },
+	{
+	  "nombre": "Nestea",
+	  "precio": 10.5,
+	  "url": "resources/img/default.png"
+	},
+	{
+	  "nombre": "Cerveza",
+	  "precio": 10.5,
+	  "url": "resources/img/default.png"
+	}
+  ],
+
+  "postres": [
+    {
+      "nombre": "Tarta de Queso",
+      "precio": 12.5,
+      "url": "resources/img/default.png"
+    },
+    {
+      "nombre": "Helado",
+      "precio": 10.5,
+      "url": "resources/img/postres/helado.png"
+    },
+	{
+	  "nombre": "Fruta",
+	  "precio": 10.5,
+	  "url": "resources/img/default.png"
+	},
+	{
+	  "nombre": "Buñuelos",
+	  "precio": 10.5,
+	  "url": "resources/img/default.png"
+	}
+  ],
+
+  "entrantes": [
+    {
+      "nombre": "Alitas",
+      "precio": 12.5,
+      "url": "resources/img/entrantes/alitas.png"
+    },
+    {
+      "nombre": "Queso Frito",
+      "precio": 10.5,
+      "url": "resources/img/entrantes/quesofrito.png"
+    },
+	{
+	  "nombre": "Aros de Cebolla",
+	  "precio": 10.5,
+	  "url": "resources/img/default.png"
+	},
+	{
+	  "nombre": "Nuggets",
+	  "precio": 10.5,
+	  "url": "resources/img/default.png"
+	}
+  ]
 }

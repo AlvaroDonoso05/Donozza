@@ -4,49 +4,49 @@
             "nombre": "Mozzarella",
             "precio": 1.75,
             "stock" : 15,
-            "url" : "/resources/img/ingredientes/mozzarella.png"
+            "url" : "resources/img/ingredientes/mozzarella.png"
         },
         {
             "nombre": "Tomate",
             "precio": 1.5,
             "stock" : 15,
-            "url" : "/resources/img/ingredientes/tomate.png"
+            "url" : "resources/img/ingredientes/tomate.png"
         },
         {
             "nombre": "Atun",
             "precio": 1.5,
             "stock" : 15,
-            "url" : "/resources/img/ingredientes/atun.png"
+            "url" : "resources/img/ingredientes/atun.png"
         },
         {
             "nombre": "Bacon",
             "precio": 1.5,
             "stock" : 15,
-            "url" : "/resources/img/ingredientes/bacon.png"
+            "url" : "resources/img/ingredientes/bacon.png"
         },
         {
             "nombre": "Cheddar",
             "precio": 1.5,
             "stock" : 15,
-            "url" : "/resources/img/ingredientes/cheddar.png"
+            "url" : "resources/img/ingredientes/cheddar.png"
         },
         {
             "nombre": "Pollo",
             "precio": 1.5,
             "stock" : 15,
-            "url" : "/resources/img/ingredientes/pollo.png"
+            "url" : "resources/img/ingredientes/pollo.png"
         },
         {
             "nombre": "Champi",
             "precio": 1.5,
             "stock" : 15,
-            "url" : "/resources/img/ingredientes/champi.png"
+            "url" : "resources/img/ingredientes/champi.png"
         },
         {
             "nombre": "Barbacoa",
             "precio": 1.5,
             "stock" : 15,
-            "url" : "/resources/img/ingredientes/barbacoa.png"
+            "url" : "resources/img/ingredientes/barbacoa.png"
         }
     ]
 }

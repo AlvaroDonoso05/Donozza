@@ -1,10 +1,26 @@
 package controlador;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -23,17 +39,10 @@ public class Controlador implements ActionListener{
 	private Carta carta;
 	private Ingredientes listaIngredientes;
 	private boolean firstTime;
+	private int mesaSeleccionada = -1;
 
 	public Controlador(Vista frame) {
 		this.vista=frame;
-		this.vista.btnMesa1.addActionListener(this);
-		this.vista.btnMesa2.addActionListener(this);
-		this.vista.btnMesa3.addActionListener(this);
-		this.vista.btnMesa4.addActionListener(this);
-		this.vista.btnMesa5.addActionListener(this);
-		this.vista.btnMesa6.addActionListener(this);
-		this.vista.btnMesa7.addActionListener(this);
-		this.vista.btnMesa8.addActionListener(this);
 		this.vista.btnPMVolver.addActionListener(this);
 		this.vista.btnCartaPizzas.addActionListener(this);
 		this.vista.btnCartaEntrantes.addActionListener(this);
@@ -54,107 +63,173 @@ public class Controlador implements ActionListener{
 		} catch(Exception e) {
 			logger.error(e);
 		}
+		
+		generarBotonesMesas();
 
 		
 	}
 	
-	
-	
-	public void cargarEntrantes() {
-		int i=0;
-		while(carta.exist(i, "entrantes")) {
-			i++;
-			JButton button = new JButton("Hola");
-			button.setPreferredSize(new Dimension(150, 50));
-		    button.addActionListener(new ActionListener() {
-		        public void actionPerformed(ActionEvent e) {
-		            
-		        }
-		    });
-		    vista.btnCartaEntrantes.add(button);
-		};
+	public void generarBotonesMesas() {
+		ImageIcon mesaIcon = new ImageIcon("resources/img/mesa.png");
 		
+		for(int i = 0; i < 8; i++) {
+			final int mesaId = i;
+			
+			JButton btnMesa = new JButton("MESA " + (mesaId + 1), new ImageIcon(mesaIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH)));
+			btnMesa.setPreferredSize(new Dimension(150, 150));
+			btnMesa.setBackground(new Color(255, 255, 255));
+			btnMesa.setFocusPainted(false);
+			btnMesa.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mesaSeleccionada = mesaId;
+					mostrarTabla(mesaSeleccionada);
+				}
+			});
+			
+			btnMesa.setHorizontalTextPosition(SwingConstants.CENTER);
+			btnMesa.setVerticalTextPosition(SwingConstants.BOTTOM);
+			vista.panel.add(btnMesa);
+		}
+
 	}
+	
+	
+	
+	public void cargarCarta(String categoria) {
+	    int i = 0;
+	    this.vista.panelBotonesEntrantes.removeAll();
+
+	    while (carta.exist(i, categoria)) {
+	        String nombreProducto = carta.getNombre(i, categoria);
+	        String urlImagen = carta.getImg(i, categoria).getPath();
+	        double precioProducto = carta.getPrecio(i, categoria);
+
+	        JPanel panelProducto = new JPanel();
+	        panelProducto.setLayout(new BoxLayout(panelProducto, BoxLayout.Y_AXIS));
+	        panelProducto.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+	        panelProducto.setBackground(Color.WHITE);
+	        panelProducto.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+	        panelProducto.setMaximumSize(new Dimension(130, 190));
+
+	        // Crear etiqueta de imagen
+	        JLabel etiquetaImagen = new JLabel();
+	        etiquetaImagen.setHorizontalAlignment(SwingConstants.CENTER);
+	        etiquetaImagen.setAlignmentX(Component.CENTER_ALIGNMENT);
+	        
+	        ImageIcon icono = new ImageIcon(new ImageIcon(urlImagen).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+	        etiquetaImagen.setIcon(icono);
+
+	        // Etiqueta Nombre
+	        JLabel etiquetaNombre = new JLabel(nombreProducto);
+	        etiquetaNombre.setAlignmentX(Component.CENTER_ALIGNMENT);
+	        etiquetaNombre.setFont(new Font("Arial", Font.BOLD, 14));
+
+	        // Etiqueta Precio
+	        JLabel etiquetaPrecio = new JLabel(String.format("€ %.2f", precioProducto));
+	        etiquetaPrecio.setAlignmentX(Component.CENTER_ALIGNMENT);
+	        etiquetaPrecio.setFont(new Font("Arial", Font.ITALIC, 12));
+	        etiquetaPrecio.setForeground(Color.GRAY);
+
+	        // Boton seleccion producto
+	        JButton botonSeleccionar = new JButton("Seleccionar");
+	        botonSeleccionar.setAlignmentX(Component.CENTER_ALIGNMENT);
+	        botonSeleccionar.setPreferredSize(new Dimension(100, 30));
+	        botonSeleccionar.setMaximumSize(new Dimension(120, 30));
+	        botonSeleccionar.setBackground(new Color(66, 135, 245));
+	        botonSeleccionar.setForeground(Color.WHITE);
+	        botonSeleccionar.setFocusPainted(false);
+	        botonSeleccionar.setFont(new Font("Arial", Font.PLAIN, 12));
+
+	        botonSeleccionar.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                
+	            }
+	        });
+
+	        panelProducto.add(etiquetaImagen);
+	        panelProducto.add(Box.createVerticalStrut(5));
+	        panelProducto.add(etiquetaNombre);
+	        panelProducto.add(etiquetaPrecio);
+	        panelProducto.add(Box.createVerticalStrut(10));
+	        panelProducto.add(botonSeleccionar);
+
+	        this.vista.panelBotonesEntrantes.add(panelProducto);
+
+	        i++;
+	    }
+
+	    this.vista.panelBotonesEntrantes.revalidate();
+	    this.vista.panelBotonesEntrantes.repaint();
+	}
+
+
+
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		//BOTONES MESAS
-		if(e.getSource()==vista.btnMesa1) {
-			mostrarTabla(0);
-		}
-		if(e.getSource()==vista.btnMesa2) {
-			mostrarTabla(1);
-		}
-		if(e.getSource()==vista.btnMesa3) {
-			mostrarTabla(2);
-		}
-		if(e.getSource()==vista.btnMesa4) {
-			mostrarTabla(3);
-		}
-		if(e.getSource()==vista.btnMesa5) {
-			mostrarTabla(4);		}
-		if(e.getSource()==vista.btnMesa6) {
-			mostrarTabla(5);		}
-		if(e.getSource()==vista.btnMesa7) {
-			mostrarTabla(6);		}
-		if(e.getSource()==vista.btnMesa8) {
-			mostrarTabla(7);
-	
-		}
 		if(e.getSource()==vista.btnCartaEntrantes) {
-			cargarEntrantes();
+			cargarCarta("entrantes");
+		}
+		if(e.getSource()==vista.btnCartaPizzas) {
+			cargarCarta("postres");
+		}
+		if(e.getSource()==vista.btnCartaPostres) {
+			cargarCarta("bebidas");
+		}
+		if(e.getSource()==vista.btnCartaBebidas) {
+			cargarCarta("pizzas");
 		}
 		
 		//BOTONES SECCIÓN COMANDAS
 		if(e.getSource()==vista.btnPMVolver) {
 			vista.panel.setVisible(true);
 			vista.panelMesa.setVisible(false);
+			mesaSeleccionada = -1;
 		}
 		
 	}
-		public void mostrarTabla (int idMesa) {
-			//Recuperación del modelo de tabla
+	
+	public void mostrarTabla (int idMesa) {
+		//Recuperación del modelo de tabla
 			
-			TablaPedidos tP= (TablaPedidos) this.vista.tablaMesa.getModel();
-			tP.clearData();
+		TablaPedidos tP= (TablaPedidos) this.vista.tablaMesa.getModel();
+		tP.clearData();
 			
-			ArrayNode pedidos = (ArrayNode) database.getComandas().get(idMesa).get("pedido");
+		ArrayNode pedidos = (ArrayNode) database.getComandas().get(idMesa).get("pedido");
 			
-			List pedidosLista = tP.getPedidos();
+		List pedidosLista = tP.getPedidos();
 			
-			 for(int i=0;i<pedidos.size();i++) {
-				 String [] pedido = new String[3];
-				pedido [2] = pedidos.get(i).get("precio").asText();
+		 for(int i=0;i<pedidos.size();i++) {
+			String [] pedido = new String[3];
+			pedido [2] = pedidos.get(i).get("precio").asText();
 				
-				 if(pedidos.get(i).get("ingredientesExtra")!=null) {
-			
-					 ArrayNode ingredientesExtra = (ArrayNode) pedidos.get(i).get("ingredientesExtra");
-					 pedido[0] =   pedidos.get(i).get("producto").asText();
-					 String nombreIngredientes = "(";
+			if(pedidos.get(i).get("ingredientesExtra")!=null) {
+				ArrayNode ingredientesExtra = (ArrayNode) pedidos.get(i).get("ingredientesExtra");
+				pedido[0] =   pedidos.get(i).get("producto").asText();
+				String nombreIngredientes = "(";
 					 
-					 for(int j = 0; j<ingredientesExtra.size(); j++) {
-						 if(j == ingredientesExtra.size()-1) {
-							 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ")"; 
-						 }else {
-							 nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ", "; 
-						 }
-					 }
-					 pedido[1] = nombreIngredientes;
-							 
-				 }else {
+				for(int j = 0; j<ingredientesExtra.size(); j++) {
+					if(j == ingredientesExtra.size()-1) {
+						nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ")"; 
+					}else {
+						nombreIngredientes =  nombreIngredientes + listaIngredientes.getListaIngredientes().get(ingredientesExtra.get(j).asInt()).get("nombre") + ", "; 
+					}
+				}
+				
+				pedido[1] = nombreIngredientes;			 
+				 } else {
 					 pedido[0] = pedidos.get(i).get("producto").asText();
 					 pedido[1]= pedidos.get(i).get("cantidad").asText();
 				 }
 				 pedidosLista.add(pedido);
 	         }
 			
-
 			tP.fireTableDataChanged();
 			this.vista.lblMesa.setText("MESA " + (idMesa+1));
 			this.vista.panel.setVisible(false);
 			this.vista.panelMesa.setVisible(true);
-			
+			mesaSeleccionada = idMesa + 1;
 		}
 
 
