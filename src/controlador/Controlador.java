@@ -54,9 +54,11 @@ public class Controlador implements ActionListener{
 			this.database = new Database();
 			this.carta = new Carta("resources/json/carta.json");
 			this.listaIngredientes = new Ingredientes("resources/json/ingredientes.json");
+
 			
 			FileWatcher watcherPizzas = new FileWatcher(carta);
 			FileWatcher watcherIngredientes = new FileWatcher(listaIngredientes);
+			
 			
 			watcherPizzas.start();
 			watcherIngredientes.start();
@@ -101,6 +103,7 @@ public class Controlador implements ActionListener{
 	    this.vista.panelBotonesEntrantes.removeAll();
 
 	    while (carta.exist(i, categoria)) {
+	    	int j = i;
 	        String nombreProducto = carta.getNombre(i, categoria);
 	        String urlImagen = carta.getImg(i, categoria).getPath();
 	        double precioProducto = carta.getPrecio(i, categoria);
@@ -143,6 +146,10 @@ public class Controlador implements ActionListener{
 
 	        botonSeleccionar.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
+	            	int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;	
+	            	database.añadirProducto(idMesa, carta.obtenerProducto(j, categoria), precioProducto);
+	            	
+	            	//database.añadirProducto(, null);
 	                
 	            }
 	        });
@@ -207,7 +214,7 @@ public class Controlador implements ActionListener{
 				
 			if(pedidos.get(i).get("ingredientesExtra")!=null) {
 				ArrayNode ingredientesExtra = (ArrayNode) pedidos.get(i).get("ingredientesExtra");
-				pedido[0] =   pedidos.get(i).get("producto").asText();
+				pedido[0] =   pedidos.get(i).get("nombre").asText();
 				String nombreIngredientes = "(";
 					 
 				for(int j = 0; j<ingredientesExtra.size(); j++) {
@@ -220,7 +227,7 @@ public class Controlador implements ActionListener{
 				
 				pedido[1] = nombreIngredientes;			 
 				 } else {
-					 pedido[0] = pedidos.get(i).get("producto").asText();
+					 pedido[0] = pedidos.get(i).get("nombre").asText();
 					 pedido[1]= pedidos.get(i).get("cantidad").asText();
 				 }
 				 pedidosLista.add(pedido);
