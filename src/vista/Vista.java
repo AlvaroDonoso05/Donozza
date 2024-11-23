@@ -39,14 +39,6 @@ public class Vista extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public JPanel panel;
-	public JButton btnMesa1;
-	public JButton btnMesa2;
-	public JButton btnMesa3;
-	public JButton btnMesa4;
-	public JButton btnMesa5;
-	public JButton btnMesa6;
-	public JButton btnMesa7;
-	public JButton btnMesa8;
 	public JPanel panelMesa;
 	public JButton btnPMVolver;
 	public JLabel lblMesa;
