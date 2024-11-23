@@ -15,7 +15,7 @@ import controlador.Logger;
 public class Carta {
 	
 	private static Object object = new Object();
-	private static ObjectMapper objectMapper = new ObjectMapper();
+	private static ObjectMapper mapper = new ObjectMapper();
 	private static Logger logger = new Logger();
 	
 	private JsonNode rootNode;
@@ -36,10 +36,10 @@ public class Carta {
 		synchronized (object) {
 			try {
 				if(generarArchivo) {
-					objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-					objectMapper.writeValue(new File("resources/json/pizzas.json"), rootNode);
+					mapper.enable(SerializationFeature.INDENT_OUTPUT);
+					mapper.writeValue(new File("resources/json/pizzas.json"), rootNode);
 				} else {
-					rootNode = objectMapper.readTree(new File(this.url));
+					rootNode = mapper.readTree(new File(this.url));
 					pizzas = (ArrayNode) rootNode.get("pizzas");
 					bebidas = (ArrayNode) rootNode.get("bebidas");
 					entrantes = (ArrayNode) rootNode.get("entrantes");
@@ -219,7 +219,7 @@ public class Carta {
 	                }
 	            }
 
-	            ObjectNode producto = objectMapper.createObjectNode();
+	            ObjectNode producto = mapper.createObjectNode();
 
 	            producto.put("id", categoriaArray.size());
 	            producto.put("nombre", nombre);
@@ -228,7 +228,7 @@ public class Carta {
 
 	            // Si la categoría es "pizzas", agregar la lista de ingredientes
 	            if (categoria.equalsIgnoreCase("pizzas") && ingredientes != null) {
-	                ArrayNode ingredientesLista = objectMapper.createArrayNode();
+	                ArrayNode ingredientesLista = mapper.createArrayNode();
 	                for (Integer ingredienteId : ingredientes) {
 	                    ingredientesLista.add(ingredienteId);
 	                }

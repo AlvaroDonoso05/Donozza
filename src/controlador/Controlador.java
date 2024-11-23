@@ -1,12 +1,9 @@
 package controlador;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -17,11 +14,10 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
@@ -48,20 +44,23 @@ public class Controlador implements ActionListener{
 		this.vista.btnCartaEntrantes.addActionListener(this);
 		this.vista.btnCartaBebidas.addActionListener(this);
 		this.vista.btnCartaPostres.addActionListener(this);
-		
+		this.vista.btnIniciarSesion.addActionListener(this);
+
 
 		try {
-			this.database = new Database();
+			this.database = new Database("resources/json/db.json");
 			this.carta = new Carta("resources/json/carta.json");
 			this.listaIngredientes = new Ingredientes("resources/json/ingredientes.json");
 
 			
 			FileWatcher watcherPizzas = new FileWatcher(carta);
 			FileWatcher watcherIngredientes = new FileWatcher(listaIngredientes);
+			FileWatcher watcherDatabase = new FileWatcher(database);
 			
 			
 			watcherPizzas.start();
 			watcherIngredientes.start();
+			watcherDatabase.start();
 			
 		} catch(Exception e) {
 			logger.error(e);
@@ -76,7 +75,7 @@ public class Controlador implements ActionListener{
 		ImageIcon mesaIcon = new ImageIcon("resources/img/mesa.png");
 		
 		for(int i = 0; i < 8; i++) {
-			final int mesaId = i;
+			int mesaId = i;
 			
 			JButton btnMesa = new JButton("MESA " + (mesaId + 1), new ImageIcon(mesaIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH)));
 			btnMesa.setPreferredSize(new Dimension(150, 150));
@@ -91,7 +90,7 @@ public class Controlador implements ActionListener{
 			
 			btnMesa.setHorizontalTextPosition(SwingConstants.CENTER);
 			btnMesa.setVerticalTextPosition(SwingConstants.BOTTOM);
-			vista.panel.add(btnMesa);
+			vista.panelMesas.add(btnMesa);
 		}
 
 	}
@@ -189,9 +188,21 @@ public class Controlador implements ActionListener{
 			cargarCarta("bebidas");
 		}
 		
+		if(e.getSource() == vista.btnIniciarSesion) {
+			if(database.comprobarUsuario(vista.usernameField.getText(), vista.passwordField.getText())) {
+				vista.loading.setVisible(false);
+				vista.logIn.setVisible(false);
+				vista.lblwrongPassword.setVisible(false);
+				vista.mainPanel.setVisible(true);
+			}else {
+				vista.lblwrongPassword.setVisible(true);
+			}
+
+		}
+		
 		//BOTONES SECCIÓN COMANDAS
 		if(e.getSource()==vista.btnPMVolver) {
-			vista.panel.setVisible(true);
+			vista.panelMesas.setVisible(true);
 			vista.panelMesa.setVisible(false);
 			mesaSeleccionada = -1;
 		}
@@ -235,7 +246,7 @@ public class Controlador implements ActionListener{
 			
 			tP.fireTableDataChanged();
 			this.vista.lblMesa.setText("MESA " + (idMesa+1));
-			this.vista.panel.setVisible(false);
+			this.vista.panelMesas.setVisible(false);
 			this.vista.panelMesa.setVisible(true);
 			mesaSeleccionada = idMesa + 1;
 		}

@@ -10,6 +10,7 @@ import java.nio.file.WatchService;
 
 import modelo.Ingredientes;
 import modelo.Carta;
+import modelo.Database;
 
 public class FileWatcher extends Thread {
     private Path filePath;
@@ -25,6 +26,10 @@ public class FileWatcher extends Thread {
             Ingredientes ingredientes = (Ingredientes) clase;
             this.filePath = Paths.get(ingredientes.getUrl());
             this.directoryPath = filePath.getParent();
+        } else if(clase instanceof Database) {
+        	Database database = (Database) clase;
+        	this.filePath = Paths.get(database.getUrl());
+        	this.directoryPath = filePath.getParent();
         }
         this.clase = clase;
     }
@@ -58,6 +63,9 @@ public class FileWatcher extends Thread {
                             } else if (clase instanceof Ingredientes) {
                                 Ingredientes ingredientes = (Ingredientes) clase;
                                 ingredientes.actualizarIngredientes(false);
+                            } else if(clase instanceof Database) {
+                            	Database database = (Database) clase;
+                            	database.actualizarDatabase(false);
                             }
                         }
                     }

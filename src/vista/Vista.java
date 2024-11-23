@@ -1,37 +1,35 @@
 package vista;
 
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import controlador.Controlador;
-import modelo.Database;
-import modelo.Ingredientes;
+import controlador.ImagePanel;
 import modelo.TablaPedidos;
-import controlador.FileWatcher;
 import controlador.Logger;
-import modelo.Carta;
 
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.Cursor;
@@ -39,8 +37,13 @@ import java.awt.Font;
 
 public class Vista extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	public JPanel panel;
+	private static Logger logger = new Logger();
+	public JLayeredPane contentPane;
+	public ImagePanel logIn;
+	public ImagePanel mainPanel;
+	public JPanel loading = new JPanel();
+	public JPanel panelMesas;
+	public JPanel panelLogIn;
 	public JPanel panelMesa;
 	public JButton btnPMVolver;
 	public JLabel lblMesa;
@@ -72,10 +75,17 @@ public class Vista extends JFrame {
 	public JLabel lblLogo;
 	public JLabel lblLetrero;
 	
+	public JLabel lblUsuario;
+	public JLabel lblTitulo;
+	public JLabel lblContrasena;
+	public JTextField usernameField;
+	public JPasswordField passwordField;
+	public JLabel lblwrongPassword;
+	public JButton btnIniciarSesion;
+	
 	
 
 	public static void main(String[] args) throws Exception {
-		Logger logger = new Logger();
 		Vista vista = new Vista();
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -95,29 +105,55 @@ public class Vista extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 934, 840);
-		contentPane = new JPanel();
+		
+		contentPane = new JLayeredPane();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setBackground(getForeground());
-
-		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setContentPane(contentPane);
+		
+		generateLoadingPanel();
+		loading.setVisible(true);
+		
+		generateLoginPanel();
+		logIn.setVisible(false);
+		
+		generateMainPanel();
+		mainPanel.setVisible(false);
+		
+		Timer timer = new Timer(10000, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				logger.success("Configuracíon inicial de base de datos terminada.");
+				loading.setVisible(false);
+				logIn.setVisible(true);
+			}
+		});
+		timer.setRepeats(false);
+		timer.start();
 		
 		
+	}
 
-
+	private void generateMainPanel() {
+		mainPanel = new ImagePanel("resources/img/background.png");
+		mainPanel.setBackground(new Color(255, 204, 204));
+		mainPanel.setForeground(new Color(255, 255, 255));
+		mainPanel.setBounds(0, 0, 918, 801);
+		contentPane.add(mainPanel);
+		mainPanel.setLayout(null);
 		
-		panel = new JPanel();
-		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.setToolTipText("");
-		panel.setBounds(10, 78, 373, 405);
-		panel.setOpaque(false);
-		contentPane.add(panel);
-		panel.setLayout(new GridLayout(0, 2, 20, 10));
+		panelMesas = new JPanel();
+		panelMesas.setOpaque(false);
+		panelMesas.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panelMesas.setToolTipText("");
+		panelMesas.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelMesas.setBounds(10, 78, 373, 405);
+		mainPanel.add(panelMesas);
+		panelMesas.setLayout(new GridLayout(0, 2, 20, 10));
 
 		panelMesa = new JPanel();
 		panelMesa.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelMesa.setBounds(10, 78, 373, 405);
-		contentPane.add(panelMesa);
+		mainPanel.add(panelMesa);
 		panelMesa.setLayout(null);
 		panelMesa.setVisible(false);
 		
@@ -165,7 +201,7 @@ public class Vista extends JFrame {
 		panelCarta = new JPanel();
 		panelCarta.setOpaque(false);
 		panelCarta.setBounds(433, 78, 450, 436);
-		contentPane.add(panelCarta);
+		mainPanel.add(panelCarta);
 		panelCarta.setLayout(null);
 		
 		btnCartaEntrantes = new JButton("Entrantes");
@@ -228,7 +264,7 @@ public class Vista extends JFrame {
 		panelIngredientes = new JPanel();
 		panelIngredientes.setOpaque(false);
 		panelIngredientes.setBounds(10, 493, 373, 253);
-		contentPane.add(panelIngredientes);
+		mainPanel.add(panelIngredientes);
 		panelIngredientes.setLayout(null);
 		
 		btnEliminarIngrediente = new JButton("Eliminar");
@@ -267,9 +303,8 @@ public class Vista extends JFrame {
 		lblNumCantidad.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNumCantidad.setBounds(157, 193, 45, 13);
 		panelIngredientes.add(lblNumCantidad);
-		
-		
-		lblLogo = new JLabel();
+    
+    lblLogo = new JLabel();
 		lblLogo.setBounds(433, 531, 450, 239);
 		contentPane.add(lblLogo);
 		ImageIcon logoOriginal = new ImageIcon("resources/img/logos/logo.png");
@@ -286,19 +321,75 @@ public class Vista extends JFrame {
 		Image letreroEscalado = letreroOriginal.getScaledInstance(lblLetrero.getWidth(), lblLetrero.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon letrero = new ImageIcon(letreroEscalado);
 		lblLetrero.setIcon(letrero);
+	}
+	
+	private void generateLoadingPanel() {
+		ImageIcon newIcon = new ImageIcon("resources/img/pizza-load.gif");
 		
-		lblFondo = new JLabel();
-		lblFondo.setBounds(0, 0, 934, 840);
-		contentPane.add(lblFondo);
-		ImageIcon originalIcon = new ImageIcon("resources/img/fondos/madera.jpg");
-		Image imagenOriginal = originalIcon.getImage();
-		Image imagenEscalada = imagenOriginal.getScaledInstance(lblFondo.getWidth(), lblFondo.getHeight(), Image.SCALE_SMOOTH);
-		ImageIcon imagenFondo = new ImageIcon(imagenEscalada);
-		lblFondo.setIcon(imagenFondo);
+		loading.setBackground(new Color(85, 52, 117));
+		loading.setBounds(0, 0, 918, 801);
+		loading.setLayout(null);
+		contentPane.add(loading);
+
+		JLabel loadingGIF = new JLabel("");
+		loadingGIF.setBounds(206, 191, 678, 407);
+		loadingGIF.setIcon(newIcon);
+		loading.add(loadingGIF);
+	}
+	
+	private void generateLoginPanel() {
+		logIn = new ImagePanel("resources/img/background.png");
+		logIn.setBackground(new Color(85, 52, 117));
+		logIn.setBounds(0, 0, 918, 801);
+		logIn.setLayout(null);
+		contentPane.add(logIn);
+
+		panelLogIn = new JPanel();
+		panelLogIn.setBackground(new Color(24, 27, 29, 200));
+		panelLogIn.setBounds(269, 223, 368, 340);
+		logIn.add(panelLogIn);
+		panelLogIn.setLayout(null);
+
+		lblUsuario = new JLabel("Usuario: ");
+		lblUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUsuario.setFont(new Font("Segoe Print", Font.BOLD, 18));
+		lblUsuario.setForeground(new Color(255, 255, 255));
+		lblUsuario.setBounds(10, 97, 106, 38);
+		panelLogIn.add(lblUsuario);
+
+		lblTitulo = new JLabel("Inicie Sesión");
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setForeground(Color.WHITE);
+		lblTitulo.setFont(new Font("Segoe Print", Font.PLAIN, 47));
+		lblTitulo.setBounds(0, 0, 368, 71);
+		panelLogIn.add(lblTitulo);
+
+		lblContrasena = new JLabel("Contraseña:");
+		lblContrasena.setHorizontalAlignment(SwingConstants.CENTER);
+		lblContrasena.setForeground(Color.WHITE);
+		lblContrasena.setFont(new Font("Segoe Print", Font.BOLD, 18));
+		lblContrasena.setBounds(20, 148, 121, 41);
+		panelLogIn.add(lblContrasena);
+
+		usernameField = new JTextField();
+		usernameField.setBounds(158, 106, 172, 26);
+		panelLogIn.add(usernameField);
+		usernameField.setColumns(10);
 		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(158, 158, 172, 26);
+		panelLogIn.add(passwordField);
 
+		btnIniciarSesion = new JButton("Iniciar Sesión");
+		btnIniciarSesion.setBounds(110, 237, 137, 47);
+		panelLogIn.add(btnIniciarSesion);
 
+		lblwrongPassword = new JLabel("Contraseña Incorrecta!");
+		lblwrongPassword.setHorizontalAlignment(SwingConstants.CENTER);
+		lblwrongPassword.setForeground(new Color(255, 0, 0));
+		lblwrongPassword.setBounds(110, 200, 137, 26);
+		lblwrongPassword.setVisible(false);
+		panelLogIn.add(lblwrongPassword);
 
-		
 	}
 }

@@ -1,0 +1,40 @@
+{
+  "mesas" : [ {
+    "ocupado" : false,
+    "pedido" : [ ],
+    "total" : 0
+  }, {
+    "ocupado" : false,
+    "pedido" : [ ],
+    "total" : 0
+  }, {
+    "ocupado" : false,
+    "pedido" : [ ],
+    "total" : 0
+  }, {
+    "ocupado" : false,
+    "pedido" : [ ],
+    "total" : 0
+  }, {
+    "ocupado" : false,
+    "pedido" : [ ],
+    "total" : 0
+  }, {
+    "ocupado" : false,
+    "pedido" : [ ],
+    "total" : 0
+  }, {
+    "ocupado" : false,
+    "pedido" : [ ],
+    "total" : 0
+  }, {
+    "ocupado" : false,
+    "pedido" : [ ],
+    "total" : 0
+  } ],
+  "usuarios" : [ {
+    "name" : "admin",
+    "password" : "admin",
+    "isAdmin" : true
+  } ]
+}

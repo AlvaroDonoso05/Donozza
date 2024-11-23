@@ -12,29 +12,54 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import controlador.Logger;
 
 public class Database {
+	
+	private static Object object = new Object();
+	
 	private File fileDb;
 	private ObjectMapper mapper = new ObjectMapper();
-	private ArrayNode comandas;
-	private Logger logger = new Logger();
 	
-	public Database() {
-		this.fileDb = new File("resources/db.json");
+	private ArrayNode comandas;
+	private ArrayNode accounts;
+	
+	private JsonNode rootNode;
+	
+	private Logger logger = new Logger();
+	private String usuarioLogged;
+	private String url;
+	
+	public Database(String url) {
+		this.url = url;
+		this.fileDb = new File(this.url);
+		
 		if(!fileDb.exists()) {
 			generarEstructura();
 		}
 		
-		 JsonNode rootNode;
 		try {
-			rootNode = mapper.readTree(fileDb);
-			this.comandas = (ArrayNode) rootNode.get("mesas");
+			actualizarDatabase(false);
 		} catch (Exception e) {
 			logger.error(e);
 		}
         
 	}
+	
+	public void actualizarDatabase(Boolean generarArchivo) throws Exception {
+		synchronized (object) {
+			try {
+				if(generarArchivo) {
+					mapper.enable(SerializationFeature.INDENT_OUTPUT);
+					mapper.writeValue(new File("resources/json/pizzas.json"), rootNode);
+				} else {
+					rootNode = mapper.readTree(new File(this.url));
+					this.comandas = (ArrayNode) rootNode.get("mesas");
+					this.accounts = (ArrayNode) rootNode.get("usuarios");
+				}
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		}
+	}
 		
-	
-	
 	private void generarEstructura() {
 		ObjectNode rootNode = mapper.createObjectNode();
 		ArrayNode mesas = mapper.createArrayNode();
@@ -89,6 +114,15 @@ public class Database {
 		
 		logger.success("Base de datos de Comandas Generada");
 	}
+	
+	public boolean comprobarUsuario(String username, String password) {
+		for (JsonNode account : accounts) {
+            if (account.get("name").asText().equalsIgnoreCase(username) && account.get("password").asText().equalsIgnoreCase(password)) {
+                return true;
+            }
+        }
+		
+		return false;
 
 	public void añadirProducto (int idMesa, JsonNode producto, double precio) {
 		JsonNode rootNode;
@@ -127,6 +161,16 @@ public class Database {
 
 	public ArrayNode getComandas() {
 		return comandas;
+	}
+
+
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }
