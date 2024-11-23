@@ -48,6 +48,7 @@ public class Controlador implements ActionListener{
 		this.vista.btnCartaEntrantes.addActionListener(this);
 		this.vista.btnCartaBebidas.addActionListener(this);
 		this.vista.btnCartaPostres.addActionListener(this);
+		
 
 		try {
 			this.database = new Database();
@@ -172,13 +173,13 @@ public class Controlador implements ActionListener{
 			cargarCarta("entrantes");
 		}
 		if(e.getSource()==vista.btnCartaPizzas) {
-			cargarCarta("postres");
+			cargarCarta("pizzas");
 		}
 		if(e.getSource()==vista.btnCartaPostres) {
-			cargarCarta("bebidas");
+			cargarCarta("postres");
 		}
 		if(e.getSource()==vista.btnCartaBebidas) {
-			cargarCarta("pizzas");
+			cargarCarta("bebidas");
 		}
 		
 		//BOTONES SECCIÓN COMANDAS

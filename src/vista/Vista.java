@@ -34,6 +34,8 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.Cursor;
+import java.awt.Font;
 
 public class Vista extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -65,6 +67,9 @@ public class Vista extends JFrame {
 	public JLabel lblNumCantidad;
 	public JButton btnCobrar;
 	public JButton btnQuitarProducto;
+	public JLabel lblFondo;
+	public JLabel lblFondoMesa;
+	public JLabel lblLogo;
 	
 	
 
@@ -91,15 +96,20 @@ public class Vista extends JFrame {
 		setBounds(100, 100, 934, 840);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(getForeground());
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
+
+
+		
 		panel = new JPanel();
 		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel.setToolTipText("");
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBounds(10, 78, 373, 405);
+		panel.setOpaque(false);
 		contentPane.add(panel);
 		panel.setLayout(new GridLayout(0, 2, 20, 10));
 
@@ -140,13 +150,25 @@ public class Vista extends JFrame {
 		btnQuitarProducto.setBounds(32, 338, 85, 57);
 		panelMesa.add(btnQuitarProducto);
 		
+		lblFondoMesa = new JLabel();
+		lblFondoMesa.setBounds(0, 0, 373, 405);
+		ImageIcon originalMaderaLight =new ImageIcon("resources/img/fondos/maderalight.jpg");
+		Image MLEscalada = originalMaderaLight.getImage().getScaledInstance(lblFondoMesa.getWidth(), lblFondoMesa.getHeight(), Image.SCALE_SMOOTH);
+		lblFondoMesa.setIcon(new ImageIcon(MLEscalada));
+		panelMesa.add(lblFondoMesa);
+		
 		panelCarta = new JPanel();
+		panelCarta.setOpaque(false);
 		panelCarta.setBounds(433, 78, 450, 436);
 		contentPane.add(panelCarta);
 		panelCarta.setLayout(null);
 		
 		btnCartaEntrantes = new JButton("Entrantes");
-		btnCartaEntrantes.setBackground(new Color(128, 128, 255));
+		btnCartaEntrantes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCartaEntrantes.setBackground(new Color(255, 255, 128));
 		btnCartaEntrantes.setBounds(0, 0, 105, 82);
 		panelCarta.add(btnCartaEntrantes);
 		
@@ -155,17 +177,17 @@ public class Vista extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnCartaPizzas.setBackground(new Color(128, 128, 255));
+		btnCartaPizzas.setBackground(new Color(255, 255, 128));
 		btnCartaPizzas.setBounds(115, 0, 105, 82);
 		panelCarta.add(btnCartaPizzas);
 		
 		btnCartaPostres = new JButton("Postres");
-		btnCartaPostres.setBackground(new Color(128, 128, 255));
+		btnCartaPostres.setBackground(new Color(255, 255, 128));
 		btnCartaPostres.setBounds(230, 0, 105, 82);
 		panelCarta.add(btnCartaPostres);
 		
 		btnCartaBebidas = new JButton("Bebidas");
-		btnCartaBebidas.setBackground(new Color(128, 128, 255));
+		btnCartaBebidas.setBackground(new Color(255, 255, 128));
 		btnCartaBebidas.setBounds(345, 0, 105, 82);
 		panelCarta.add(btnCartaBebidas);
 		
@@ -195,17 +217,20 @@ public class Vista extends JFrame {
 		panelCarta.add(panelBotonesBebidas);
 		
 		panelIngredientes = new JPanel();
-		panelIngredientes.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelIngredientes.setOpaque(false);
 		panelIngredientes.setBounds(10, 493, 373, 253);
 		contentPane.add(panelIngredientes);
 		panelIngredientes.setLayout(null);
 		
 		btnEliminarIngrediente = new JButton("Eliminar");
+		btnEliminarIngrediente.setForeground(Color.BLACK);
+		btnEliminarIngrediente.setBackground(new Color(255, 0, 0));
 		btnEliminarIngrediente.setEnabled(false);
 		btnEliminarIngrediente.setBounds(10, 175, 96, 49);
 		panelIngredientes.add(btnEliminarIngrediente);
 		
 		btnAgregarIngrediente = new JButton("Agregar");
+		btnAgregarIngrediente.setBackground(new Color(128, 255, 128));
 		btnAgregarIngrediente.setBounds(267, 175, 96, 49);
 		panelIngredientes.add(btnAgregarIngrediente);
 		
@@ -221,13 +246,37 @@ public class Vista extends JFrame {
 		panelImgIngredientes.add(btnIngrediente1);
 		
 		lblCantidad = new JLabel("Cantidad");
+		lblCantidad.setForeground(Color.WHITE);
+		lblCantidad.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblCantidad.setBounds(159, 175, 45, 13);
 		panelIngredientes.add(lblCantidad);
 		
 		lblNumCantidad = new JLabel("0");
+		lblNumCantidad.setForeground(Color.WHITE);
 		lblNumCantidad.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNumCantidad.setBounds(159, 198, 45, 13);
 		panelIngredientes.add(lblNumCantidad);
+		
+		
+		lblLogo = new JLabel();
+		lblLogo.setBounds(433, 531, 450, 239);
+		contentPane.add(lblLogo);
+		ImageIcon logoOriginal = new ImageIcon("resources/img/logos/logo.png");
+		Image original = logoOriginal.getImage();
+		Image logoEscalado = original.getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon logo = new ImageIcon(logoEscalado);
+		lblLogo.setIcon(logo);
+		
+		
+		lblFondo = new JLabel();
+		lblFondo.setBounds(0, 0, 934, 840);
+		contentPane.add(lblFondo);
+		ImageIcon originalIcon = new ImageIcon("resources/img/fondos/madera.jpg");
+		Image imagenOriginal = originalIcon.getImage();
+		Image imagenEscalada = imagenOriginal.getScaledInstance(lblFondo.getWidth(), lblFondo.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon imagenFondo = new ImageIcon(imagenEscalada);
+		lblFondo.setIcon(imagenFondo);
+
 		
 	}
 }
