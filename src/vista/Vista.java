@@ -32,6 +32,8 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.Cursor;
+import java.awt.Font;
 
 public class Vista extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -68,6 +70,10 @@ public class Vista extends JFrame {
 	public JLabel lblNumCantidad;
 	public JButton btnCobrar;
 	public JButton btnQuitarProducto;
+	public JLabel lblFondo;
+	public JLabel lblFondoMesa;
+	public JLabel lblLogo;
+	public JLabel lblLetrero;
 	
 	public JLabel lblUsuario;
 	public JLabel lblTitulo;
@@ -153,10 +159,12 @@ public class Vista extends JFrame {
 		
 		
 		btnPMVolver = new JButton("Volver");
+		btnPMVolver.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnPMVolver.setBounds(10, 10, 85, 21);
 		panelMesa.add(btnPMVolver);
 		
 		lblMesa = new JLabel("Mesa X");
+		lblMesa.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		lblMesa.setBounds(159, 36, 45, 13);
 		panelMesa.add(lblMesa);
 		
@@ -174,12 +182,21 @@ public class Vista extends JFrame {
 		panelMesa.add(scrollPane);
 		
 		btnCobrar = new JButton("Cobrar");
+		btnCobrar.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnCobrar.setBounds(257, 338, 85, 57);
 		panelMesa.add(btnCobrar);
 		
-		btnQuitarProducto = new JButton("Quitar Producto");
+		btnQuitarProducto = new JButton("Quitar");
+		btnQuitarProducto.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnQuitarProducto.setBounds(32, 338, 85, 57);
 		panelMesa.add(btnQuitarProducto);
+		
+		lblFondoMesa = new JLabel();
+		lblFondoMesa.setBounds(0, 0, 373, 405);
+		ImageIcon originalMaderaLight =new ImageIcon("resources/img/fondos/maderalight.jpg");
+		Image MLEscalada = originalMaderaLight.getImage().getScaledInstance(lblFondoMesa.getWidth(), lblFondoMesa.getHeight(), Image.SCALE_SMOOTH);
+		lblFondoMesa.setIcon(new ImageIcon(MLEscalada));
+		panelMesa.add(lblFondoMesa);
 		
 		panelCarta = new JPanel();
 		panelCarta.setOpaque(false);
@@ -188,26 +205,34 @@ public class Vista extends JFrame {
 		panelCarta.setLayout(null);
 		
 		btnCartaEntrantes = new JButton("Entrantes");
-		btnCartaEntrantes.setBackground(new Color(128, 128, 255));
+		btnCartaEntrantes.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+		btnCartaEntrantes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCartaEntrantes.setBackground(new Color(255, 255, 128));
 		btnCartaEntrantes.setBounds(0, 0, 105, 82);
 		panelCarta.add(btnCartaEntrantes);
 		
 		btnCartaPizzas = new JButton("Pizza");
+		btnCartaPizzas.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnCartaPizzas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnCartaPizzas.setBackground(new Color(128, 128, 255));
+		btnCartaPizzas.setBackground(new Color(255, 255, 128));
 		btnCartaPizzas.setBounds(115, 0, 105, 82);
 		panelCarta.add(btnCartaPizzas);
 		
 		btnCartaPostres = new JButton("Postres");
-		btnCartaPostres.setBackground(new Color(128, 128, 255));
+		btnCartaPostres.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+		btnCartaPostres.setBackground(new Color(255, 255, 128));
 		btnCartaPostres.setBounds(230, 0, 105, 82);
 		panelCarta.add(btnCartaPostres);
 		
 		btnCartaBebidas = new JButton("Bebidas");
-		btnCartaBebidas.setBackground(new Color(128, 128, 255));
+		btnCartaBebidas.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+		btnCartaBebidas.setBackground(new Color(255, 255, 128));
 		btnCartaBebidas.setBounds(345, 0, 105, 82);
 		panelCarta.add(btnCartaBebidas);
 		
@@ -237,17 +262,22 @@ public class Vista extends JFrame {
 		panelCarta.add(panelBotonesBebidas);
 		
 		panelIngredientes = new JPanel();
-		panelIngredientes.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelIngredientes.setOpaque(false);
 		panelIngredientes.setBounds(10, 493, 373, 253);
 		mainPanel.add(panelIngredientes);
 		panelIngredientes.setLayout(null);
 		
 		btnEliminarIngrediente = new JButton("Eliminar");
+		btnEliminarIngrediente.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+		btnEliminarIngrediente.setForeground(Color.BLACK);
+		btnEliminarIngrediente.setBackground(new Color(255, 0, 0));
 		btnEliminarIngrediente.setEnabled(false);
 		btnEliminarIngrediente.setBounds(10, 175, 96, 49);
 		panelIngredientes.add(btnEliminarIngrediente);
 		
 		btnAgregarIngrediente = new JButton("Agregar");
+		btnAgregarIngrediente.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+		btnAgregarIngrediente.setBackground(new Color(128, 255, 128));
 		btnAgregarIngrediente.setBounds(267, 175, 96, 49);
 		panelIngredientes.add(btnAgregarIngrediente);
 		
@@ -263,13 +293,34 @@ public class Vista extends JFrame {
 		panelImgIngredientes.add(btnIngrediente1);
 		
 		lblCantidad = new JLabel("Cantidad");
-		lblCantidad.setBounds(159, 175, 45, 13);
+		lblCantidad.setForeground(Color.WHITE);
+		lblCantidad.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+		lblCantidad.setBounds(157, 175, 57, 13);
 		panelIngredientes.add(lblCantidad);
 		
 		lblNumCantidad = new JLabel("0");
+		lblNumCantidad.setForeground(Color.WHITE);
 		lblNumCantidad.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNumCantidad.setBounds(159, 198, 45, 13);
+		lblNumCantidad.setBounds(157, 193, 45, 13);
 		panelIngredientes.add(lblNumCantidad);
+    
+    lblLogo = new JLabel();
+		lblLogo.setBounds(433, 531, 450, 239);
+		contentPane.add(lblLogo);
+		ImageIcon logoOriginal = new ImageIcon("resources/img/logos/logo.png");
+		Image original = logoOriginal.getImage();
+		Image logoEscalado = original.getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon logo = new ImageIcon(logoEscalado);
+		lblLogo.setIcon(logo);
+		
+		lblLetrero = new JLabel();
+		lblLetrero.setBounds(96, -34, 161, 145);
+		contentPane.add(lblLetrero);
+		ImageIcon originalLetrero = new ImageIcon("resources/img/logos/letrero.png");
+		Image letreroOriginal = originalLetrero.getImage();
+		Image letreroEscalado = letreroOriginal.getScaledInstance(lblLetrero.getWidth(), lblLetrero.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon letrero = new ImageIcon(letreroEscalado);
+		lblLetrero.setIcon(letrero);
 	}
 	
 	private void generateLoadingPanel() {
@@ -319,7 +370,7 @@ public class Vista extends JFrame {
 		lblContrasena.setFont(new Font("Segoe Print", Font.BOLD, 18));
 		lblContrasena.setBounds(20, 148, 121, 41);
 		panelLogIn.add(lblContrasena);
-		
+
 		usernameField = new JTextField();
 		usernameField.setBounds(158, 106, 172, 26);
 		panelLogIn.add(usernameField);
@@ -339,5 +390,6 @@ public class Vista extends JFrame {
 		lblwrongPassword.setBounds(110, 200, 137, 26);
 		lblwrongPassword.setVisible(false);
 		panelLogIn.add(lblwrongPassword);
+
 	}
 }

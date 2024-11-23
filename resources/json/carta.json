@@ -40,12 +40,12 @@
 	{
 	  "nombre": "Nestea",
 	  "precio": 10.5,
-	  "url": "resources/img/default.png"
+	  "url": "resources/img/bebidas/nestea.png"
 	},
 	{
 	  "nombre": "Cerveza",
 	  "precio": 10.5,
-	  "url": "resources/img/default.png"
+	  "url": "resources/img/bebidas/cerveza.png"
 	}
   ],
 
@@ -53,7 +53,7 @@
     {
       "nombre": "Tarta de Queso",
       "precio": 12.5,
-      "url": "resources/img/default.png"
+      "url": "resources/img/postres/tartaqueso.png"
     },
     {
       "nombre": "Helado",
@@ -63,12 +63,12 @@
 	{
 	  "nombre": "Fruta",
 	  "precio": 10.5,
-	  "url": "resources/img/default.png"
+	  "url": "resources/img/postres/fruta.png"
 	},
 	{
 	  "nombre": "Buñuelos",
 	  "precio": 10.5,
-	  "url": "resources/img/default.png"
+	  "url": "resources/img/postres/bunuelos.png"
 	}
   ],
 
@@ -86,12 +86,12 @@
 	{
 	  "nombre": "Aros de Cebolla",
 	  "precio": 10.5,
-	  "url": "resources/img/default.png"
+	  "url": "resources/img/entrantes/cebolla.png"
 	},
 	{
 	  "nombre": "Nuggets",
 	  "precio": 10.5,
-	  "url": "resources/img/default.png"
+	  "url": "resources/img/entrantes/nuggets.png"
 	}
   ]
 }
