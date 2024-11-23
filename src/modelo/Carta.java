@@ -71,7 +71,7 @@ public class Carta {
 		return url;
 	}
 	
-	private JsonNode obtenerProducto(int id, String categoria) {
+	public JsonNode obtenerProducto(int id, String categoria) {
 		JsonNode producto = null;
 		
 		try {

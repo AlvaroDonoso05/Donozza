@@ -1,7 +1,8 @@
 package modelo;
 
 import java.io.File;
-
+import java.io.IOException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -89,6 +90,40 @@ public class Database {
 		logger.success("Base de datos de Comandas Generada");
 	}
 
+	public void añadirProducto (int idMesa, JsonNode producto, double precio) {
+		JsonNode rootNode;
+		boolean encontrado = false;
+		try {
+			ObjectNode productoON = (ObjectNode) producto;
+			productoON.remove("url");
+			rootNode = mapper.readTree(fileDb);
+			ArrayNode mesas = mapper.createArrayNode();
+			mesas = (ArrayNode) rootNode.get("mesas");
+			ArrayNode pedidos = (ArrayNode) mesas.get(idMesa).get("pedido");
+		
+			for(int i = 0; i<pedidos.size();i++) {
+				if(producto.get("nombre").asText().equalsIgnoreCase(pedidos.get(i).get("nombre").asText())) {
+					productoON.put("cantidad", producto.get("cantidad").asInt() + 1) ;
+					productoON.put("precio", precio * productoON.get("cantidad").asDouble());
+					encontrado = true;
+					pedidos.remove(i);
+					i--;
+				}					
+			}
+			if(!encontrado) {
+				productoON.put("cantidad", 1);
+			}
+			pedidos.add(productoON);
+			mapper.enable(SerializationFeature.INDENT_OUTPUT);
+			mapper.writeValue(fileDb, rootNode);
+			encontrado = false;
+			
+		} catch (JsonProcessingException e) {
+			logger.error(e);
+		} catch (IOException e) {
+			logger.error(e);
+		}
+	}
 
 	public ArrayNode getComandas() {
 		return comandas;
