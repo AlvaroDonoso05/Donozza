@@ -70,6 +70,7 @@ public class Vista extends JFrame {
 	public JLabel lblFondo;
 	public JLabel lblFondoMesa;
 	public JLabel lblLogo;
+	public JLabel lblLetrero;
 	
 	
 
@@ -122,10 +123,12 @@ public class Vista extends JFrame {
 		
 		
 		btnPMVolver = new JButton("Volver");
+		btnPMVolver.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnPMVolver.setBounds(10, 10, 85, 21);
 		panelMesa.add(btnPMVolver);
 		
 		lblMesa = new JLabel("Mesa X");
+		lblMesa.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		lblMesa.setBounds(159, 36, 45, 13);
 		panelMesa.add(lblMesa);
 		
@@ -143,10 +146,12 @@ public class Vista extends JFrame {
 		panelMesa.add(scrollPane);
 		
 		btnCobrar = new JButton("Cobrar");
+		btnCobrar.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnCobrar.setBounds(257, 338, 85, 57);
 		panelMesa.add(btnCobrar);
 		
-		btnQuitarProducto = new JButton("Quitar Producto");
+		btnQuitarProducto = new JButton("Quitar");
+		btnQuitarProducto.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnQuitarProducto.setBounds(32, 338, 85, 57);
 		panelMesa.add(btnQuitarProducto);
 		
@@ -164,6 +169,7 @@ public class Vista extends JFrame {
 		panelCarta.setLayout(null);
 		
 		btnCartaEntrantes = new JButton("Entrantes");
+		btnCartaEntrantes.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnCartaEntrantes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -173,6 +179,7 @@ public class Vista extends JFrame {
 		panelCarta.add(btnCartaEntrantes);
 		
 		btnCartaPizzas = new JButton("Pizza");
+		btnCartaPizzas.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnCartaPizzas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -182,11 +189,13 @@ public class Vista extends JFrame {
 		panelCarta.add(btnCartaPizzas);
 		
 		btnCartaPostres = new JButton("Postres");
+		btnCartaPostres.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnCartaPostres.setBackground(new Color(255, 255, 128));
 		btnCartaPostres.setBounds(230, 0, 105, 82);
 		panelCarta.add(btnCartaPostres);
 		
 		btnCartaBebidas = new JButton("Bebidas");
+		btnCartaBebidas.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnCartaBebidas.setBackground(new Color(255, 255, 128));
 		btnCartaBebidas.setBounds(345, 0, 105, 82);
 		panelCarta.add(btnCartaBebidas);
@@ -223,6 +232,7 @@ public class Vista extends JFrame {
 		panelIngredientes.setLayout(null);
 		
 		btnEliminarIngrediente = new JButton("Eliminar");
+		btnEliminarIngrediente.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnEliminarIngrediente.setForeground(Color.BLACK);
 		btnEliminarIngrediente.setBackground(new Color(255, 0, 0));
 		btnEliminarIngrediente.setEnabled(false);
@@ -230,6 +240,7 @@ public class Vista extends JFrame {
 		panelIngredientes.add(btnEliminarIngrediente);
 		
 		btnAgregarIngrediente = new JButton("Agregar");
+		btnAgregarIngrediente.setFont(new Font("Segoe Print", Font.PLAIN, 10));
 		btnAgregarIngrediente.setBackground(new Color(128, 255, 128));
 		btnAgregarIngrediente.setBounds(267, 175, 96, 49);
 		panelIngredientes.add(btnAgregarIngrediente);
@@ -247,14 +258,14 @@ public class Vista extends JFrame {
 		
 		lblCantidad = new JLabel("Cantidad");
 		lblCantidad.setForeground(Color.WHITE);
-		lblCantidad.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblCantidad.setBounds(159, 175, 45, 13);
+		lblCantidad.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+		lblCantidad.setBounds(157, 175, 57, 13);
 		panelIngredientes.add(lblCantidad);
 		
 		lblNumCantidad = new JLabel("0");
 		lblNumCantidad.setForeground(Color.WHITE);
 		lblNumCantidad.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNumCantidad.setBounds(159, 198, 45, 13);
+		lblNumCantidad.setBounds(157, 193, 45, 13);
 		panelIngredientes.add(lblNumCantidad);
 		
 		
@@ -267,6 +278,14 @@ public class Vista extends JFrame {
 		ImageIcon logo = new ImageIcon(logoEscalado);
 		lblLogo.setIcon(logo);
 		
+		lblLetrero = new JLabel();
+		lblLetrero.setBounds(96, -34, 161, 145);
+		contentPane.add(lblLetrero);
+		ImageIcon originalLetrero = new ImageIcon("resources/img/logos/letrero.png");
+		Image letreroOriginal = originalLetrero.getImage();
+		Image letreroEscalado = letreroOriginal.getScaledInstance(lblLetrero.getWidth(), lblLetrero.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon letrero = new ImageIcon(letreroEscalado);
+		lblLetrero.setIcon(letrero);
 		
 		lblFondo = new JLabel();
 		lblFondo.setBounds(0, 0, 934, 840);
@@ -276,6 +295,9 @@ public class Vista extends JFrame {
 		Image imagenEscalada = imagenOriginal.getScaledInstance(lblFondo.getWidth(), lblFondo.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon imagenFondo = new ImageIcon(imagenEscalada);
 		lblFondo.setIcon(imagenFondo);
+		
+
+
 
 		
 	}
