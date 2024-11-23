@@ -50,7 +50,7 @@ public class Database {
 					mapper.enable(SerializationFeature.INDENT_OUTPUT);
 					mapper.writeValue(new File("resources/json/pizzas.json"), rootNode);
 				} else {
-					rootNode = mapper.readTree(new File(this.url));
+					this.rootNode = mapper.readTree(new File(this.url));
 					this.comandas = (ArrayNode) rootNode.get("mesas");
 					this.accounts = (ArrayNode) rootNode.get("usuarios");
 				}
@@ -123,13 +123,13 @@ public class Database {
         }
 		
 		return false;
-
+	}
+	
 	public void añadirProducto (int idMesa, JsonNode producto, double precio) {
 		JsonNode rootNode;
 		boolean encontrado = false;
 		try {
 			ObjectNode productoON = (ObjectNode) producto;
-			productoON.remove("url");
 			rootNode = mapper.readTree(fileDb);
 			ArrayNode mesas = mapper.createArrayNode();
 			mesas = (ArrayNode) rootNode.get("mesas");
@@ -137,7 +137,7 @@ public class Database {
 		
 			for(int i = 0; i<pedidos.size();i++) {
 				if(producto.get("nombre").asText().equalsIgnoreCase(pedidos.get(i).get("nombre").asText())) {
-					productoON.put("cantidad", producto.get("cantidad").asInt() + 1) ;
+					productoON.put("cantidad", producto.get("cantidad").asInt() + 1);
 					productoON.put("precio", precio * productoON.get("cantidad").asDouble());
 					encontrado = true;
 					pedidos.remove(i);

@@ -164,6 +164,8 @@ public class Controlador implements ActionListener{
 
 	        i++;
 	    }
+	    
+	    i = 0;
 
 	    this.vista.panelBotonesEntrantes.revalidate();
 	    this.vista.panelBotonesEntrantes.repaint();

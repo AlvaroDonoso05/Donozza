@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -120,7 +121,7 @@ public class Vista extends JFrame {
 		generateMainPanel();
 		mainPanel.setVisible(false);
 		
-		Timer timer = new Timer(10000, new ActionListener() {
+		Timer timer = new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				logger.success("Configuracíon inicial de base de datos terminada.");
 				loading.setVisible(false);

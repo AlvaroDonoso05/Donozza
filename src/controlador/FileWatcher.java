@@ -76,8 +76,6 @@ public class FileWatcher extends Thread {
                     logger.warning("La clave de monitoreo ya no es válida.");
                     break;
                 }
-
-                Thread.sleep(5000);
             }
         } catch (Exception e) {
             e.printStackTrace();

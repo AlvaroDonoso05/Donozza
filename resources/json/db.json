@@ -1,7 +1,53 @@
 {
   "mesas" : [ {
     "ocupado" : false,
-    "pedido" : [ ],
+    "pedido" : [ {
+      "nombre" : "Alitas",
+      "precio" : 75.0,
+      "url" : "resources/img/entrantes/alitas.png",
+      "cantidad" : 6
+    }, {
+      "nombre" : "Queso Frito",
+      "precio" : 31.5,
+      "url" : "resources/img/entrantes/quesofrito.png",
+      "cantidad" : 3
+    }, {
+      "nombre" : "Aros de Cebolla",
+      "precio" : 21.0,
+      "url" : "resources/img/entrantes/cebolla.png",
+      "cantidad" : 2
+    }, {
+      "nombre" : "Carbonara",
+      "precio" : 31.5,
+      "ingredientes" : [ 1, 2, 4, 7 ],
+      "url" : "resources/img/pizzas/carbonara.png",
+      "cantidad" : 3
+    }, {
+      "nombre" : "Nestea",
+      "precio" : 21.0,
+      "url" : "resources/img/bebidas/nestea.png",
+      "cantidad" : 2
+    }, {
+      "nombre" : "Cocacola",
+      "precio" : 10.5,
+      "url" : "resources/img/bebidas/cocacola.png",
+      "cantidad" : 1
+    }, {
+      "nombre" : "Agua",
+      "precio" : 12.5,
+      "url" : "resources/img/bebidas/agua.png",
+      "cantidad" : 1
+    }, {
+      "nombre" : "Tarta de Queso",
+      "precio" : 25.0,
+      "url" : "resources/img/postres/tartaqueso.png",
+      "cantidad" : 2
+    }, {
+      "nombre" : "Helado",
+      "precio" : 21.0,
+      "url" : "resources/img/postres/helado.png",
+      "cantidad" : 2
+    } ],
     "total" : 0
   }, {
     "ocupado" : false,
