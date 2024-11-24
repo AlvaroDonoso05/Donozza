@@ -43,6 +43,7 @@ public class Controlador implements ActionListener {
         this.vista.btnCartaBebidas.addActionListener(this);
         this.vista.btnCartaPostres.addActionListener(this);
         this.vista.btnIniciarSesion.addActionListener(this);
+        this.vista.btnQuitarProducto.addActionListener(this);
 
 
         try {
@@ -229,6 +230,12 @@ public class Controlador implements ActionListener {
             categoriaActual = "";
         }
 
+        
+        if(e.getSource() == this.vista.btnQuitarProducto) {
+			int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
+			eliminarProducto(idMesa);
+			mostrarTabla(idMesa);
+		}
     }
 
     public void mostrarTabla(int idMesa) {
@@ -271,4 +278,17 @@ public class Controlador implements ActionListener {
         this.vista.panelMesas.setVisible(false);
         this.vista.panelMesa.setVisible(true);
     }
+    
+    public void eliminarProducto(int idMesa){
+    	if(this.vista.tablaMesa.getSelectedRow()!=-1) {
+    		String nProducto;
+    		
+    		TablaPedidos tP= (TablaPedidos) this.vista.tablaMesa.getModel();
+    		
+    		//Obtenemos la información completa del pedido seleccionado
+    		nProducto = tP.getPedidos().get(this.vista.tablaMesa.getSelectedRow())[0];
+    		database.eliminarProducto(idMesa, nProducto);  		
+    	}
+		
+	}
 }

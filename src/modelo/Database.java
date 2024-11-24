@@ -1,5 +1,6 @@
 package modelo;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.File;
+import java.io.IOException;
 
 import controlador.Logger;
 
@@ -166,6 +168,31 @@ public class Database {
         }
     }
 
+    
+    public void eliminarProducto (int idMesa, String nProducto) {
+		
+		try {
+			ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
+            ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
+            ArrayNode pedidos = (ArrayNode) mesa.get("pedido");
+			
+			 for (int i = 0; i < pedidos.size(); i++) {
+	                ObjectNode existingProduct = (ObjectNode) pedidos.get(i);
+	                if (nProducto.equalsIgnoreCase(existingProduct.get("nombre").asText())) {
+	                	pedidos.remove(i);	 
+	                    break;
+	                }
+	            }
+			 actualizarDatabase(true);		
+		} catch (JsonProcessingException e) {
+			logger.error(e);
+		} catch (IOException e) {
+			logger.error(e);
+		} catch (Exception e) {
+			logger.error(e);;
+		}
+	}
+    
     public ArrayNode getComandas() {
         return comandas;
     }
