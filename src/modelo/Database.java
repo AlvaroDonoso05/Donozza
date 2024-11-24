@@ -166,6 +166,32 @@ public class Database {
 	        }
 	    }
 	}
+	
+	public void eliminarProducto (int idMesa, String nProducto) {
+		
+		try {
+			ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
+            ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
+            ArrayNode pedidos = (ArrayNode) mesa.get("pedido");
+			
+			 for (int i = 0; i < pedidos.size(); i++) {
+	                ObjectNode existingProduct = (ObjectNode) pedidos.get(i);
+	                if (nProducto.equalsIgnoreCase(existingProduct.get("nombre").asText())) {
+	                	pedidos.remove(i);	 
+	                    break;
+	                }
+	            }
+			 actualizarDatabase(true);
+			
+		} catch (JsonProcessingException e) {
+			logger.error(e);
+		} catch (IOException e) {
+			logger.error(e);
+		} catch (Exception e) {
+			logger.error(e);;
+		}
+	}
+	
 
 	public ArrayNode getComandas() {
 		return comandas;

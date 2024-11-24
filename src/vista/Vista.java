@@ -51,7 +51,6 @@ public class Vista extends JFrame {
 	public JTable tablaMesa;
 	public Controlador controlador;
 	public JScrollPane scrollPane;
-	public DefaultTableModel dtm;
 	
 	public JPanel panelCarta;
 	public JButton btnCartaEntrantes;
