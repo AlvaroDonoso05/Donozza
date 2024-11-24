@@ -24,7 +24,6 @@ public class Database {
 	private JsonNode rootNode;
 	
 	private Logger logger = new Logger();
-	private String usuarioLogged;
 	private String url;
 	
 	public Database(String url) {
@@ -150,6 +149,7 @@ public class Database {
 	            if (!encontrado) {
 	                ObjectNode productoON = (ObjectNode) producto.deepCopy();
 	                productoON.put("cantidad", 1);
+	                productoON.remove("url");
 	                pedidos.add(productoON);
 	            }
 
