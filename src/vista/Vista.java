@@ -1,5 +1,6 @@
 package vista;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -17,6 +18,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
@@ -30,7 +32,10 @@ import javax.swing.table.TableColumn;
 import controlador.Controlador;
 import controlador.ImagePanel;
 import controlador.Logger;
+import modelo.TablaIngredientes;
 import modelo.TablaPedidos;
+import modelo.TablaProductos;
+import modelo.TablaUsuarios;
 
 public class Vista extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -47,7 +52,6 @@ public class Vista extends JFrame {
     public JTable tablaMesa;
     public Controlador controlador;
     public JScrollPane scrollPane;
-    public DefaultTableModel dtm;
 
     public JPanel panelCarta;
     public JButton btnCartaEntrantes;
@@ -79,6 +83,10 @@ public class Vista extends JFrame {
     public JPasswordField passwordField;
     public JLabel lblwrongPassword;
     public JButton btnIniciarSesion;
+    
+    public JButton btnAddProducto;
+    public JButton btnAddUser;
+    public JButton btnAddIngrediente;
 
 
     public Vista() throws Exception {
@@ -91,6 +99,8 @@ public class Vista extends JFrame {
         contentPane.setLayout(null);
         setContentPane(contentPane);
 
+        generateAdminPanel();
+        
         generateLoadingPanel();
         loading.setVisible(true);
 
@@ -128,6 +138,216 @@ public class Vista extends JFrame {
             }
         });
     }
+    
+    private void generateAdminPanel() {
+        JPanel adminPanel = new JPanel();
+        adminPanel.setLayout(new BorderLayout());
+        adminPanel.setBounds(0, 0, 918, 801);
+        adminPanel.setBackground(new Color(240, 240, 240));
+        contentPane.add(adminPanel);
+
+        JTabbedPane tabbedPane = new JTabbedPane();
+        adminPanel.add(tabbedPane, BorderLayout.CENTER);
+
+        // Panel de Productos
+        JPanel productosPanel = new JPanel();
+        productosPanel.setLayout(null);
+        tabbedPane.addTab("Gestión de Productos/Ingredientes", productosPanel);
+
+        JLabel lblProductos = new JLabel("Productos");
+        lblProductos.setFont(new Font("Segoe Print", Font.BOLD, 18));
+        lblProductos.setBounds(20, 20, 200, 30);
+        productosPanel.add(lblProductos);
+
+        TablaProductos tableProductosModel = new TablaProductos();
+        JTable tableProductos = new JTable(tableProductosModel);
+        tableProductos.getTableHeader().setReorderingAllowed(false);
+
+        JScrollPane scrollProductos = new JScrollPane(tableProductos);
+        scrollProductos.setBounds(20, 60, 400, 200);
+        productosPanel.add(scrollProductos);
+
+        // Formulario para agregar productos
+        addProductForm(productosPanel, tableProductosModel);
+
+        JLabel lblIngredientes_1 = new JLabel("Ingredientes");
+        lblIngredientes_1.setFont(new Font("Segoe Print", Font.BOLD, 18));
+        lblIngredientes_1.setBounds(20, 288, 200, 30);
+        productosPanel.add(lblIngredientes_1);
+
+        // Tabla de ingredientes
+        TablaIngredientes tableIngredientesModel = new TablaIngredientes();
+        JTable tableIngredientes = new JTable(tableIngredientesModel);
+        tableIngredientes.getTableHeader().setReorderingAllowed(false);
+
+        JScrollPane scrollIngredientes = new JScrollPane(tableIngredientes);
+        scrollIngredientes.setBounds(20, 328, 400, 200);
+        productosPanel.add(scrollIngredientes);
+
+        // Formulario para agregar ingredientes
+        addIngredientForm(productosPanel, tableIngredientesModel);
+
+        // Panel de Usuarios
+        JPanel usuariosPanel = new JPanel();
+        usuariosPanel.setLayout(null);
+        tabbedPane.addTab("Gestión de Usuarios", usuariosPanel);
+
+        JLabel lblUsuarios = new JLabel("Usuarios");
+        lblUsuarios.setFont(new Font("Segoe Print", Font.BOLD, 18));
+        lblUsuarios.setBounds(20, 20, 200, 30);
+        usuariosPanel.add(lblUsuarios);
+
+        // Tabla de usuarios
+        TablaUsuarios tableUsuariosModel = new TablaUsuarios();
+        JTable tableUsuarios = new JTable(tableUsuariosModel);
+        tableUsuarios.getTableHeader().setReorderingAllowed(false);
+
+        JScrollPane scrollUsuarios = new JScrollPane(tableUsuarios);
+        scrollUsuarios.setBounds(20, 60, 400, 200);
+        usuariosPanel.add(scrollUsuarios);
+
+        addUserForm(usuariosPanel, tableUsuariosModel);
+    }
+
+    // Formulario para productos
+    private void addProductForm(JPanel panel, TablaProductos tableModel) {
+        JLabel lblTipo = new JLabel("Tipo:");
+        lblTipo.setBounds(450, 60, 80, 25);
+        panel.add(lblTipo);
+
+        JTextField txtTipo = new JTextField();
+        txtTipo.setBounds(530, 60, 150, 25);
+        panel.add(txtTipo);
+
+        JLabel lblNombre = new JLabel("Nombre:");
+        lblNombre.setBounds(450, 100, 80, 25);
+        panel.add(lblNombre);
+
+        JTextField txtNombre = new JTextField();
+        txtNombre.setBounds(530, 100, 150, 25);
+        panel.add(txtNombre);
+
+        JLabel lblPrecio = new JLabel("Precio:");
+        lblPrecio.setBounds(450, 140, 80, 25);
+        panel.add(lblPrecio);
+
+        JTextField txtPrecio = new JTextField();
+        txtPrecio.setBounds(530, 140, 150, 25);
+        panel.add(txtPrecio);
+
+        JLabel lblExtras = new JLabel("Ingredientes/URL:");
+        lblExtras.setBounds(450, 180, 120, 25);
+        panel.add(lblExtras);
+
+        JTextField txtExtras = new JTextField();
+        txtExtras.setBounds(580, 180, 150, 25);
+        panel.add(txtExtras);
+
+        btnAddProducto = new JButton("Agregar Producto");
+        btnAddProducto.setBounds(450, 220, 150, 30);
+        panel.add(btnAddProducto);
+
+        btnAddProducto.addActionListener(e -> {
+            tableModel.addProducto(
+                txtTipo.getText(),
+                txtNombre.getText(),
+                Double.parseDouble(txtPrecio.getText()),
+                txtExtras.getText()
+            );
+
+            txtTipo.setText("");
+            txtNombre.setText("");
+            txtPrecio.setText("");
+            txtExtras.setText("");
+        });
+    }
+
+    // Formulario para ingredientes
+    private void addIngredientForm(JPanel panel, TablaIngredientes tableIngredientesModel) {
+        JLabel lblNombre = new JLabel("Nombre:");
+        lblNombre.setBounds(450, 328, 80, 25);
+        panel.add(lblNombre);
+
+        JTextField txtNombre = new JTextField();
+        txtNombre.setBounds(530, 328, 150, 25);
+        panel.add(txtNombre);
+
+        JLabel lblPrecio = new JLabel("Precio:");
+        lblPrecio.setBounds(450, 368, 80, 25);
+        panel.add(lblPrecio);
+
+        JTextField txtPrecio = new JTextField();
+        txtPrecio.setBounds(530, 368, 150, 25);
+        panel.add(txtPrecio);
+
+        JLabel lblStock = new JLabel("Stock:");
+        lblStock.setBounds(450, 408, 80, 25);
+        panel.add(lblStock);
+
+        JTextField txtStock = new JTextField();
+        txtStock.setBounds(530, 408, 150, 25);
+        panel.add(txtStock);
+
+        JLabel lblUrl = new JLabel("URL:");
+        lblUrl.setBounds(450, 448, 80, 25);
+        panel.add(lblUrl);
+
+        JTextField txtUrl = new JTextField();
+        txtUrl.setBounds(530, 448, 150, 25);
+        panel.add(txtUrl);
+
+        btnAddIngrediente = new JButton("Agregar Ingrediente");
+        btnAddIngrediente.setBounds(450, 488, 150, 30);
+        panel.add(btnAddIngrediente);
+
+        btnAddIngrediente.addActionListener(e -> {
+            tableIngredientesModel.addIngrediente(
+                txtNombre.getText(),
+                Double.parseDouble(txtPrecio.getText()),
+                Integer.parseInt(txtStock.getText()),
+                txtUrl.getText()
+            );
+
+            txtNombre.setText("");
+            txtPrecio.setText("");
+            txtStock.setText("");
+            txtUrl.setText("");
+        });
+    }
+
+    // Formulario para usuarios
+    private void addUserForm(JPanel panel, TablaUsuarios tableUsuariosModel) {
+        JLabel lblNombre = new JLabel("Nombre:");
+        lblNombre.setBounds(450, 60, 80, 25);
+        panel.add(lblNombre);
+
+        JTextField txtNombre = new JTextField();
+        txtNombre.setBounds(530, 60, 150, 25);
+        panel.add(txtNombre);
+
+        JLabel lblPassword = new JLabel("Contraseña:");
+        lblPassword.setBounds(450, 100, 80, 25);
+        panel.add(lblPassword);
+
+        JTextField txtPassword = new JTextField();
+        txtPassword.setBounds(530, 100, 150, 25);
+        panel.add(txtPassword);
+
+        btnAddUser = new JButton("Agregar Usuario");
+        btnAddUser.setBounds(450, 140, 150, 30);
+        panel.add(btnAddUser);
+
+        btnAddUser.addActionListener(e -> {
+            tableUsuariosModel.addUsuario(
+                txtNombre.getText(),
+                txtPassword.getText()
+            );
+
+            txtNombre.setText("");
+            txtPassword.setText("");
+        });
+    }
+
 
     private void generateMainPanel() {
         mainPanel = new ImagePanel("resources/img/background.png");
@@ -212,10 +432,6 @@ public class Vista extends JFrame {
 
         btnCartaPizzas = new JButton("Pizza");
         btnCartaPizzas.setFont(new Font("Segoe Print", Font.PLAIN, 10));
-        btnCartaPizzas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
         btnCartaPizzas.setBackground(new Color(255, 255, 128));
         btnCartaPizzas.setBounds(115, 0, 105, 82);
         panelCarta.add(btnCartaPizzas);

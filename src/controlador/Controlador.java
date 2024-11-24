@@ -37,12 +37,12 @@ public class Controlador implements ActionListener {
 
     public Controlador(Vista frame) {
         this.vista = frame;
-        this.vista.btnPMVolver.addActionListener(this);
-        this.vista.btnCartaPizzas.addActionListener(this);
-        this.vista.btnCartaEntrantes.addActionListener(this);
-        this.vista.btnCartaBebidas.addActionListener(this);
-        this.vista.btnCartaPostres.addActionListener(this);
-        this.vista.btnIniciarSesion.addActionListener(this);
+        //this.vista.btnPMVolver.addActionListener(this);
+        //this.vista.btnCartaPizzas.addActionListener(this);
+        //this.vista.btnCartaEntrantes.addActionListener(this);
+        //this.vista.btnCartaBebidas.addActionListener(this);
+        //this.vista.btnCartaPostres.addActionListener(this);
+        //this.vista.btnIniciarSesion.addActionListener(this);
 
 
         try {
@@ -61,7 +61,7 @@ public class Controlador implements ActionListener {
             logger.error(e);
         }
 
-        generarBotonesMesas();
+       // generarBotonesMesas();
 
 
     }
