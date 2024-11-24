@@ -34,8 +34,6 @@ public class Controlador implements ActionListener{
 	private Database database;
 	private Carta carta;
 	private Ingredientes listaIngredientes;
-	private boolean firstTime;
-	private int mesaSeleccionada = -1;
 	private String categoriaActual = "";
 
 	public Controlador(Vista frame) {
@@ -80,9 +78,8 @@ public class Controlador implements ActionListener{
 			btnMesa.setBackground(new Color(255, 255, 255));
 			btnMesa.setFocusPainted(false);
 			btnMesa.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					mesaSeleccionada = mesaId;
-					mostrarTabla(mesaSeleccionada);
+				public void actionPerformed(ActionEvent e) {				
+					mostrarTabla(mesaId);
 					seleccionarMesa();
 				}
 			});
@@ -175,6 +172,7 @@ public class Controlador implements ActionListener{
 	            public void actionPerformed(ActionEvent e) {
 	            	int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;	
 	            	database.añadirProducto(idMesa, carta.obtenerProducto(j, categoria), precioProducto);
+	            	mostrarTabla(idMesa);
 	            	
 	            	//database.añadirProducto(, null);
 	                
@@ -232,7 +230,6 @@ public class Controlador implements ActionListener{
 			vista.panelMesas.setVisible(true);
 			vista.panelMesa.setVisible(false);
 			deseleccionarMesa();
-			mesaSeleccionada = -1;
 		}
 		
 	}
@@ -276,7 +273,6 @@ public class Controlador implements ActionListener{
 			this.vista.lblMesa.setText("MESA " + (idMesa+1));
 			this.vista.panelMesas.setVisible(false);
 			this.vista.panelMesa.setVisible(true);
-			mesaSeleccionada = idMesa + 1;
 		}
 
 
