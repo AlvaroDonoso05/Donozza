@@ -8,14 +8,13 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 
-import modelo.Ingredientes;
 import modelo.Carta;
-import modelo.Database;
+import modelo.Ingredientes;
 
 public class FileWatcher extends Thread {
     private Path filePath;
     private Path directoryPath;
-    private Object clase;
+    private final Object clase;
 
     public FileWatcher(Object clase) {
         if (clase instanceof Carta) {
@@ -31,13 +30,13 @@ public class FileWatcher extends Thread {
     }
 
     public void run() {
-    	Logger logger = new Logger();
+        Logger logger = new Logger();
         try {
             WatchService watchService = FileSystems.getDefault().newWatchService();
-            
-            directoryPath.register(watchService, 
-                    StandardWatchEventKinds.ENTRY_CREATE, 
-                    StandardWatchEventKinds.ENTRY_MODIFY, 
+
+            directoryPath.register(watchService,
+                    StandardWatchEventKinds.ENTRY_CREATE,
+                    StandardWatchEventKinds.ENTRY_MODIFY,
                     StandardWatchEventKinds.ENTRY_DELETE);
 
             logger.log("Observando cambios en el archivo: " + directoryPath + "\\" + filePath.getFileName());
@@ -51,7 +50,7 @@ public class FileWatcher extends Thread {
 
                     if (modifiedFile.getFileName().toString().equals(filePath.getFileName().toString())) {
                         if (tipo == StandardWatchEventKinds.ENTRY_MODIFY) {
-                        
+
 
                             if (clase instanceof Carta) {
                                 Carta listaPizzas = (Carta) clase;
@@ -60,7 +59,7 @@ public class FileWatcher extends Thread {
                                 Ingredientes ingredientes = (Ingredientes) clase;
                                 ingredientes.actualizarIngredientes(false);
                             }
-                            
+
                             logger.success("El archivo " + filePath.getFileName() + " ha sido modificado.");
                         }
                     }
