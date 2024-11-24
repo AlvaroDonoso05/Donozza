@@ -285,7 +285,7 @@ public class Controlador implements ActionListener {
     		
     		TablaPedidos tP= (TablaPedidos) this.vista.tablaMesa.getModel();
     		
-    		//Obtenemos la información completa del pedido seleccionado
+    		//Obtenemos el nombre del producto seleccionado
     		nProducto = tP.getPedidos().get(this.vista.tablaMesa.getSelectedRow())[0];
     		database.eliminarProducto(idMesa, nProducto);  		
     	}

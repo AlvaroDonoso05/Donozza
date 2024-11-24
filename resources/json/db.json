@@ -1,19 +1,7 @@
 {
   "mesas" : [ {
     "ocupado" : false,
-    "pedido" : [ {
-      "nombre" : "Alitas",
-      "precio" : 50.0,
-      "cantidad" : 4
-    }, {
-      "nombre" : "Queso Frito",
-      "precio" : 42.0,
-      "cantidad" : 4
-    }, {
-      "nombre" : "Aros de Cebolla",
-      "precio" : 31.5,
-      "cantidad" : 3
-    } ],
+    "pedido" : [ ],
     "total" : 123.5
   }, {
     "ocupado" : false,
@@ -25,8 +13,12 @@
     "total" : 0
   }, {
     "ocupado" : false,
-    "pedido" : [ ],
-    "total" : 0
+    "pedido" : [ {
+      "nombre" : "Alitas",
+      "precio" : 37.5,
+      "cantidad" : 3
+    } ],
+    "total" : 37.5
   }, {
     "ocupado" : false,
     "pedido" : [ ],
