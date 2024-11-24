@@ -44,20 +44,18 @@ public class Database {
 	}
 	
 	public void actualizarDatabase(Boolean generarArchivo) throws Exception {
-		synchronized (object) {
 			try {
 				if(generarArchivo) {
 					mapper.enable(SerializationFeature.INDENT_OUTPUT);
-					mapper.writeValue(new File("resources/json/pizzas.json"), rootNode);
+					mapper.writeValue(fileDb, rootNode);
 				} else {
-					this.rootNode = mapper.readTree(new File(this.url));
-					this.comandas = (ArrayNode) rootNode.get("mesas");
-					this.accounts = (ArrayNode) rootNode.get("usuarios");
+					this.rootNode = mapper.readTree(fileDb);
+					this.comandas = (ArrayNode) this.rootNode.get("mesas");
+					this.accounts = (ArrayNode) this.rootNode.get("usuarios");
 				}
 			} catch (Exception e) {
 				logger.error(e);
 			}
-		}
 	}
 		
 	private void generarEstructura() {
@@ -125,38 +123,49 @@ public class Database {
 		return false;
 	}
 	
-	public void añadirProducto (int idMesa, JsonNode producto, double precio) {
-		JsonNode rootNode;
-		boolean encontrado = false;
-		try {
-			ObjectNode productoON = (ObjectNode) producto;
-			rootNode = mapper.readTree(fileDb);
-			ArrayNode mesas = mapper.createArrayNode();
-			mesas = (ArrayNode) rootNode.get("mesas");
-			ArrayNode pedidos = (ArrayNode) mesas.get(idMesa).get("pedido");
-		
-			for(int i = 0; i<pedidos.size();i++) {
-				if(producto.get("nombre").asText().equalsIgnoreCase(pedidos.get(i).get("nombre").asText())) {
-					productoON.put("cantidad", producto.get("cantidad").asInt() + 1);
-					productoON.put("precio", precio * productoON.get("cantidad").asDouble());
-					encontrado = true;
-					pedidos.remove(i);
-					i--;
-				}					
-			}
-			if(!encontrado) {
-				productoON.put("cantidad", 1);
-			}
-			pedidos.add(productoON);
-			mapper.enable(SerializationFeature.INDENT_OUTPUT);
-			mapper.writeValue(fileDb, rootNode);
-			encontrado = false;
-			
-		} catch (JsonProcessingException e) {
-			logger.error(e);
-		} catch (IOException e) {
-			logger.error(e);
-		}
+	public void añadirProducto(int idMesa, JsonNode producto, double precio) {
+	    synchronized (object) {
+	        try {
+	            // Cargamos pedidos desde rootNode para garantizar que la estructura esté sincronizada
+	            ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
+	            ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
+	            ArrayNode pedidos = (ArrayNode) mesa.get("pedido");
+
+	            boolean encontrado = false;
+
+	            for (int i = 0; i < pedidos.size(); i++) {
+	                ObjectNode existingProduct = (ObjectNode) pedidos.get(i);
+	                if (producto.get("nombre").asText().equalsIgnoreCase(existingProduct.get("nombre").asText())) {
+
+	                    int nuevaCantidad = existingProduct.get("cantidad").asInt() + 1;
+	                    double nuevoPrecio = existingProduct.get("precio").asDouble() + precio;
+
+	                    existingProduct.put("cantidad", nuevaCantidad);
+	                    existingProduct.put("precio", nuevoPrecio);
+
+	                    encontrado = true;
+	                    break;
+	                }
+	            }
+
+	            if (!encontrado) {
+	                ObjectNode productoON = (ObjectNode) producto.deepCopy();
+	                productoON.put("cantidad", 1);
+	                pedidos.add(productoON);
+	            }
+
+	            double total = 0;
+	            for (JsonNode item : pedidos) {
+	                total += item.get("precio").asDouble();
+	            }
+	            mesa.put("total", total);
+
+	            actualizarDatabase(true);
+
+	        } catch (Exception e) {
+	            logger.error(e);
+	        }
+	    }
 	}
 
 	public ArrayNode getComandas() {

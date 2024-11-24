@@ -26,10 +26,6 @@ public class FileWatcher extends Thread {
             Ingredientes ingredientes = (Ingredientes) clase;
             this.filePath = Paths.get(ingredientes.getUrl());
             this.directoryPath = filePath.getParent();
-        } else if(clase instanceof Database) {
-        	Database database = (Database) clase;
-        	this.filePath = Paths.get(database.getUrl());
-        	this.directoryPath = filePath.getParent();
         }
         this.clase = clase;
     }
@@ -55,7 +51,7 @@ public class FileWatcher extends Thread {
 
                     if (modifiedFile.getFileName().toString().equals(filePath.getFileName().toString())) {
                         if (tipo == StandardWatchEventKinds.ENTRY_MODIFY) {
-                            logger.success("El archivo " + filePath.getFileName() + " ha sido modificado.");
+                        
 
                             if (clase instanceof Carta) {
                                 Carta listaPizzas = (Carta) clase;
@@ -63,10 +59,9 @@ public class FileWatcher extends Thread {
                             } else if (clase instanceof Ingredientes) {
                                 Ingredientes ingredientes = (Ingredientes) clase;
                                 ingredientes.actualizarIngredientes(false);
-                            } else if(clase instanceof Database) {
-                            	Database database = (Database) clase;
-                            	database.actualizarDatabase(false);
                             }
+                            
+                            logger.success("El archivo " + filePath.getFileName() + " ha sido modificado.");
                         }
                     }
                 }

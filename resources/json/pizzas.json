@@ -3,38 +3,16 @@
     "ocupado" : false,
     "pedido" : [ {
       "nombre" : "Alitas",
-      "precio" : 75.0,
+      "precio" : 50.0,
       "url" : "resources/img/entrantes/alitas.png",
-      "cantidad" : 6
+      "cantidad" : 4
     }, {
       "nombre" : "Queso Frito",
-      "precio" : 63.0,
+      "precio" : 31.5,
       "url" : "resources/img/entrantes/quesofrito.png",
-      "cantidad" : 6
-    }, {
-      "nombre" : "Barbacoa",
-      "precio" : 25.0,
-      "ingredientes" : [ 1, 2, 6, 8 ],
-      "url" : "resources/img/pizzas/barbacoa.png",
-      "cantidad" : 2
-    }, {
-      "nombre" : "Carbonara",
-      "precio" : 10.5,
-      "ingredientes" : [ 1, 2, 4, 7 ],
-      "url" : "resources/img/pizzas/carbonara.png",
-      "cantidad" : 1
-    }, {
-      "nombre" : "Helado",
-      "precio" : 10.5,
-      "url" : "resources/img/postres/helado.png",
-      "cantidad" : 1
-    }, {
-      "nombre" : "Tarta de Queso",
-      "precio" : 12.5,
-      "url" : "resources/img/postres/tartaqueso.png",
-      "cantidad" : 1
+      "cantidad" : 3
     } ],
-    "total" : 196.5
+    "total" : 0
   }, {
     "ocupado" : false,
     "pedido" : [ ],

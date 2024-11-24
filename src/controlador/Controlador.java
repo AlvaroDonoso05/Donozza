@@ -55,12 +55,9 @@ public class Controlador implements ActionListener{
 			
 			FileWatcher watcherPizzas = new FileWatcher(carta);
 			FileWatcher watcherIngredientes = new FileWatcher(listaIngredientes);
-			FileWatcher watcherDatabase = new FileWatcher(database);
-			
 			
 			watcherPizzas.start();
 			watcherIngredientes.start();
-			watcherDatabase.start();
 			
 		} catch(Exception e) {
 			logger.error(e);
