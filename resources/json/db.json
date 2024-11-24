@@ -4,15 +4,17 @@
     "pedido" : [ {
       "nombre" : "Alitas",
       "precio" : 50.0,
-      "url" : "resources/img/entrantes/alitas.png",
       "cantidad" : 4
     }, {
       "nombre" : "Queso Frito",
+      "precio" : 42.0,
+      "cantidad" : 4
+    }, {
+      "nombre" : "Aros de Cebolla",
       "precio" : 31.5,
-      "url" : "resources/img/entrantes/quesofrito.png",
       "cantidad" : 3
     } ],
-    "total" : 0
+    "total" : 123.5
   }, {
     "ocupado" : false,
     "pedido" : [ ],
@@ -44,7 +46,6 @@
   } ],
   "usuarios" : [ {
     "name" : "admin",
-    "password" : "admin",
-    "isAdmin" : true
+    "password" : "admin"
   } ]
 }
