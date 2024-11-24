@@ -305,9 +305,9 @@ public class Vista extends JFrame {
 		lblNumCantidad.setBounds(157, 193, 45, 13);
 		panelIngredientes.add(lblNumCantidad);
     
-    lblLogo = new JLabel();
+		lblLogo = new JLabel();
 		lblLogo.setBounds(433, 531, 450, 239);
-		contentPane.add(lblLogo);
+		mainPanel.add(lblLogo);
 		ImageIcon logoOriginal = new ImageIcon("resources/img/logos/logo.png");
 		Image original = logoOriginal.getImage();
 		Image logoEscalado = original.getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH);
@@ -316,7 +316,7 @@ public class Vista extends JFrame {
 		
 		lblLetrero = new JLabel();
 		lblLetrero.setBounds(96, -34, 161, 145);
-		contentPane.add(lblLetrero);
+		mainPanel.add(lblLetrero);
 		ImageIcon originalLetrero = new ImageIcon("resources/img/logos/letrero.png");
 		Image letreroOriginal = originalLetrero.getImage();
 		Image letreroEscalado = letreroOriginal.getScaledInstance(lblLetrero.getWidth(), lblLetrero.getHeight(), Image.SCALE_SMOOTH);

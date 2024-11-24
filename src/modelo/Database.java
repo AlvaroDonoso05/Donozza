@@ -96,7 +96,6 @@ public class Database {
 		ObjectNode userDefault = mapper.createObjectNode();
 		userDefault.put("name", "admin");
 		userDefault.put("password", "admin");
-		userDefault.put("isAdmin", true);
 		
 		usuarios.add(userDefault);
 		

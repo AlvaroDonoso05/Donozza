@@ -36,6 +36,7 @@ public class Controlador implements ActionListener{
 	private Ingredientes listaIngredientes;
 	private boolean firstTime;
 	private int mesaSeleccionada = -1;
+	private String categoriaActual = "";
 
 	public Controlador(Vista frame) {
 		this.vista=frame;
@@ -82,6 +83,7 @@ public class Controlador implements ActionListener{
 				public void actionPerformed(ActionEvent e) {
 					mesaSeleccionada = mesaId;
 					mostrarTabla(mesaSeleccionada);
+					seleccionarMesa();
 				}
 			});
 			
@@ -92,7 +94,36 @@ public class Controlador implements ActionListener{
 
 	}
 	
+	public void deseleccionarMesa() {
+		this.vista.btnCartaBebidas.setEnabled(false);
+		this.vista.btnCartaEntrantes.setEnabled(false);
+		this.vista.btnCartaPizzas.setEnabled(false);
+		this.vista.btnCartaPostres.setEnabled(false);
+		descargarCarta();
+	}
 	
+	public void seleccionarMesa() {
+		this.vista.btnCartaBebidas.setEnabled(true);
+		this.vista.btnCartaEntrantes.setEnabled(true);
+		this.vista.btnCartaPizzas.setEnabled(true);
+		this.vista.btnCartaPostres.setEnabled(true);
+	}
+	
+	public void descargarCarta() {
+		 this.vista.panelBotonesEntrantes.removeAll();
+		 this.vista.panelBotonesEntrantes.revalidate();
+		 this.vista.panelBotonesEntrantes.repaint();
+	}
+	
+	private void gestionarCarta(String categoria) {
+	    if (categoriaActual.equals(categoria)) {
+	        descargarCarta();
+	        categoriaActual = "";
+	    } else {
+	        cargarCarta(categoria);
+	        categoriaActual = categoria;
+	    }
+	}
 	
 	public void cargarCarta(String categoria) {
 	    int i = 0;
@@ -167,24 +198,21 @@ public class Controlador implements ActionListener{
 	    this.vista.panelBotonesEntrantes.revalidate();
 	    this.vista.panelBotonesEntrantes.repaint();
 	}
-
-
-
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource()==vista.btnCartaEntrantes) {
-			cargarCarta("entrantes");
+			 gestionarCarta("entrantes");
 		}
 		if(e.getSource()==vista.btnCartaPizzas) {
-			cargarCarta("pizzas");
+			 gestionarCarta("pizzas");
 		}
 		if(e.getSource()==vista.btnCartaPostres) {
-			cargarCarta("postres");
+			 gestionarCarta("postres");
 		}
 		if(e.getSource()==vista.btnCartaBebidas) {
-			cargarCarta("bebidas");
+			 gestionarCarta("bebidas");
 		}
 		
 		if(e.getSource() == vista.btnIniciarSesion) {
@@ -203,6 +231,7 @@ public class Controlador implements ActionListener{
 		if(e.getSource()==vista.btnPMVolver) {
 			vista.panelMesas.setVisible(true);
 			vista.panelMesa.setVisible(false);
+			deseleccionarMesa();
 			mesaSeleccionada = -1;
 		}
 		
