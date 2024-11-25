@@ -36,10 +36,8 @@ import modelo.TablaIngredientes;
 import modelo.TablaPedidos;
 import modelo.TablaProductos;
 import modelo.TablaUsuarios;
-<<<<<<< HEAD
 import javax.swing.JToggleButton;
-=======
->>>>>>> branch 'AdminPanel' of https://github.com/Donoso005/Donozza.git
+
 
 public class Vista extends JFrame {
     private static final long serialVersionUID = 1L;
