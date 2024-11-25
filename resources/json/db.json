@@ -2,23 +2,23 @@
   "mesas" : [ {
     "ocupado" : false,
     "pedido" : [ ],
-    "total" : 123.5
-  }, {
-    "ocupado" : false,
-    "pedido" : [ ],
     "total" : 0
   }, {
-    "ocupado" : false,
-    "pedido" : [ ],
-    "total" : 0
-  }, {
-    "ocupado" : false,
+    "ocupado" : true,
     "pedido" : [ {
       "nombre" : "Alitas",
-      "precio" : 37.5,
-      "cantidad" : 3
+      "precio" : 12.5,
+      "cantidad" : 1
     } ],
-    "total" : 37.5
+    "total" : 12.5
+  }, {
+    "ocupado" : false,
+    "pedido" : [ ],
+    "total" : 0
+  }, {
+    "ocupado" : true,
+    "pedido" : [ ],
+    "total" : 81.5
   }, {
     "ocupado" : false,
     "pedido" : [ ],
@@ -26,9 +26,9 @@
   }, {
     "ocupado" : false,
     "pedido" : [ ],
-    "total" : 0
+    "total" : 12.5
   }, {
-    "ocupado" : false,
+    "ocupado" : true,
     "pedido" : [ ],
     "total" : 0
   }, {
