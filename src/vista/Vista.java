@@ -36,7 +36,10 @@ import modelo.TablaIngredientes;
 import modelo.TablaPedidos;
 import modelo.TablaProductos;
 import modelo.TablaUsuarios;
+<<<<<<< HEAD
 import javax.swing.JToggleButton;
+=======
+>>>>>>> branch 'AdminPanel' of https://github.com/Donoso005/Donozza.git
 
 public class Vista extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -53,7 +56,6 @@ public class Vista extends JFrame {
     public JTable tablaMesa;
     public Controlador controlador;
     public JScrollPane scrollPane;
-    public DefaultTableModel dtm;
 
     public JPanel panelCarta;
     public JButton btnCartaEntrantes;
@@ -90,7 +92,7 @@ public class Vista extends JFrame {
     public JButton btnAddProducto;
     public JButton btnAddIngrediente;
     public JButton btnAddUser;
-    
+
     public Vista() throws Exception {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,6 +106,7 @@ public class Vista extends JFrame {
         // Generar Admin Panel
         generateAdminPanel();
         adminPanel.setVisible(false);
+
         
         generateLoadingPanel();
         loading.setVisible(true);
@@ -445,10 +448,6 @@ public class Vista extends JFrame {
 
         btnCartaPizzas = new JButton("Pizza");
         btnCartaPizzas.setFont(new Font("Segoe Print", Font.PLAIN, 10));
-        btnCartaPizzas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
         btnCartaPizzas.setBackground(new Color(255, 255, 128));
         btnCartaPizzas.setBounds(115, 0, 105, 82);
         panelCarta.add(btnCartaPizzas);

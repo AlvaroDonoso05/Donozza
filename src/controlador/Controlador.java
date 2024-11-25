@@ -62,7 +62,7 @@ public class Controlador implements ActionListener {
             logger.error(e);
         }
 
-        generarBotonesMesas();
+       // generarBotonesMesas();
 
 
     }
