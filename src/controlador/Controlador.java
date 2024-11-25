@@ -1,6 +1,7 @@
 package controlador;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -19,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import modelo.Carta;
@@ -45,11 +47,22 @@ public class Controlador implements ActionListener {
         this.vista.btnCartaPostres.addActionListener(this);
         this.vista.btnIniciarSesion.addActionListener(this);
         this.vista.btnQuitarProducto.addActionListener(this);
-        this.vista.btnAgregarIngrediente.addActionListener(this);
-        this.vista.btnEliminarIngrediente.addActionListener(this);
         this.vista.btnCobrar.addActionListener(this);
         this.vista.btnCerrarSesion.addActionListener(this);
         this.vista.btnEliminarProducto.addActionListener(this);
+        this.vista.btnCerrarSesionProd.addActionListener(this);
+        this.vista.btnCerrarSesionUsuarios.addActionListener(this);
+        this.vista.btnEliminarProducto.addActionListener(this);
+        this.vista.btnModificarProducto.addActionListener(this);
+        this.vista.btnAddProducto.addActionListener(this);
+
+        this.vista.btnEliminarIngredienteAdmin.addActionListener(this);
+        this.vista.btnModificarIngredienteAdmin.addActionListener(this);
+        this.vista.btnAddIngredienteAdmin.addActionListener(this);
+
+        this.vista.btnEliminarUser.addActionListener(this);
+        this.vista.btnModificarUser.addActionListener(this);
+        this.vista.btnAddUser.addActionListener(this);
 
 
         try {
@@ -191,7 +204,7 @@ public class Controlador implements ActionListener {
                     	}
                     }
                     if(encontrado) {
-
+                    	cargarIngredientes(nombreProducto);
                     	
                     }else {
                     	 database.añadirProducto(idMesa, carta.obtenerProducto(j, categoria), precioProducto);
@@ -252,15 +265,22 @@ public class Controlador implements ActionListener {
                 }
             } else {
                 vista.lblwrongPassword.setVisible(true);
-                vista.usernameField.setText("");
-                vista.passwordField.setText("");
+
             }
 
         }
         if(e.getSource() == vista.btnCerrarSesion) {
             vista.mainPanel.setVisible(false);
             vista.logIn.setVisible(true);
-
+            vista.usernameField.setText("");
+            vista.passwordField.setText("");
+        }
+        
+        if(e.getSource() == vista.btnCerrarSesionProd || e.getSource() == vista.btnCerrarSesionUsuarios) {
+        	vista.logIn.setVisible(true);
+        	vista.adminPanel.setVisible(false);
+            vista.usernameField.setText("");
+            vista.passwordField.setText("");
         }
 
         //BOTONES SECCIÓN COMANDAS
@@ -335,8 +355,6 @@ public class Controlador implements ActionListener {
                     this.vista.txtUrlIngrediente.getText()
                 );
                 limpiarCampos();
-            } else {
-                JOptionPane.showMessageDialog(vista, "Seleccione un ingrediente para modificar.");
             }
         } else if (e.getSource() == this.vista.btnAddIngredienteAdmin) {
             this.vista.tableIngredientesModel.addIngrediente(
@@ -353,8 +371,6 @@ public class Controlador implements ActionListener {
             int selectedRow = this.vista.tableUsuarios.getSelectedRow();
             if (selectedRow != -1) {
                 this.vista.tableUsuariosModel.removeUsuario(selectedRow);
-            } else {
-                JOptionPane.showMessageDialog(vista, "Seleccione un usuario para eliminar.");
             }
         } else if (e.getSource() == this.vista.btnModificarUser) {
             int selectedRow = this.vista.tableUsuarios.getSelectedRow();
@@ -366,8 +382,6 @@ public class Controlador implements ActionListener {
                     this.vista.tglbtnAdminUser.isSelected()
                 );
                 limpiarCampos();
-            } else {
-                JOptionPane.showMessageDialog(vista, "Seleccione un usuario para modificar.");
             }
         } else if (e.getSource() == this.vista.btnAddUser) {
             this.vista.tableUsuariosModel.addUsuario(
@@ -445,6 +459,113 @@ public class Controlador implements ActionListener {
     		nProducto = tP.getPedidos().get(this.vista.tablaMesa.getSelectedRow())[0];
     		database.eliminarProducto(idMesa, nProducto);  		
     	}
-		
 	}
+    
+    public void cargarIngredientes(String pizza) {
+        this.vista.panelIngredientes.removeAll();
+        ArrayNode lIngredientes = listaIngredientes.getListaIngredientes();
+        ArrayNode lPizzas = carta.getPizzas();
+        ArrayNode iPizza = null;
+        
+        
+        //Obtener IDs de los ingredientes de la pizza en concreto
+        for(int j=0;j<lPizzas.size();j++) {
+        	if(lPizzas.get(j).get("nombre").asText().equalsIgnoreCase(pizza)) {
+        		iPizza = (ArrayNode) lPizzas.get(j).get("ingredientes");
+        	}
+        }
+        for(int i=0;i<iPizza.size();i++) {
+        	System.out.println(iPizza.get(i).asInt());
+        	String nombreIngrediente = lIngredientes.get(iPizza.get(i).asInt()).get("nombre").asText();
+            String urlImagen = lIngredientes.get(iPizza.get(i).asInt()).get("url").asText();
+            double precioProducto = lIngredientes.get(iPizza.get(i).asInt()).get("precio").asDouble();
+
+            JPanel panelIngrediente = new JPanel();
+            panelIngrediente.setLayout(new BoxLayout(panelIngrediente, BoxLayout.Y_AXIS));
+            panelIngrediente.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+            panelIngrediente.setBackground(Color.WHITE);
+            panelIngrediente.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            panelIngrediente.setMaximumSize(new Dimension(130, 190));
+          
+
+            // Crear etiqueta de imagen
+            JLabel etiquetaImagen = new JLabel();
+            etiquetaImagen.setHorizontalAlignment(SwingConstants.CENTER);
+            etiquetaImagen.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            ImageIcon icono = new ImageIcon(new ImageIcon(urlImagen).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+            etiquetaImagen.setIcon(icono);
+
+            // Etiqueta Nombre
+            JLabel etiquetaNombre = new JLabel(nombreIngrediente);
+            etiquetaNombre.setAlignmentX(Component.CENTER_ALIGNMENT);
+            etiquetaNombre.setFont(new Font("Arial", Font.BOLD, 14));
+
+            // Etiqueta Precio
+            JLabel etiquetaPrecio = new JLabel(String.format("€ %.2f", precioProducto));
+            etiquetaPrecio.setAlignmentX(Component.CENTER_ALIGNMENT);
+            etiquetaPrecio.setFont(new Font("Arial", Font.ITALIC, 12));
+            etiquetaPrecio.setForeground(Color.GRAY);
+
+            // Boton seleccion producto
+            JButton botonAnadir = new JButton("+");
+            botonAnadir.setAlignmentX(Component.CENTER_ALIGNMENT);
+            botonAnadir.setPreferredSize(new Dimension(50, 15));
+            botonAnadir.setMaximumSize(new Dimension(60, 15));
+            botonAnadir.setBackground(new Color(0, 188, 0));
+            botonAnadir.setForeground(Color.WHITE);
+            botonAnadir.setFocusPainted(false);
+            botonAnadir.setFont(new Font("Arial", Font.PLAIN, 12));
+            
+            JButton botonQuitar = new JButton("-");
+            botonQuitar.setAlignmentX(Component.CENTER_ALIGNMENT);
+            botonQuitar.setPreferredSize(new Dimension(50, 15));
+            botonQuitar.setMaximumSize(new Dimension(60, 15));
+            botonQuitar.setBackground(new Color(255, 0, 0));
+            botonQuitar.setForeground(Color.WHITE);
+            botonQuitar.setFocusPainted(false);
+            botonQuitar.setFont(new Font("Arial", Font.PLAIN, 12));
+            
+            JLabel cantidad = new JLabel("Cantidad");
+            cantidad.setAlignmentX(Component.CENTER_ALIGNMENT);
+            cantidad.setFont(new Font("Arial", Font.ITALIC, 12));
+            cantidad.setForeground(Color.GRAY);
+            
+            JLabel tCantidad = new JLabel("");
+            tCantidad.setAlignmentX(Component.CENTER_ALIGNMENT);
+            tCantidad.setFont(new Font("Arial", Font.ITALIC, 12));
+            tCantidad.setForeground(Color.GRAY);
+            tCantidad.setText("8");
+            
+
+            botonAnadir.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
+                    boolean encontrado = false;
+                    ArrayNode pizzas = carta.getPizzas();
+                    
+                    recargarMesas();
+                    generarBotonesMesas();
+   
+                }
+            });
+
+            panelIngrediente.add(etiquetaImagen);
+            panelIngrediente.add(Box.createVerticalStrut(5));
+            panelIngrediente.add(etiquetaNombre);
+            panelIngrediente.add(etiquetaPrecio);
+            panelIngrediente.add(Box.createVerticalStrut(10));
+            panelIngrediente.add(botonAnadir);
+            panelIngrediente.add(botonQuitar);
+            panelIngrediente.add(cantidad);
+            panelIngrediente.add(tCantidad);
+
+            this.vista.panelIngredientes.add(panelIngrediente);
+        }
+
+
+        this.vista.panelIngredientes.revalidate();
+        this.vista.panelIngredientes.repaint();
+    }
+
 }

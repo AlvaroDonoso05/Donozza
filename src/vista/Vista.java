@@ -37,6 +37,7 @@ import modelo.TablaPedidos;
 import modelo.TablaProductos;
 import modelo.TablaUsuarios;
 import javax.swing.JToggleButton;
+import java.awt.Toolkit;
 
 
 public class Vista extends JFrame {
@@ -62,15 +63,7 @@ public class Vista extends JFrame {
     public JButton btnCartaBebidas;
     public JPanel panelBotonesEntrantes;
     public JPanel panelIngredientes;
-    public JPanel panelBotonesPizzas;
-    public JPanel panelBotonesPostres;
-    public JPanel panelBotonesBebidas;
-    public JButton btnEliminarIngrediente;
-    public JButton btnAgregarIngrediente;
-    public JPanel panelImgIngredientes;
     public JButton btnIngrediente1;
-    public JLabel lblCantidad;
-    public JLabel lblNumCantidad;
     public JButton btnCobrar;
     public JButton btnQuitarProducto;
     public JLabel lblFondo;
@@ -122,13 +115,17 @@ public class Vista extends JFrame {
     public JTable tableProductos;
     public JTable tableIngredientes;
     public JTable tableUsuarios;
+    public JButton btnCerrarSesionProd;
+    public JButton btnCerrarSesionUsuarios;
 
     public Vista() throws Exception {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Ismael\\Documents\\practicaIsmael\\src\\assets\\icon\\81SyIywo3GL._AC_SX679_.jpg"));
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 934, 840);
 
         contentPane = new JLayeredPane();
+        
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(null);
         setContentPane(contentPane);
@@ -171,6 +168,9 @@ public class Vista extends JFrame {
                     Vista frame = new Vista();
                     vista.controlador = new Controlador(frame);
                     frame.setVisible(true);
+                    frame.setResizable(false);
+                    ImageIcon programIcon = new ImageIcon("resources/img/logos/logoventana.png");
+                    frame.setIconImage(programIcon.getImage());
                 } catch (Exception e) {
                     logger.error(e);
                 }
@@ -189,7 +189,7 @@ public class Vista extends JFrame {
         adminPanel.add(tabbedPane, BorderLayout.CENTER);
 
         // Panel de Productos
-        JPanel productosPanel = new JPanel();
+        ImagePanel productosPanel = new ImagePanel("resources/img/fondos/fondococina.jpg");
         productosPanel.setLayout(null);
         tabbedPane.addTab("Gestión de Productos/Ingredientes", productosPanel);
 
@@ -225,9 +225,15 @@ public class Vista extends JFrame {
 
         // Formulario para agregar ingredientes
         addIngredientForm(productosPanel, tableIngredientesModel);
+        
+        btnCerrarSesionProd = new JButton("Cerrar Sesion");
+        btnCerrarSesionProd.setBackground(new Color(255, 255, 255));
+        btnCerrarSesionProd.setFont(new Font("Segoe Print", Font.PLAIN, 15));
+        btnCerrarSesionProd.setBounds(750, 10, 150, 40);
+        productosPanel.add(btnCerrarSesionProd);
 
         // Panel de Usuarios
-        JPanel usuariosPanel = new JPanel();
+        ImagePanel usuariosPanel = new ImagePanel("resources/img/fondos/fondococina.jpg");
         usuariosPanel.setLayout(null);
         tabbedPane.addTab("Gestión de Usuarios", usuariosPanel);
 
@@ -246,6 +252,12 @@ public class Vista extends JFrame {
         usuariosPanel.add(scrollUsuarios);
 
         addUserForm(usuariosPanel, tableUsuariosModel);
+        
+        btnCerrarSesionUsuarios = new JButton("Cerrar Sesion");
+        btnCerrarSesionUsuarios.setBackground(new Color(255, 255, 255));
+        btnCerrarSesionUsuarios.setFont(new Font("Segoe Print", Font.PLAIN, 15));
+        btnCerrarSesionUsuarios.setBounds(750, 10, 150, 40);
+        usuariosPanel.add(btnCerrarSesionUsuarios);
     }
 
     // Formulario para productos
@@ -283,6 +295,7 @@ public class Vista extends JFrame {
         panel.add(txtExtrasProducto);
 
         btnAddProducto = new JButton("Agregar Producto");
+        btnAddProducto.setBackground(new Color(255, 255, 255));
         btnAddProducto.setBounds(450, 220, 150, 30);
         panel.add(btnAddProducto);
         
@@ -293,20 +306,6 @@ public class Vista extends JFrame {
         btnEliminarProducto = new JButton("Eliminar Producto");
         btnEliminarProducto.setBounds(450, 260, 150, 30);
         panel.add(btnEliminarProducto);
-
-        btnAddProducto.addActionListener(e -> {
-            tableModel.addProducto(
-                txtTipoProducto.getText(),
-                txtNombreProducto.getText(),
-                Double.parseDouble(txtPrecioProducto.getText()),
-                txtExtrasProducto.getText()
-            );
-
-            txtTipoProducto.setText("");
-            txtNombreProducto.setText("");
-            txtPrecioProducto.setText("");
-            txtExtrasProducto.setText("");
-        });
     }
 
     // Formulario para ingredientes
@@ -354,20 +353,6 @@ public class Vista extends JFrame {
         btnEliminarIngredienteAdmin = new JButton("Eliminar Producto");
         btnEliminarIngredienteAdmin.setBounds(450, 528, 150, 30);
         panel.add(btnEliminarIngredienteAdmin);
-
-        btnAddIngredienteAdmin.addActionListener(e -> {
-            tableIngredientesModel.addIngrediente(
-                txtNombreIngrediente.getText(),
-                Double.parseDouble(txtPrecioIngrediente.getText()),
-                Integer.parseInt(txtStockIngrediente.getText()),
-                txtUrlIngrediente.getText()
-            );
-
-            txtNombreIngrediente.setText("");
-            txtPrecioIngrediente.setText("");
-            txtStockIngrediente.setText("");
-            txtUrlIngrediente.setText("");
-        });
     }
 
     // Formulario para usuarios
@@ -397,8 +382,8 @@ public class Vista extends JFrame {
         panel.add(tglbtnAdminUser);
         
         btnAddUser = new JButton("Agregar Usuario");
-        btnAddIngredienteAdmin.setBounds(450, 200, 150, 30);
-        panel.add(btnAddIngredienteAdmin);
+        btnAddUser.setBounds(450, 200, 150, 30);
+        panel.add(btnAddUser);
         
         btnModificarUser = new JButton("Modificar Usuario");
         btnModificarUser.setBounds(620, 200, 150, 30);
@@ -407,22 +392,10 @@ public class Vista extends JFrame {
         btnEliminarUser = new JButton("Eliminar Usuario");
         btnEliminarUser.setBounds(450, 240, 150, 30);
         panel.add(btnEliminarUser);
-
-        btnAddUser.addActionListener(e -> {
-        	tableUsuariosModel.addUsuario(
-        		txtNombreUser.getText(),
-        		txtPasswordUser.getText(),
-        		tglbtnAdminUser.isSelected()
-        		
-        	);
-            txtNombreUser.setText("");
-            txtPasswordUser.setText("");
-            tglbtnAdminUser.setSelected(false);
-        });
     }
 
     private void generateMainPanel() {
-        mainPanel = new ImagePanel("resources/img/background.png");
+        mainPanel = new ImagePanel("resources/img/fondos/madera.jpg");
         mainPanel.setBackground(new Color(255, 204, 204));
         mainPanel.setForeground(new Color(255, 255, 255));
         mainPanel.setBounds(0, 0, 918, 801);
@@ -531,64 +504,17 @@ public class Vista extends JFrame {
         cartaBoton.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         panelCarta.add(cartaBoton);
 
-
-        panelBotonesPizzas = new JPanel();
-        panelBotonesPizzas.setBorder(new LineBorder(new Color(0, 0, 0)));
-        panelBotonesPizzas.setBounds(0, 102, 450, 334);
-        panelCarta.add(panelBotonesPizzas);
-
-        panelBotonesPostres = new JPanel();
-        panelBotonesPostres.setBorder(new LineBorder(new Color(0, 0, 0)));
-        panelBotonesPostres.setBounds(0, 102, 450, 334);
-        panelCarta.add(panelBotonesPostres);
-
-        panelBotonesBebidas = new JPanel();
-        panelBotonesBebidas.setBorder(new LineBorder(new Color(0, 0, 0)));
-        panelBotonesBebidas.setBounds(0, 102, 450, 334);
-        panelCarta.add(panelBotonesBebidas);
-
         panelIngredientes = new JPanel();
         panelIngredientes.setOpaque(false);
-        panelIngredientes.setBounds(10, 493, 373, 253);
+        panelBotonesEntrantes.setLayout(new GridLayout(0, 3, 15, 15));
+        panelBotonesEntrantes.setBackground(Color.LIGHT_GRAY);
         mainPanel.add(panelIngredientes);
-        panelIngredientes.setLayout(null);
-
-        btnEliminarIngrediente = new JButton("Eliminar");
-        btnEliminarIngrediente.setFont(new Font("Segoe Print", Font.PLAIN, 10));
-        btnEliminarIngrediente.setForeground(Color.BLACK);
-        btnEliminarIngrediente.setBackground(new Color(255, 0, 0));
-        btnEliminarIngrediente.setEnabled(false);
-        btnEliminarIngrediente.setBounds(10, 175, 96, 49);
-        panelIngredientes.add(btnEliminarIngrediente);
-
-        btnAgregarIngrediente = new JButton("Agregar");
-        btnAgregarIngrediente.setFont(new Font("Segoe Print", Font.PLAIN, 10));
-        btnAgregarIngrediente.setBackground(new Color(128, 255, 128));
-        btnAgregarIngrediente.setBounds(267, 175, 96, 49);
-        panelIngredientes.add(btnAgregarIngrediente);
-
-        panelImgIngredientes = new JPanel();
-        panelImgIngredientes.setBorder(new LineBorder(new Color(0, 0, 0)));
-        panelImgIngredientes.setBounds(10, 10, 353, 155);
-        panelIngredientes.add(panelImgIngredientes);
-        panelImgIngredientes.setLayout(null);
-
-        btnIngrediente1 = new JButton("New button");
-        btnIngrediente1.setBounds(10, 10, 48, 45);
-        btnIngrediente1.setBackground(getForeground());
-        panelImgIngredientes.add(btnIngrediente1);
-
-        lblCantidad = new JLabel("Cantidad");
-        lblCantidad.setForeground(Color.WHITE);
-        lblCantidad.setFont(new Font("Segoe Print", Font.PLAIN, 13));
-        lblCantidad.setBounds(157, 175, 57, 13);
-        panelIngredientes.add(lblCantidad);
-
-        lblNumCantidad = new JLabel("0");
-        lblNumCantidad.setForeground(Color.WHITE);
-        lblNumCantidad.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNumCantidad.setBounds(157, 193, 45, 13);
-        panelIngredientes.add(lblNumCantidad);
+        
+        JScrollPane cartaIngredientes = new JScrollPane(panelIngredientes);
+        cartaIngredientes.setBounds(0, 102, 450, 334);
+        cartaIngredientes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        cartaIngredientes.setBounds(10, 500, 373, 253);
+        mainPanel.add(cartaIngredientes);
 
         lblLogo = new JLabel();
         lblLogo.setBounds(433, 531, 450, 239);
