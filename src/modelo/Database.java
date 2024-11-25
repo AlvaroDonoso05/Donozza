@@ -95,10 +95,17 @@ public class Database {
         }
 
         ArrayNode usuarios = mapper.createArrayNode();
+        ObjectNode userAdmin = mapper.createObjectNode();
+        userAdmin.put("name", "admin");
+        userAdmin.put("password", "admin");
+        userAdmin.put("isAdmin", true);
+        
         ObjectNode userDefault = mapper.createObjectNode();
-        userDefault.put("name", "admin");
-        userDefault.put("password", "admin");
+        userDefault.put("name", "Alvaro");
+        userDefault.put("password", "alvaro");
+        userDefault.put("isAdmin", false);
 
+        usuarios.add(userAdmin);
         usuarios.add(userDefault);
 
         rootNode.set("mesas", mesas);
@@ -122,6 +129,15 @@ public class Database {
         }
 
         return false;
+    }
+    
+    public boolean isAdmin(String username) {
+    	for (JsonNode account : accounts) {
+            if (account.get("name").asText().equalsIgnoreCase(username)) {
+                return account.get("isAdmin").asBoolean();
+            }
+        }
+		return false;
     }
 
     public void añadirProducto(int idMesa, JsonNode producto, double precio) {

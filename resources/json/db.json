@@ -5,8 +5,23 @@
     "total" : 0
   }, {
     "ocupado" : false,
-    "pedido" : [ ],
-    "total" : 0
+    "pedido" : [ {
+      "nombre" : "Barbacoa",
+      "precio" : 125.0,
+      "ingredientes" : [ 1, 2, 6, 8 ],
+      "cantidad" : 10
+    }, {
+      "nombre" : "Carbonara",
+      "precio" : 21.0,
+      "ingredientes" : [ 1, 2, 4, 7 ],
+      "cantidad" : 2
+    }, {
+      "nombre" : "Atun",
+      "precio" : 10.5,
+      "ingredientes" : [ 1, 2, 3 ],
+      "cantidad" : 1
+    } ],
+    "total" : 156.5
   }, {
     "ocupado" : false,
     "pedido" : [ ],
@@ -34,6 +49,11 @@
   } ],
   "usuarios" : [ {
     "name" : "admin",
-    "password" : "admin"
+    "password" : "admin",
+    "isAdmin" : true
+  }, {
+    "name" : "Alvaro",
+    "password" : "alvaro",
+    "isAdmin" : false
   } ]
 }
