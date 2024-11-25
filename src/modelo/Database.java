@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
+
 import controlador.Logger;
 
 public class Database {
@@ -129,6 +131,7 @@ public class Database {
                 ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
                 ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
                 ArrayNode pedidos = (ArrayNode) mesa.get("pedido");
+                mesa.put("ocupado", true);
 
                 boolean encontrado = false;
 
@@ -192,6 +195,48 @@ public class Database {
 			logger.error(e);;
 		}
 	}
+    
+    public double cobrar (int idMesa) {
+    	double total = 0;
+    	  try {
+              // Cargamos pedidos desde rootNode para garantizar que la estructura esté sincronizada
+              ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
+              ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
+              ArrayNode pedidos = (ArrayNode) mesa.get("pedido");
+              
+              total = mesa.get("total").asDouble();
+              mesa.put("total", 0);
+              mesa.put("ocupado", false);
+              pedidos.removeAll();
+              actualizarDatabase(true);
+
+    	  }catch(Exception e) {
+    		  logger.error(e);
+    	  }
+               	
+    	  return total;
+             	
+    }
+    
+    public ImageIcon ocuparLiberarMesa(int idMesa){
+    	ImageIcon mesaIcon = null;
+    	 try {
+             // Cargamos pedidos desde rootNode para garantizar que la estructura esté sincronizada
+             ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
+             ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
+             if(mesa.get("ocupado").asBoolean()) {
+            	 mesaIcon = new ImageIcon("resources/img/mesaOcupada.png");
+             }else {
+            	 mesaIcon = new ImageIcon("resources/img/mesaLibre.png");
+             }
+             
+             
+    	 }catch(Exception e) {
+    		 logger.error(e);
+    	 }
+		return mesaIcon;
+             
+    }
     
     public ArrayNode getComandas() {
         return comandas;
