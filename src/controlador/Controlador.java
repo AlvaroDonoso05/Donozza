@@ -17,6 +17,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -44,6 +45,10 @@ public class Controlador implements ActionListener {
         this.vista.btnCartaPostres.addActionListener(this);
         this.vista.btnIniciarSesion.addActionListener(this);
         this.vista.btnQuitarProducto.addActionListener(this);
+        this.vista.btnAgregarIngrediente.addActionListener(this);
+        this.vista.btnEliminarIngrediente.addActionListener(this);
+        this.vista.btnCobrar.addActionListener(this);
+        this.vista.btnCerrarSesion.addActionListener(this);
 
 
         try {
@@ -68,12 +73,11 @@ public class Controlador implements ActionListener {
     }
 
     public void generarBotonesMesas() {
-        ImageIcon mesaIcon = new ImageIcon("resources/img/mesa.png");
 
         for (int i = 0; i < 8; i++) {
             int mesaId = i;
 
-            JButton btnMesa = new JButton("MESA " + (mesaId + 1), new ImageIcon(mesaIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH)));
+            JButton btnMesa = new JButton("MESA " + (mesaId + 1), new ImageIcon(database.ocuparLiberarMesa(mesaId).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH)));
             btnMesa.setPreferredSize(new Dimension(150, 150));
             btnMesa.setBackground(new Color(255, 255, 255));
             btnMesa.setFocusPainted(false);
@@ -104,6 +108,12 @@ public class Controlador implements ActionListener {
         this.vista.btnCartaEntrantes.setEnabled(true);
         this.vista.btnCartaPizzas.setEnabled(true);
         this.vista.btnCartaPostres.setEnabled(true);
+    }
+    
+    public void recargarMesas() {
+    	this.vista.panelMesas.removeAll();
+    	this.vista.panelMesas.revalidate();
+    	this.vista.panelBotonesEntrantes.repaint();
     }
 
     public void descargarCarta() {
@@ -171,8 +181,24 @@ public class Controlador implements ActionListener {
             botonSeleccionar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
-                    database.añadirProducto(idMesa, carta.obtenerProducto(j, categoria), precioProducto);
-                    mostrarTabla(idMesa);
+                    boolean encontrado = false;
+                    ArrayNode pizzas = carta.getPizzas();
+                    
+                    for(int i = 0;i<pizzas.size();i++) {
+                    	if(nombreProducto.equalsIgnoreCase(pizzas.get(i).get("nombre").asText())) {
+                    		encontrado = true;
+                    	}
+                    }
+                    if(encontrado) {
+
+                    	
+                    }else {
+                    	 database.añadirProducto(idMesa, carta.obtenerProducto(j, categoria), precioProducto);
+                         mostrarTabla(idMesa);
+                    }
+                    recargarMesas();
+                    generarBotonesMesas();
+   
                 }
             });
 
@@ -225,7 +251,14 @@ public class Controlador implements ActionListener {
                 }
             } else {
                 vista.lblwrongPassword.setVisible(true);
+                vista.usernameField.setText("");
+                vista.passwordField.setText("");
             }
+
+        }
+        if(e.getSource() == vista.btnCerrarSesion) {
+            vista.mainPanel.setVisible(false);
+            vista.logIn.setVisible(true);
 
         }
 
@@ -243,6 +276,15 @@ public class Controlador implements ActionListener {
 			eliminarProducto(idMesa);
 			mostrarTabla(idMesa);
 		}
+        if(e.getSource() == this.vista.btnCobrar) {
+        	double total;
+        	int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
+        	total = database.cobrar(idMesa);
+        	mostrarTabla(idMesa);
+        	JOptionPane.showMessageDialog(null, "El total es: " + total + "€");
+        	recargarMesas();
+        	generarBotonesMesas();
+        }
     }
 
     public void mostrarTabla(int idMesa) {
@@ -253,7 +295,7 @@ public class Controlador implements ActionListener {
 
         ArrayNode pedidos = (ArrayNode) database.getComandas().get(idMesa).get("pedido");
 
-        List pedidosLista = tP.getPedidos();
+        List<String[]> pedidosLista = tP.getPedidos();
 
         for (int i = 0; i < pedidos.size(); i++) {
             String[] pedido = new String[3];

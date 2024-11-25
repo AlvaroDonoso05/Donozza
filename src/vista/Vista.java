@@ -85,11 +85,11 @@ public class Vista extends JFrame {
     public JPasswordField passwordField;
     public JLabel lblwrongPassword;
     public JButton btnIniciarSesion;
-    
     public JPanel adminPanel;
     public JButton btnAddProducto;
     public JButton btnAddIngrediente;
     public JButton btnAddUser;
+    public JButton btnCerrarSesion;
 
     public Vista() throws Exception {
 
@@ -107,6 +107,8 @@ public class Vista extends JFrame {
 
         
         generateLoadingPanel();
+        
+
         loading.setVisible(true);
 
         generateLoginPanel();
@@ -370,7 +372,13 @@ public class Vista extends JFrame {
         mainPanel.setBounds(0, 0, 918, 801);
         contentPane.add(mainPanel);
         mainPanel.setLayout(null);
-
+        
+        btnCerrarSesion = new JButton("Cerrar Sesion");
+        btnCerrarSesion.setBackground(new Color(255, 255, 255));
+        btnCerrarSesion.setFont(new Font("Segoe Print", Font.PLAIN, 15));
+        btnCerrarSesion.setBounds(705, 10, 157, 56);
+        mainPanel.add(btnCerrarSesion);
+        
         panelMesas = new JPanel();
         panelMesas.setOpaque(false);
         panelMesas.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -435,7 +443,7 @@ public class Vista extends JFrame {
         panelCarta.setLayout(null);
 
         btnCartaEntrantes = new JButton("Entrantes");
-        btnCartaEntrantes.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+        btnCartaEntrantes.setFont(new Font("Segoe Print", Font.PLAIN, 14));
         btnCartaEntrantes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             }
@@ -445,19 +453,19 @@ public class Vista extends JFrame {
         panelCarta.add(btnCartaEntrantes);
 
         btnCartaPizzas = new JButton("Pizza");
-        btnCartaPizzas.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+        btnCartaPizzas.setFont(new Font("Segoe Print", Font.PLAIN, 14));
         btnCartaPizzas.setBackground(new Color(255, 255, 128));
         btnCartaPizzas.setBounds(115, 0, 105, 82);
         panelCarta.add(btnCartaPizzas);
 
         btnCartaPostres = new JButton("Postres");
-        btnCartaPostres.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+        btnCartaPostres.setFont(new Font("Segoe Print", Font.PLAIN, 14));
         btnCartaPostres.setBackground(new Color(255, 255, 128));
         btnCartaPostres.setBounds(230, 0, 105, 82);
         panelCarta.add(btnCartaPostres);
 
         btnCartaBebidas = new JButton("Bebidas");
-        btnCartaBebidas.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+        btnCartaBebidas.setFont(new Font("Segoe Print", Font.PLAIN, 14));
         btnCartaBebidas.setBackground(new Color(255, 255, 128));
         btnCartaBebidas.setBounds(345, 0, 105, 82);
         panelCarta.add(btnCartaBebidas);
@@ -520,7 +528,7 @@ public class Vista extends JFrame {
 
         lblCantidad = new JLabel("Cantidad");
         lblCantidad.setForeground(Color.WHITE);
-        lblCantidad.setFont(new Font("Segoe Print", Font.PLAIN, 10));
+        lblCantidad.setFont(new Font("Segoe Print", Font.PLAIN, 13));
         lblCantidad.setBounds(157, 175, 57, 13);
         panelIngredientes.add(lblCantidad);
 
