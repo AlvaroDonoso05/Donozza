@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import modelo.Carta;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,14 +21,10 @@ public class Database {
 
     private final File fileDb;
     private final ObjectMapper mapper = new ObjectMapper();
-
+    private final Logger logger = new Logger();
     private ArrayNode comandas;
     private ArrayNode accounts;
-
-
     private JsonNode rootNode;
-
-    private final Logger logger = new Logger();
     private String url;
 
     public Database(String url) {
@@ -102,7 +97,7 @@ public class Database {
         userAdmin.put("name", "admin");
         userAdmin.put("password", "admin");
         userAdmin.put("isAdmin", true);
-        
+
         ObjectNode userDefault = mapper.createObjectNode();
         userDefault.put("name", "Alvaro");
         userDefault.put("password", "alvaro");
@@ -123,7 +118,7 @@ public class Database {
 
         logger.success("Base de datos de Comandas Generada");
     }
-    
+
     public void añadirUsuario(String nombre, String password, boolean isAdmin) {
         synchronized (object) {
             try {
@@ -139,7 +134,7 @@ public class Database {
             }
         }
     }
-    
+
     public void modificarUsuario(int index, String nombre, String password, boolean isAdmin) {
         synchronized (object) {
             try {
@@ -160,7 +155,7 @@ public class Database {
             }
         }
     }
-    
+
     public void eliminarUsuario(int indice) {
         synchronized (object) {
             try {
@@ -189,14 +184,14 @@ public class Database {
 
         return false;
     }
-    
+
     public boolean isAdmin(String username) {
-    	for (JsonNode account : accounts) {
+        for (JsonNode account : accounts) {
             if (account.get("name").asText().equalsIgnoreCase(username)) {
                 return account.get("isAdmin").asBoolean();
             }
         }
-		return false;
+        return false;
     }
 
     public void añadirProducto(int idMesa, JsonNode producto, double precio) {
@@ -245,128 +240,128 @@ public class Database {
             }
         }
     }
-    
+
     public void anadirPizza(int idMesa, List<String> ingredientesExtra, String pizza, double pizzaTotal) {
-    	
-    	 synchronized (object) {
-  		 
-    		 try {
-    			 // Cargamos pedidos desde rootNode para garantizar que la estructura esté sincronizada
-    			 ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
-    			 ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
-    			 ArrayNode pedidos = (ArrayNode) mesa.get("pedido");
-    			 mesa.put("ocupado", true);      
-    			
 
-    			 ObjectNode producto = mapper.createObjectNode();
-    			 producto.put("nombre", pizza);
-    			 producto.put("cantidad", 1);
-    			 producto.put("precio", pizzaTotal);
-    			 
-    			 ArrayNode ingExtra = mapper.createArrayNode();
-    			 for(int i = 0;i<ingredientesExtra.size();i++) {
-    				 ingExtra.add(ingredientesExtra.get(i));
-    			 }
-    			 
-    			 producto.set("ingredientesExtra", ingExtra);
-    			 
-    			 
-    			 pedidos.add(producto);
+        synchronized (object) {
 
-    			 double total = 0;
-    			 for (JsonNode item : pedidos) {
-    				 total += item.get("precio").asDouble();
-    			 }
-    			 mesa.put("total", total);
+            try {
+                // Cargamos pedidos desde rootNode para garantizar que la estructura esté sincronizada
+                ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
+                ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
+                ArrayNode pedidos = (ArrayNode) mesa.get("pedido");
+                mesa.put("ocupado", true);
 
-    			 actualizarDatabase(true);
 
-    		 } catch (Exception e) {
-    			 logger.error(e);
-    		 }
-    	 }
+                ObjectNode producto = mapper.createObjectNode();
+                producto.put("nombre", pizza);
+                producto.put("cantidad", 1);
+                producto.put("precio", pizzaTotal);
+
+                ArrayNode ingExtra = mapper.createArrayNode();
+                for (int i = 0; i < ingredientesExtra.size(); i++) {
+                    ingExtra.add(ingredientesExtra.get(i));
+                }
+
+                producto.set("ingredientesExtra", ingExtra);
+
+
+                pedidos.add(producto);
+
+                double total = 0;
+                for (JsonNode item : pedidos) {
+                    total += item.get("precio").asDouble();
+                }
+                mesa.put("total", total);
+
+                actualizarDatabase(true);
+
+            } catch (Exception e) {
+                logger.error(e);
+            }
+        }
     }
 
-    
-    public void eliminarProducto (int idMesa, String nProducto) {
-		
-		try {
-			ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
+
+    public void eliminarProducto(int idMesa, String nProducto) {
+
+        try {
+            ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
             ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
             ArrayNode pedidos = (ArrayNode) mesa.get("pedido");
-			
-			 for (int i = 0; i < pedidos.size(); i++) {
-	                ObjectNode existingProduct = (ObjectNode) pedidos.get(i);
-	                if (nProducto.equalsIgnoreCase(existingProduct.get("nombre").asText())) {
-	                	pedidos.remove(i);	 
-	                    break;
-	                }
-	            }
-			 actualizarDatabase(true);		
-		} catch (JsonProcessingException e) {
-			logger.error(e);
-		} catch (IOException e) {
-			logger.error(e);
-		} catch (Exception e) {
-			logger.error(e);;
-		}
-	}
-    
-    public double cobrar (int idMesa) {
-    	double total = 0;
-    	  try {
-              // Cargamos pedidos desde rootNode para garantizar que la estructura esté sincronizada
-              ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
-              ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
-              ArrayNode pedidos = (ArrayNode) mesa.get("pedido");
-              
-              total = mesa.get("total").asDouble();
-              mesa.put("total", 0);
-              mesa.put("ocupado", false);
-              pedidos.removeAll();
-              actualizarDatabase(true);
 
-    	  }catch(Exception e) {
-    		  logger.error(e);
-    	  }
-               	
-    	  return total;
-             	
+            for (int i = 0; i < pedidos.size(); i++) {
+                ObjectNode existingProduct = (ObjectNode) pedidos.get(i);
+                if (nProducto.equalsIgnoreCase(existingProduct.get("nombre").asText())) {
+                    pedidos.remove(i);
+                    break;
+                }
+            }
+            actualizarDatabase(true);
+        } catch (JsonProcessingException e) {
+            logger.error(e);
+        } catch (IOException e) {
+            logger.error(e);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
-    
-    public ImageIcon ocuparLiberarMesa(int idMesa){
-    	ImageIcon mesaIcon = null;
-    	 try {
-             // Cargamos pedidos desde rootNode para garantizar que la estructura esté sincronizada
-             ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
-             ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
-             if(mesa.get("ocupado").asBoolean()) {
-            	 mesaIcon = new ImageIcon("resources/img/mesaOcupada.png");
-             }else {
-            	 mesaIcon = new ImageIcon("resources/img/mesaLibre.png");
-             }
-             
-             
-    	 }catch(Exception e) {
-    		 logger.error(e);
-    	 }
-		return mesaIcon;
-             
+
+    public double cobrar(int idMesa) {
+        double total = 0;
+        try {
+            // Cargamos pedidos desde rootNode para garantizar que la estructura esté sincronizada
+            ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
+            ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
+            ArrayNode pedidos = (ArrayNode) mesa.get("pedido");
+
+            total = mesa.get("total").asDouble();
+            mesa.put("total", 0);
+            mesa.put("ocupado", false);
+            pedidos.removeAll();
+            actualizarDatabase(true);
+
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+        return total;
+
     }
-    
+
+    public ImageIcon ocuparLiberarMesa(int idMesa) {
+        ImageIcon mesaIcon = null;
+        try {
+            // Cargamos pedidos desde rootNode para garantizar que la estructura esté sincronizada
+            ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
+            ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
+            if (mesa.get("ocupado").asBoolean()) {
+                mesaIcon = new ImageIcon("resources/img/mesaOcupada.png");
+            } else {
+                mesaIcon = new ImageIcon("resources/img/mesaLibre.png");
+            }
+
+
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return mesaIcon;
+
+    }
+
     public ArrayNode getComandas() {
         return comandas;
     }
 
     public ArrayNode getAccounts() {
-		return accounts;
-	}
+        return accounts;
+    }
 
-	public void setAccounts(ArrayNode accounts) {
-		this.accounts = accounts;
-	}
+    public void setAccounts(ArrayNode accounts) {
+        this.accounts = accounts;
+    }
 
-	public String getUrl() {
+    public String getUrl() {
         return url;
     }
 

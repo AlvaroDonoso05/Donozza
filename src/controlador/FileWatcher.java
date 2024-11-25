@@ -12,9 +12,9 @@ import modelo.Carta;
 import modelo.Ingredientes;
 
 public class FileWatcher extends Thread {
+    private final Object clase;
     private Path filePath;
     private Path directoryPath;
-    private final Object clase;
 
     public FileWatcher(Object clase) {
         if (clase instanceof Carta) {

@@ -16,10 +16,9 @@ public class Ingredientes {
     private static final Object object = new Object();
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final Logger logger = new Logger();
-
+    private final String url;
     private JsonNode rootNode;
     private ArrayNode listaIngredientes;
-    private final String url;
 
     public Ingredientes(String url) {
         this.url = url;

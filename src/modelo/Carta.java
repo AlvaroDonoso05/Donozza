@@ -17,15 +17,12 @@ public class Carta {
     private static final Object object = new Object();
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final Logger logger = new Logger();
-
+    private final String url;
     private JsonNode rootNode;
-
     private ArrayNode pizzas;
     private ArrayNode bebidas;
     private ArrayNode entrantes;
     private ArrayNode postres;
-
-    private final String url;
 
     public Carta(String url) throws Exception {
         this.url = url;

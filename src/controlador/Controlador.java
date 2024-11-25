@@ -22,7 +22,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,7 +30,6 @@ import modelo.Database;
 import modelo.Ingredientes;
 import modelo.TablaPedidos;
 import modelo.TablaProductos;
-import modelo.TablaUsuarios;
 import vista.Vista;
 
 public class Controlador implements ActionListener {
@@ -42,8 +40,8 @@ public class Controlador implements ActionListener {
     private Carta carta;
     private Ingredientes listaIngredientes;
     private String categoriaActual = "";
-    private List<String> ingredientesExtra = new ArrayList<String>();
-    private List<String> ingredientesExtraHelp = new ArrayList<String>();
+    private final List<String> ingredientesExtra = new ArrayList<String>();
+    private final List<String> ingredientesExtraHelp = new ArrayList<String>();
     private String productoActual;
 
     public Controlador(Vista frame) {
@@ -62,14 +60,13 @@ public class Controlador implements ActionListener {
         this.vista.btnCerrarSesionUsuarios.addActionListener(this);
         this.vista.btnConfirmarIng.addActionListener(this);
 
-       
+
         this.vista.btnModificarProducto.addActionListener(this);
         this.vista.btnAddProducto.addActionListener(this);
 
         this.vista.btnEliminarUser.addActionListener(this);
         this.vista.btnModificarUser.addActionListener(this);
         this.vista.btnAddUser.addActionListener(this);
-
 
 
         try {
@@ -88,42 +85,42 @@ public class Controlador implements ActionListener {
             logger.error(e);
         }
 
-       generarBotonesMesas();
-       
-       try {
-    	// Cargar Productos
-    	   TablaProductos modelo = (TablaProductos) this.vista.tableProductos.getModel();
-           
-           for (JsonNode pizza : carta.getPizzas()) {
-               modelo.addProducto("pizza",
-                   pizza.get("nombre").asText(),
-                   pizza.get("precio").asDouble(),
-                   pizza.get("url").asText()
-               );
-           }
-       } catch(Exception e) {
-    	   logger.error(e);
-       }
-       
-       try {
-       	// Cargar Usuarios
-    	   ArrayNode usuarios = database.getAccounts();
-              
-    	   this.vista.tableUsuariosModel.clearData();
-    	   
-    	   for (JsonNode userNode : usuarios) {
-    	        String nombre = userNode.get("name").asText();
-    	        String password = userNode.get("password").asText();
-    	        boolean isAdmin = userNode.get("isAdmin").asBoolean();
+        generarBotonesMesas();
 
-    	        // Agregar cada usuario al modelo de la tabla
-    	        this.vista.tableUsuariosModel.addUsuarioFirst(nombre, password, isAdmin);
-    	    }
-          } catch(Exception e) {
-       	   logger.error(e);
-          }
+        try {
+            // Cargar Productos
+            TablaProductos modelo = (TablaProductos) this.vista.tableProductos.getModel();
 
-         this.vista.tableUsuarios.updateUI();
+            for (JsonNode pizza : carta.getPizzas()) {
+                modelo.addProducto("pizza",
+                        pizza.get("nombre").asText(),
+                        pizza.get("precio").asDouble(),
+                        pizza.get("url").asText()
+                );
+            }
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+        try {
+            // Cargar Usuarios
+            ArrayNode usuarios = database.getAccounts();
+
+            this.vista.tableUsuariosModel.clearData();
+
+            for (JsonNode userNode : usuarios) {
+                String nombre = userNode.get("name").asText();
+                String password = userNode.get("password").asText();
+                boolean isAdmin = userNode.get("isAdmin").asBoolean();
+
+                // Agregar cada usuario al modelo de la tabla
+                this.vista.tableUsuariosModel.addUsuarioFirst(nombre, password, isAdmin);
+            }
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+        this.vista.tableUsuarios.updateUI();
     }
 
     public void generarBotonesMesas() {
@@ -163,11 +160,11 @@ public class Controlador implements ActionListener {
         this.vista.btnCartaPizzas.setEnabled(true);
         this.vista.btnCartaPostres.setEnabled(true);
     }
-    
+
     public void recargarMesas() {
-    	this.vista.panelMesas.removeAll();
-    	this.vista.panelMesas.revalidate();
-    	this.vista.panelBotonesEntrantes.repaint();
+        this.vista.panelMesas.removeAll();
+        this.vista.panelMesas.revalidate();
+        this.vista.panelBotonesEntrantes.repaint();
     }
 
     public void descargarCarta() {
@@ -237,22 +234,22 @@ public class Controlador implements ActionListener {
                     int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
                     boolean encontrado = false;
                     ArrayNode pizzas = carta.getPizzas();
-                    
-                    for(int i = 0;i<pizzas.size();i++) {
-                    	if(nombreProducto.equalsIgnoreCase(pizzas.get(i).get("nombre").asText())) {
-                    		encontrado = true;
-                    	}
+
+                    for (int i = 0; i < pizzas.size(); i++) {
+                        if (nombreProducto.equalsIgnoreCase(pizzas.get(i).get("nombre").asText())) {
+                            encontrado = true;
+                        }
                     }
-                    if(encontrado) {
-                    	cargarIngredientes(nombreProducto);
-                    	
-                    }else {
-                    	 database.añadirProducto(idMesa, carta.obtenerProducto(j, categoria), precioProducto);
-                         mostrarTabla(idMesa);
+                    if (encontrado) {
+                        cargarIngredientes(nombreProducto);
+
+                    } else {
+                        database.añadirProducto(idMesa, carta.obtenerProducto(j, categoria), precioProducto);
+                        mostrarTabla(idMesa);
                     }
                     recargarMesas();
                     generarBotonesMesas();
-   
+
                 }
             });
 
@@ -292,14 +289,14 @@ public class Controlador implements ActionListener {
 
         if (e.getSource() == vista.btnIniciarSesion) {
             if (database.comprobarUsuario(vista.usernameField.getText(), vista.passwordField.getText())) {
-                if(database.isAdmin(vista.usernameField.getText())) {
-                	vista.loading.setVisible(false);
+                if (database.isAdmin(vista.usernameField.getText())) {
+                    vista.loading.setVisible(false);
                     vista.logIn.setVisible(false);
                     vista.lblwrongPassword.setVisible(false);
                     vista.adminPanel.setVisible(true);
                 } else {
-                	
-                	vista.loading.setVisible(false);
+
+                    vista.loading.setVisible(false);
                     vista.logIn.setVisible(false);
                     vista.lblwrongPassword.setVisible(false);
                     vista.mainPanel.setVisible(true);
@@ -311,16 +308,16 @@ public class Controlador implements ActionListener {
             }
 
         }
-        if(e.getSource() == vista.btnCerrarSesion) {
+        if (e.getSource() == vista.btnCerrarSesion) {
             vista.mainPanel.setVisible(false);
             vista.logIn.setVisible(true);
             vista.usernameField.setText("");
             vista.passwordField.setText("");
         }
-        
-        if(e.getSource() == vista.btnCerrarSesionProd || e.getSource() == vista.btnCerrarSesionUsuarios) {
-        	vista.logIn.setVisible(true);
-        	vista.adminPanel.setVisible(false);
+
+        if (e.getSource() == vista.btnCerrarSesionProd || e.getSource() == vista.btnCerrarSesionUsuarios) {
+            vista.logIn.setVisible(true);
+            vista.adminPanel.setVisible(false);
             vista.usernameField.setText("");
             vista.passwordField.setText("");
         }
@@ -333,53 +330,53 @@ public class Controlador implements ActionListener {
             categoriaActual = "";
         }
 
-        
-        if(e.getSource() == this.vista.btnQuitarProducto) {
-			int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
-			eliminarProducto(idMesa);
-			mostrarTabla(idMesa);
-		}
-        if(e.getSource() == this.vista.btnCobrar) {
-        	double total;
-        	int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
-        	total = database.cobrar(idMesa);
-        	mostrarTabla(idMesa);
-        	JOptionPane.showMessageDialog(null, "El total es: " + total + "€");
-        	recargarMesas();
-        	generarBotonesMesas();
+
+        if (e.getSource() == this.vista.btnQuitarProducto) {
+            int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
+            eliminarProducto(idMesa);
+            mostrarTabla(idMesa);
         }
-        
-
-        if(e.getSource() == this.vista.btnConfirmarIng) {
-        	int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
-        	double total = 0;
-        	ArrayNode lIngredientes = listaIngredientes.getListaIngredientes();
-
-        	ArrayNode lPizzas = carta.getPizzas();   
-        	
-        	for(int i= 0; i<lPizzas.size();i++) {
-        		if(lPizzas.get(i).get("nombre").asText().equalsIgnoreCase(productoActual)) {
-        			total = lPizzas.get(i).get("precio").asDouble();
-        			break;
-        		}
-        	}      	
-        	for (int i=0; i<ingredientesExtra.size();i ++) {
-        		int numIng = Integer.parseInt(ingredientesExtra.get(i));
-        		total = total + lIngredientes.get(numIng).get("precio").asDouble();
-        		int nuevoStock = lIngredientes.get(numIng).get("stock").asInt() - 1;
-        		ObjectNode nIngredientes = (ObjectNode) lIngredientes.get(numIng);
-        		nIngredientes.put("stock", nuevoStock);       			      		
-        	}
-        	listaIngredientes.actualizarIngredientes(true);
-        	database.anadirPizza(idMesa, ingredientesExtra, productoActual, total);
-        	ingredientesExtra.clear();
-        	mostrarTabla(idMesa);
-        	this.vista.panelIngredientes.removeAll();
-        	this.vista.panelIngredientes.revalidate();
-        	this.vista.panelIngredientes.repaint();
+        if (e.getSource() == this.vista.btnCobrar) {
+            double total;
+            int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
+            total = database.cobrar(idMesa);
+            mostrarTabla(idMesa);
+            JOptionPane.showMessageDialog(null, "El total es: " + total + "€");
+            recargarMesas();
+            generarBotonesMesas();
         }
 
-        
+
+        if (e.getSource() == this.vista.btnConfirmarIng) {
+            int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
+            double total = 0;
+            ArrayNode lIngredientes = listaIngredientes.getListaIngredientes();
+
+            ArrayNode lPizzas = carta.getPizzas();
+
+            for (int i = 0; i < lPizzas.size(); i++) {
+                if (lPizzas.get(i).get("nombre").asText().equalsIgnoreCase(productoActual)) {
+                    total = lPizzas.get(i).get("precio").asDouble();
+                    break;
+                }
+            }
+            for (int i = 0; i < ingredientesExtra.size(); i++) {
+                int numIng = Integer.parseInt(ingredientesExtra.get(i));
+                total = total + lIngredientes.get(numIng).get("precio").asDouble();
+                int nuevoStock = lIngredientes.get(numIng).get("stock").asInt() - 1;
+                ObjectNode nIngredientes = (ObjectNode) lIngredientes.get(numIng);
+                nIngredientes.put("stock", nuevoStock);
+            }
+            listaIngredientes.actualizarIngredientes(true);
+            database.anadirPizza(idMesa, ingredientesExtra, productoActual, total);
+            ingredientesExtra.clear();
+            mostrarTabla(idMesa);
+            this.vista.panelIngredientes.removeAll();
+            this.vista.panelIngredientes.revalidate();
+            this.vista.panelIngredientes.repaint();
+        }
+
+
         // Botones de Aministración de Productos
         if (e.getSource() == this.vista.btnEliminarProducto) {
             int selectedRow = this.vista.tableProductos.getSelectedRow();
@@ -387,17 +384,17 @@ public class Controlador implements ActionListener {
                 this.vista.tableProductosModel.removeProducto(selectedRow);
                 String categoria = this.vista.cmbCategoriaProducto.getSelectedItem().toString().toLowerCase();
                 boolean eliminado = carta.deleteProducto(selectedRow, categoria);
-                
+
                 if (eliminado) {
                     logger.success("Producto eliminado correctamente");
                 } else {
                     logger.warning("Error al eliminar el producto.");
                 }
             }
-            
+
         } else if (e.getSource() == this.vista.btnModificarProducto) {
             int selectedRow = this.vista.tableProductos.getSelectedRow();
-            
+
             if (selectedRow != -1) {
                 try {
                     String categoria = this.vista.cmbCategoriaProducto.getSelectedItem().toString().toLowerCase();
@@ -408,11 +405,11 @@ public class Controlador implements ActionListener {
 
                     // Actualiza el modelo de la tabla
                     this.vista.tableProductosModel.updateProducto(
-                        selectedRow,
-                        categoria,
-                        nombre,
-                        precio,
-                        ingredientesExtra
+                            selectedRow,
+                            categoria,
+                            nombre,
+                            precio,
+                            ingredientesExtra
                     );
 
                     // Procesa ingredientes si es una pizza
@@ -449,12 +446,12 @@ public class Controlador implements ActionListener {
                 logger.warning("Seleccione un producto para modificar.");
             }
         } else if (e.getSource() == this.vista.btnAddProducto) {
-        	String categoria = this.vista.cmbCategoriaProducto.getSelectedItem().toString().toLowerCase();
+            String categoria = this.vista.cmbCategoriaProducto.getSelectedItem().toString().toLowerCase();
             String nombre = this.vista.txtNombreProducto.getText();
             double precio = Double.parseDouble(this.vista.txtPrecioProducto.getText());
             String txtExtrasProducto = this.vista.txtExtrasProducto.getText();
             List<Integer> ingredientes = null;
-            
+
             if (categoria.equals("pizzas")) {
                 String[] ingredientesTexto = txtExtrasProducto.split(",");
                 ingredientes = new ArrayList<>();
@@ -462,20 +459,20 @@ public class Controlador implements ActionListener {
                     ingredientes.add(Integer.parseInt(id.trim()));
                 }
             }
-            
+
             carta.addProducto(categoria, nombre, precio, ingredientes, "resources/img/default.png");
-            
+
             this.vista.tableProductosModel.addProducto(
-                categoria,
-                nombre,
-                precio,
-                txtExtrasProducto
+                    categoria,
+                    nombre,
+                    precio,
+                    txtExtrasProducto
             );
             limpiarCampos();
-            
+
             logger.success("Producto añadido correctamente.");
         }
-        
+
         // Botones de Administracion de Usuarios
         if (e.getSource() == this.vista.btnEliminarUser) {
             int selectedRow = this.vista.tableUsuarios.getSelectedRow();
@@ -496,7 +493,7 @@ public class Controlador implements ActionListener {
             limpiarCampos();
         }
     }
-    
+
     private void limpiarCampos() {
         this.vista.txtPrecioProducto.setText("");
         this.vista.txtExtrasProducto.setText("");
@@ -547,37 +544,37 @@ public class Controlador implements ActionListener {
         this.vista.panelMesas.setVisible(false);
         this.vista.panelMesa.setVisible(true);
     }
-    
-    public void eliminarProducto(int idMesa){
-    	if(this.vista.tablaMesa.getSelectedRow()!=-1) {
-    		String nProducto;
-    		
-    		TablaPedidos tP= (TablaPedidos) this.vista.tablaMesa.getModel();
-    		
-    		//Obtenemos el nombre del producto seleccionado
-    		nProducto = tP.getPedidos().get(this.vista.tablaMesa.getSelectedRow())[0];
-    		database.eliminarProducto(idMesa, nProducto);  		
-    	}
-	}
-    
+
+    public void eliminarProducto(int idMesa) {
+        if (this.vista.tablaMesa.getSelectedRow() != -1) {
+            String nProducto;
+
+            TablaPedidos tP = (TablaPedidos) this.vista.tablaMesa.getModel();
+
+            //Obtenemos el nombre del producto seleccionado
+            nProducto = tP.getPedidos().get(this.vista.tablaMesa.getSelectedRow())[0];
+            database.eliminarProducto(idMesa, nProducto);
+        }
+    }
+
     public void cargarIngredientes(String pizza) {
         this.vista.panelIngredientes.removeAll();
         ArrayNode lIngredientes = listaIngredientes.getListaIngredientes();
         ArrayNode lPizzas = carta.getPizzas();
         ArrayNode iPizza = null;
-        
-        
+
+
         //Obtener IDs de los ingredientes de la pizza en concreto
-        for(int j=0;j<lPizzas.size();j++) {
-        	if(lPizzas.get(j).get("nombre").asText().equalsIgnoreCase(pizza)) {
-        		productoActual = lPizzas.get(j).get("nombre").asText();
-        		iPizza = (ArrayNode) lPizzas.get(j).get("ingredientes");
-        	}
+        for (int j = 0; j < lPizzas.size(); j++) {
+            if (lPizzas.get(j).get("nombre").asText().equalsIgnoreCase(pizza)) {
+                productoActual = lPizzas.get(j).get("nombre").asText();
+                iPizza = (ArrayNode) lPizzas.get(j).get("ingredientes");
+            }
         }
-        for(int i=0;i<iPizza.size();i++) {
-        	int j = i;
-        	ingredientesExtraHelp.add(iPizza.get(i).asText());
-        	String nombreIngrediente = lIngredientes.get(iPizza.get(i).asInt()).get("nombre").asText();
+        for (int i = 0; i < iPizza.size(); i++) {
+            int j = i;
+            ingredientesExtraHelp.add(iPizza.get(i).asText());
+            String nombreIngrediente = lIngredientes.get(iPizza.get(i).asInt()).get("nombre").asText();
             String urlImagen = lIngredientes.get(iPizza.get(i).asInt()).get("url").asText();
             double precioProducto = lIngredientes.get(iPizza.get(i).asInt()).get("precio").asDouble();
 
@@ -587,7 +584,7 @@ public class Controlador implements ActionListener {
             panelIngrediente.setBackground(Color.WHITE);
             panelIngrediente.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             panelIngrediente.setMaximumSize(new Dimension(130, 190));
-          
+
 
             // Crear etiqueta de imagen
             JLabel etiquetaImagen = new JLabel();
@@ -608,7 +605,7 @@ public class Controlador implements ActionListener {
             etiquetaPrecio.setFont(new Font("Arial", Font.ITALIC, 12));
             etiquetaPrecio.setForeground(Color.GRAY);
 
-           // Boton seleccion producto
+            // Boton seleccion producto
             JButton botonAnadir = new JButton("+");
             botonAnadir.setAlignmentX(Component.CENTER_ALIGNMENT);
             botonAnadir.setPreferredSize(new Dimension(50, 15));
@@ -617,13 +614,12 @@ public class Controlador implements ActionListener {
             botonAnadir.setForeground(Color.WHITE);
             botonAnadir.setFocusPainted(false);
             botonAnadir.setFont(new Font("Arial", Font.PLAIN, 12));
-            if(lIngredientes.get(iPizza.get(i).asInt()).get("stock").asInt()>0){
-            	botonAnadir.setEnabled(true);
-            }else {
-            	botonAnadir.setEnabled(false);
+            if (lIngredientes.get(iPizza.get(i).asInt()).get("stock").asInt() > 0) {
+                botonAnadir.setEnabled(true);
+            } else {
+                botonAnadir.setEnabled(false);
             }
-            
-            
+
 
             JButton botonQuitar = new JButton("-");
             botonQuitar.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -634,47 +630,43 @@ public class Controlador implements ActionListener {
             botonQuitar.setFocusPainted(false);
             botonQuitar.setFont(new Font("Arial", Font.PLAIN, 12));
             botonQuitar.setEnabled(false);
-            
-            
+
+
             JLabel cantidad = new JLabel("Cantidad");
             cantidad.setAlignmentX(Component.CENTER_ALIGNMENT);
             cantidad.setFont(new Font("Arial", Font.ITALIC, 12));
             cantidad.setForeground(Color.GRAY);
-            
+
             JLabel tCantidad = new JLabel("");
             tCantidad.setAlignmentX(Component.CENTER_ALIGNMENT);
             tCantidad.setFont(new Font("Arial", Font.ITALIC, 12));
             tCantidad.setForeground(Color.GRAY);
             tCantidad.setText(String.valueOf(lIngredientes.get(iPizza.get(i).asInt()).get("stock").asInt()));
             lIngredientes.get(iPizza.get(i).asInt()).get("stock").asInt();
-            
+
             botonAnadir.addActionListener(new ActionListener() {
 
-				@Override
-				public void actionPerformed(ActionEvent e) {						
-					ingredientesExtra.add(ingredientesExtraHelp.get(j));
-					botonQuitar.setEnabled(true);
-					botonAnadir.setEnabled(false);						
-				}
-            	            	
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ingredientesExtra.add(ingredientesExtraHelp.get(j));
+                    botonQuitar.setEnabled(true);
+                    botonAnadir.setEnabled(false);
+                }
+
             });
-         
+
             botonQuitar.addActionListener(new ActionListener() {
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					ingredientesExtra.remove(ingredientesExtraHelp.get(j));	
-					botonQuitar.setEnabled(false);
-					botonAnadir.setEnabled(true);				
-				}
-            	
-            	
-            });
-            
-            
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ingredientesExtra.remove(ingredientesExtraHelp.get(j));
+                    botonQuitar.setEnabled(false);
+                    botonAnadir.setEnabled(true);
+                }
 
-        
-            
+
+            });
+
 
             panelIngrediente.add(etiquetaImagen);
             panelIngrediente.add(Box.createVerticalStrut(5));
@@ -693,7 +685,7 @@ public class Controlador implements ActionListener {
         this.vista.panelIngredientes.revalidate();
         this.vista.panelIngredientes.repaint();
     }
-    
+
     private void cargarProductosEnTabla() {
         try {
             DefaultTableModel modelo = (DefaultTableModel) this.vista.tableProductos.getModel();
@@ -701,10 +693,10 @@ public class Controlador implements ActionListener {
 
             for (JsonNode pizza : carta.getPizzas()) {
                 modelo.addRow(new Object[]{
-                    pizza.get("id").asInt(),
-                    pizza.get("nombre").asText(),
-                    pizza.get("precio").asDouble(),
-                    pizza.get("url").asText()
+                        pizza.get("id").asInt(),
+                        pizza.get("nombre").asText(),
+                        pizza.get("precio").asDouble(),
+                        pizza.get("url").asText()
                 });
             }
 

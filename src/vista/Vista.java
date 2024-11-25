@@ -22,15 +22,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 import controlador.Controlador;
 import controlador.ImagePanel;
@@ -38,8 +36,6 @@ import controlador.Logger;
 import modelo.TablaPedidos;
 import modelo.TablaProductos;
 import modelo.TablaUsuarios;
-import javax.swing.JToggleButton;
-import java.awt.Toolkit;
 
 
 public class Vista extends JFrame {
@@ -83,11 +79,11 @@ public class Vista extends JFrame {
     public JPanel adminPanel;
     public JButton btnAddIngrediente;
     public JButton btnCerrarSesion;
-    
+
     public JButton btnAddProducto;
     public JButton btnModificarProducto;
     public JButton btnEliminarProducto;
-    
+
     public JButton btnAddUser;
     public JButton btnModificarUser;
     public JButton btnEliminarUser;
@@ -100,10 +96,10 @@ public class Vista extends JFrame {
     public JTextField txtNombreUser;
     public JTextField txtPasswordUser;
     public JToggleButton tglbtnAdminUser;
-    
+
     public TablaProductos tableProductosModel;
     public TablaUsuarios tableUsuariosModel;
-    
+
     public JTable tableProductos;
     public JTable tableUsuarios;
     public JButton btnCerrarSesionProd;
@@ -116,7 +112,7 @@ public class Vista extends JFrame {
         setBounds(100, 100, 934, 840);
 
         contentPane = new JLayeredPane();
-        
+
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(null);
         setContentPane(contentPane);
@@ -125,9 +121,9 @@ public class Vista extends JFrame {
         generateAdminPanel();
         adminPanel.setVisible(false);
 
-        
+
         generateLoadingPanel();
-        
+
 
         loading.setVisible(true);
 
@@ -168,7 +164,7 @@ public class Vista extends JFrame {
             }
         });
     }
-    
+
     private void generateAdminPanel() {
         adminPanel = new JPanel();
         adminPanel.setLayout(new BorderLayout());
@@ -191,7 +187,7 @@ public class Vista extends JFrame {
 
         tableProductosModel = new TablaProductos();
         tableProductos = new JTable(tableProductosModel);
-        tableProductos.getTableHeader().setReorderingAllowed(false);        
+        tableProductos.getTableHeader().setReorderingAllowed(false);
 
         JScrollPane scrollProductos = new JScrollPane(tableProductos);
         scrollProductos.setBounds(20, 60, 400, 200);
@@ -199,7 +195,7 @@ public class Vista extends JFrame {
 
         // Formulario para agregar productos
         addProductForm(productosPanel, tableProductosModel);
-        
+
         btnCerrarSesionProd = new JButton("Cerrar Sesion");
         btnCerrarSesionProd.setBackground(new Color(255, 255, 255));
         btnCerrarSesionProd.setFont(new Font("Segoe Print", Font.PLAIN, 15));
@@ -226,7 +222,7 @@ public class Vista extends JFrame {
         usuariosPanel.add(scrollUsuarios);
 
         addUserForm(usuariosPanel, tableUsuariosModel);
-        
+
         btnCerrarSesionUsuarios = new JButton("Cerrar Sesion");
         btnCerrarSesionUsuarios.setBackground(new Color(255, 255, 255));
         btnCerrarSesionUsuarios.setFont(new Font("Segoe Print", Font.PLAIN, 15));
@@ -273,11 +269,11 @@ public class Vista extends JFrame {
         btnAddProducto.setBackground(new Color(255, 255, 255));
         btnAddProducto.setBounds(450, 220, 150, 30);
         panel.add(btnAddProducto);
-        
+
         btnModificarProducto = new JButton("Modificar Producto");
         btnModificarProducto.setBounds(620, 220, 150, 30);
         panel.add(btnModificarProducto);
-        
+
         btnEliminarProducto = new JButton("Eliminar Producto");
         btnEliminarProducto.setBounds(450, 260, 150, 30);
         panel.add(btnEliminarProducto);
@@ -300,23 +296,23 @@ public class Vista extends JFrame {
         txtPasswordUser = new JTextField();
         txtPasswordUser.setBounds(530, 100, 150, 25);
         panel.add(txtPasswordUser);
-        
+
         JLabel lblisAdmin = new JLabel("Admin:");
         lblisAdmin.setBounds(450, 140, 80, 25);
         panel.add(lblisAdmin);
-        
+
         tglbtnAdminUser = new JToggleButton("Admin");
         tglbtnAdminUser.setBounds(530, 140, 150, 25);
         panel.add(tglbtnAdminUser);
-        
+
         btnAddUser = new JButton("Agregar Usuario");
         btnAddUser.setBounds(450, 200, 150, 30);
         panel.add(btnAddUser);
-        
+
         btnModificarUser = new JButton("Modificar Usuario");
         btnModificarUser.setBounds(620, 200, 150, 30);
         panel.add(btnModificarUser);
-        
+
         btnEliminarUser = new JButton("Eliminar Usuario");
         btnEliminarUser.setBounds(450, 240, 150, 30);
         panel.add(btnEliminarUser);
@@ -329,13 +325,13 @@ public class Vista extends JFrame {
         mainPanel.setBounds(0, 0, 918, 801);
         contentPane.add(mainPanel);
         mainPanel.setLayout(null);
-        
+
         btnCerrarSesion = new JButton("Cerrar Sesion");
         btnCerrarSesion.setBackground(new Color(255, 255, 255));
         btnCerrarSesion.setFont(new Font("Segoe Print", Font.PLAIN, 15));
         btnCerrarSesion.setBounds(705, 10, 157, 56);
         mainPanel.add(btnCerrarSesion);
-        
+
         panelMesas = new JPanel();
         panelMesas.setOpaque(false);
         panelMesas.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -397,8 +393,8 @@ public class Vista extends JFrame {
         panelCarta.setOpaque(false);
         panelCarta.setBounds(433, 78, 450, 436);
         mainPanel.add(panelCarta);
-        panelCarta.setLayout(null); 
-     
+        panelCarta.setLayout(null);
+
 
         btnCartaEntrantes = new JButton("Entrantes");
         btnCartaEntrantes.setFont(new Font("Segoe Print", Font.PLAIN, 14));
@@ -438,7 +434,7 @@ public class Vista extends JFrame {
         panelBotonesEntrantes.setLayout(new GridLayout(0, 3, 15, 15));
         panelBotonesEntrantes.setBackground(Color.LIGHT_GRAY);
         mainPanel.add(panelIngredientes);
-        
+
         JScrollPane cartaIngredientes = new JScrollPane(panelIngredientes);
         cartaIngredientes.setBounds(0, 102, 450, 334);
         cartaIngredientes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -462,13 +458,13 @@ public class Vista extends JFrame {
         Image letreroEscalado = letreroOriginal.getScaledInstance(lblLetrero.getWidth(), lblLetrero.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon letrero = new ImageIcon(letreroEscalado);
         lblLetrero.setIcon(letrero);
-        
+
         btnConfirmarIng = new JButton("Confirmar");
         btnConfirmarIng.setBounds(433, 570, 130, 56);
         btnConfirmarIng.setFont(new Font("Segoe Print", Font.PLAIN, 14));
         btnConfirmarIng.setBackground(new Color(255, 255, 128));
         mainPanel.add(btnConfirmarIng);
-        
+
     }
 
     private void generateLoadingPanel() {

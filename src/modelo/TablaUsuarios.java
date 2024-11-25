@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 
 public class TablaUsuarios extends AbstractTableModel {
@@ -27,9 +28,9 @@ public class TablaUsuarios extends AbstractTableModel {
     public String getColumnName(int column) {
         return columnNames[column];
     }
-    
+
     public void addUsuarioFirst(String nombre, String password, boolean isAdmin) {
-    	String[] usuario = new String[3];
+        String[] usuario = new String[3];
         usuario[0] = nombre;
         usuario[1] = password;
         usuario[2] = String.valueOf(isAdmin);
@@ -39,27 +40,27 @@ public class TablaUsuarios extends AbstractTableModel {
 
     // Agregar un nuevo usuario
     public void addUsuario() {
-    	fireTableDataChanged();
+        fireTableDataChanged();
     }
 
     // Eliminar un usuario por índice
     public void removeUsuario(int rowIndex) {
-    	if (rowIndex >= 0 && rowIndex < usuarios.size()) {
+        if (rowIndex >= 0 && rowIndex < usuarios.size()) {
             usuarios.remove(rowIndex);
             fireTableRowsDeleted(rowIndex, rowIndex);
         }
-    	fireTableDataChanged();
+        fireTableDataChanged();
     }
 
     // Actualizar un usuario existente
     public void updateUsuario(int rowIndex, String nombre, String password, boolean isAdmin) {
-    	String[] usuario = new String[3];
+        String[] usuario = new String[3];
         usuario[0] = nombre;
         usuario[1] = password;
         usuario[2] = String.valueOf(isAdmin);
         usuarios.add(usuario);
         if (rowIndex >= 0 && rowIndex < usuarios.size()) {
-        	usuarios.set(rowIndex, usuario);
+            usuarios.set(rowIndex, usuario);
             fireTableRowsUpdated(rowIndex, rowIndex);
         }
     }
