@@ -37,7 +37,7 @@ public class Carta {
             try {
                 if (generarArchivo) {
                     mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                    mapper.writeValue(new File("resources/json/pizzas.json"), rootNode);
+                    mapper.writeValue(new File("resources/json/carta.json"), rootNode);
                 } else {
                     rootNode = mapper.readTree(new File(this.url));
                     pizzas = (ArrayNode) rootNode.get("pizzas");
@@ -99,36 +99,24 @@ public class Carta {
         return producto;
     }
 
-    public Boolean deleteProducto(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
+    public Boolean deleteProducto(int id, String categoria) {
         Boolean eliminado = false;
         synchronized (object) {
             try {
-                JsonNode producto = obtenerProducto(id, categoria);
-
-                if (producto != null) {
-                    switch (categoria) {
-                        case "pizzas":
-                            pizzas.remove(id);
-                            break;
-                        case "bebidas":
-                            bebidas.remove(id);
-                            break;
-                        case "entrantes":
-                            entrantes.remove(id);
-                            break;
-                        case "postres":
-                            postres.remove(id);
-                            break;
-                    }
-                    logger.success(categoria + " " + id + " eliminado.");
+                ArrayNode categoriaArray = obtenerCategoriaArray(categoria);
+                if (categoriaArray != null && id >= 0 && id < categoriaArray.size()) {
+                    categoriaArray.remove(id);
+                    logger.success("Producto eliminado de " + categoria + ": ID " + id);
                     actualizarCarta(true);
                     eliminado = true;
+                } else {
+                    logger.warning("El índice " + id + " no es válido para la categoría " + categoria);
                 }
             } catch (Exception e) {
                 logger.error(e);
             }
-            return eliminado;
         }
+        return eliminado;
     }
 
     public Double getPrecio(int id, String categoria) { // producto (pizzas, bebidas, entrantes, postres)
@@ -203,7 +191,7 @@ public class Carta {
         synchronized (object) {
             try {
                 ArrayNode categoriaArray = obtenerCategoriaArray(categoria);
-                if (categoriaArray != null) {
+                if (categoriaArray == null) {
                     logger.warning("Categoría '" + categoria + "' no encontrada.");
                     return;
                 }
@@ -217,7 +205,6 @@ public class Carta {
 
                 ObjectNode producto = mapper.createObjectNode();
 
-                producto.put("id", categoriaArray.size());
                 producto.put("nombre", nombre);
                 producto.put("precio", precio);
                 producto.put("url", url);

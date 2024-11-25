@@ -80,25 +80,5 @@ public class Ingredientes {
         }
     }
 
-    public void setStock(int id, int cantidad) {
-        for (JsonNode ingrediente : listaIngredientes) {
-            if (ingrediente.get("id").asInt() == id) {
-                ((ObjectNode) ingrediente).put("stock", cantidad);
-                logger.success("Stock Cambiado al ingrediente (" + ingrediente.get("nombre") + ") : " + ingrediente.get("stock").asInt());
-                actualizarIngredientes(true);
-            }
-        }
-    }
-
-    public void addStock(int id, int cantidad) {
-        for (JsonNode ingrediente : listaIngredientes) {
-            if (ingrediente.get("id").asInt() == id) {
-                ((ObjectNode) ingrediente).put("stock", ingrediente.get("stock").asInt() + cantidad);
-                logger.success("Stock Cambiado al ingrediente (" + ingrediente.get("nombre") + ") : " + ingrediente.get("stock").asInt());
-                actualizarIngredientes(true);
-            }
-        }
-    }
-
 
 }
