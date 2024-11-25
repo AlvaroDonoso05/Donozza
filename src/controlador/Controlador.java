@@ -45,7 +45,7 @@ public class Controlador implements ActionListener {
         this.vista.btnCartaEntrantes.addActionListener(this);
         this.vista.btnCartaBebidas.addActionListener(this);
         this.vista.btnCartaPostres.addActionListener(this);
-        //this.vista.btnIniciarSesion.addActionListener(this);
+        this.vista.btnIniciarSesion.addActionListener(this);
         this.vista.btnQuitarProducto.addActionListener(this);
         this.vista.btnCobrar.addActionListener(this);
         this.vista.btnCerrarSesion.addActionListener(this);

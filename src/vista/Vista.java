@@ -99,22 +99,22 @@ public class Vista extends JFrame {
         setContentPane(contentPane);
 
         // Generar Admin Panel
-        //generateAdminPanel();
-        //adminPanel.setVisible(false);
+        generateAdminPanel();
+        adminPanel.setVisible(false);
 
         
-        //generateLoadingPanel();
+        generateLoadingPanel();
         
 
-        //loading.setVisible(true);
+        loading.setVisible(true);
 
-        //generateLoginPanel();
-        //logIn.setVisible(false);
+        generateLoginPanel();
+        logIn.setVisible(false);
 
         generateMainPanel();
         mainPanel.setVisible(true);
 
-        /*Timer timer = new Timer(1000, new ActionListener() {
+        Timer timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 logger.success("Configuracíon inicial de base de datos terminada.");
                 loading.setVisible(false);
@@ -122,7 +122,7 @@ public class Vista extends JFrame {
             }
         });
         timer.setRepeats(false);
-        timer.start();*/
+        timer.start();
 
 
     }
