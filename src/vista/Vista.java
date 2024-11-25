@@ -101,6 +101,7 @@ public class Vista extends JFrame {
         contentPane.setLayout(null);
         setContentPane(contentPane);
 
+        // Generar Admin Panel
         generateAdminPanel();
         adminPanel.setVisible(false);
         
