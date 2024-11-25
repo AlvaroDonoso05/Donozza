@@ -265,7 +265,6 @@ public class Controlador implements ActionListener {
         	double total;
         	int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
         	total = database.cobrar(idMesa);
-        	System.out.println("El total es: " + total + "€");
         	mostrarTabla(idMesa);
         	JOptionPane.showMessageDialog(null, "El total es: " + total + "€");
         	recargarMesas();
@@ -281,7 +280,7 @@ public class Controlador implements ActionListener {
 
         ArrayNode pedidos = (ArrayNode) database.getComandas().get(idMesa).get("pedido");
 
-        List pedidosLista = tP.getPedidos();
+        List<String[]> pedidosLista = tP.getPedidos();
 
         for (int i = 0; i < pedidos.size(); i++) {
             String[] pedido = new String[3];
