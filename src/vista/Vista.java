@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -29,10 +30,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import controlador.Controlador;
 import controlador.ImagePanel;
 import controlador.Logger;
-import modelo.TablaIngredientes;
 import modelo.TablaPedidos;
 import modelo.TablaProductos;
 import modelo.TablaUsuarios;
@@ -86,10 +88,6 @@ public class Vista extends JFrame {
     public JButton btnModificarProducto;
     public JButton btnEliminarProducto;
     
-    public JButton btnAddIngredienteAdmin;
-    public JButton btnModificarIngredienteAdmin;
-    public JButton btnEliminarIngredienteAdmin;
-    
     public JButton btnAddUser;
     public JButton btnModificarUser;
     public JButton btnEliminarUser;
@@ -99,28 +97,20 @@ public class Vista extends JFrame {
     public JTextField txtPrecioProducto;
     public JTextField txtExtrasProducto;
 
-    public JTextField txtNombreIngrediente;
-    public JTextField txtPrecioIngrediente;
-    public JTextField txtStockIngrediente;
-    public JTextField txtUrlIngrediente;
-
     public JTextField txtNombreUser;
     public JTextField txtPasswordUser;
     public JToggleButton tglbtnAdminUser;
     
     public TablaProductos tableProductosModel;
-    public TablaIngredientes tableIngredientesModel;
     public TablaUsuarios tableUsuariosModel;
     
     public JTable tableProductos;
-    public JTable tableIngredientes;
     public JTable tableUsuarios;
     public JButton btnCerrarSesionProd;
     public JButton btnCerrarSesionUsuarios;
+    public JComboBox<String> cmbCategoriaProducto;
 
     public Vista() throws Exception {
-    	setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Ismael\\Documents\\practicaIsmael\\src\\assets\\icon\\81SyIywo3GL._AC_SX679_.jpg"));
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 934, 840);
 
@@ -200,7 +190,7 @@ public class Vista extends JFrame {
 
         tableProductosModel = new TablaProductos();
         tableProductos = new JTable(tableProductosModel);
-        tableProductos.getTableHeader().setReorderingAllowed(false);
+        tableProductos.getTableHeader().setReorderingAllowed(false);        
 
         JScrollPane scrollProductos = new JScrollPane(tableProductos);
         scrollProductos.setBounds(20, 60, 400, 200);
@@ -208,23 +198,6 @@ public class Vista extends JFrame {
 
         // Formulario para agregar productos
         addProductForm(productosPanel, tableProductosModel);
-
-        JLabel lblIngredientes_1 = new JLabel("Ingredientes");
-        lblIngredientes_1.setFont(new Font("Segoe Print", Font.BOLD, 18));
-        lblIngredientes_1.setBounds(20, 288, 200, 30);
-        productosPanel.add(lblIngredientes_1);
-
-        // Tabla de ingredientes
-        tableIngredientesModel = new TablaIngredientes();
-        tableIngredientes = new JTable(tableIngredientesModel);
-        tableIngredientes.getTableHeader().setReorderingAllowed(false);
-
-        JScrollPane scrollIngredientes = new JScrollPane(tableIngredientes);
-        scrollIngredientes.setBounds(20, 328, 400, 200);
-        productosPanel.add(scrollIngredientes);
-
-        // Formulario para agregar ingredientes
-        addIngredientForm(productosPanel, tableIngredientesModel);
         
         btnCerrarSesionProd = new JButton("Cerrar Sesion");
         btnCerrarSesionProd.setBackground(new Color(255, 255, 255));
@@ -262,13 +235,17 @@ public class Vista extends JFrame {
 
     // Formulario para productos
     private void addProductForm(JPanel panel, TablaProductos tableModel) {
-        JLabel lblTipo = new JLabel("Tipo:");
+        JLabel lblTipo = new JLabel("Categoria:");
         lblTipo.setBounds(450, 60, 80, 25);
         panel.add(lblTipo);
 
-        txtTipoProducto = new JTextField();
-        txtTipoProducto.setBounds(530, 60, 150, 25);
-        panel.add(txtTipoProducto);
+        cmbCategoriaProducto = new JComboBox<>();
+        cmbCategoriaProducto.addItem("Pizzas");
+        cmbCategoriaProducto.addItem("Bebidas");
+        cmbCategoriaProducto.addItem("Entrantes");
+        cmbCategoriaProducto.addItem("Postres");
+        cmbCategoriaProducto.setBounds(530, 60, 150, 25);
+        panel.add(cmbCategoriaProducto);
 
         JLabel lblNombre = new JLabel("Nombre:");
         lblNombre.setBounds(450, 100, 80, 25);
@@ -306,53 +283,6 @@ public class Vista extends JFrame {
         btnEliminarProducto = new JButton("Eliminar Producto");
         btnEliminarProducto.setBounds(450, 260, 150, 30);
         panel.add(btnEliminarProducto);
-    }
-
-    // Formulario para ingredientes
-    private void addIngredientForm(JPanel panel, TablaIngredientes tableIngredientesModel) {
-        JLabel lblNombre = new JLabel("Nombre:");
-        lblNombre.setBounds(450, 328, 80, 25);
-        panel.add(lblNombre);
-
-        txtNombreIngrediente = new JTextField();
-        txtNombreIngrediente.setBounds(530, 328, 150, 25);
-        panel.add(txtNombreIngrediente);
-
-        JLabel lblPrecio = new JLabel("Precio:");
-        lblPrecio.setBounds(450, 368, 80, 25);
-        panel.add(lblPrecio);
-
-        txtPrecioIngrediente = new JTextField();
-        txtPrecioIngrediente.setBounds(530, 368, 150, 25);
-        panel.add(txtPrecioIngrediente);
-
-        JLabel lblStock = new JLabel("Stock:");
-        lblStock.setBounds(450, 408, 80, 25);
-        panel.add(lblStock);
-
-        txtStockIngrediente = new JTextField();
-        txtStockIngrediente.setBounds(530, 408, 150, 25);
-        panel.add(txtStockIngrediente);
-
-        JLabel lblUrl = new JLabel("URL:");
-        lblUrl.setBounds(450, 448, 80, 25);
-        panel.add(lblUrl);
-
-        txtUrlIngrediente = new JTextField();
-        txtUrlIngrediente.setBounds(530, 448, 150, 25);
-        panel.add(txtUrlIngrediente);
-        
-        btnAddIngredienteAdmin = new JButton("Agregar Producto");
-        btnAddIngredienteAdmin.setBounds(450, 488, 150, 30);
-        panel.add(btnAddIngredienteAdmin);
-        
-        btnModificarIngredienteAdmin = new JButton("Modificar Producto");
-        btnModificarIngredienteAdmin.setBounds(620, 488, 150, 30);
-        panel.add(btnModificarIngredienteAdmin);
-        
-        btnEliminarIngredienteAdmin = new JButton("Eliminar Producto");
-        btnEliminarIngredienteAdmin.setBounds(450, 528, 150, 30);
-        panel.add(btnEliminarIngredienteAdmin);
     }
 
     // Formulario para usuarios

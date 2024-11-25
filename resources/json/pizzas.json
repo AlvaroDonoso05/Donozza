@@ -1,9 +1,9 @@
 {
   "pizzas" : [ {
-    "nombre" : "Carbonara",
-    "precio" : 10.5,
-    "ingredientes" : [ 1, 2, 4, 7 ],
-    "url" : "resources/img/pizzas/carbonara.png"
+    "nombre" : "Barbacoa",
+    "precio" : 12.5,
+    "ingredientes" : [ 1, 2, 6, 8 ],
+    "url" : "resources/img/pizzas/barbacoa.png"
   }, {
     "nombre" : "Atun",
     "precio" : 10.5,
@@ -14,11 +14,6 @@
     "precio" : 10.5,
     "ingredientes" : [ 1, 2 ],
     "url" : "resources/img/pizzas/margarita.png"
-  }, {
-    "nombre" : "aaa",
-    "precio" : 12.0,
-    "url" : "\"resources/img/pizzas/carbonara.png\"",
-    "ingredientes" : [ 1, 2, 3, 4 ]
   } ],
   "bebidas" : [ {
     "nombre" : "Agua",

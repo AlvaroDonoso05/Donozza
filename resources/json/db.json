@@ -37,8 +37,12 @@
     "password" : "admin",
     "isAdmin" : true
   }, {
-    "name" : "Alvaro",
-    "password" : "alvaro",
+    "name" : "aaa",
+    "password" : "aaa",
+    "isAdmin" : true
+  }, {
+    "name" : "aaaa",
+    "password" : "aaaa",
     "isAdmin" : false
   } ]
 }

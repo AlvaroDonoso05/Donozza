@@ -27,33 +27,39 @@ public class TablaUsuarios extends AbstractTableModel {
     public String getColumnName(int column) {
         return columnNames[column];
     }
+    
+    public void addUsuarioFirst(String nombre, String password, boolean isAdmin) {
+    	String[] usuario = new String[3];
+        usuario[0] = nombre;
+        usuario[1] = password;
+        usuario[2] = String.valueOf(isAdmin);
+        usuarios.add(usuario);
+        fireTableDataChanged();
+    }
 
     // Agregar un nuevo usuario
-    public void addUsuario(String nombre, String contrasena, boolean isAdmin) {
-        usuarios.add(new String[]{
-            nombre,
-            contrasena,
-            String.valueOf(isAdmin)
-        });
-        fireTableRowsInserted(usuarios.size() - 1, usuarios.size() - 1);
+    public void addUsuario() {
+    	fireTableDataChanged();
     }
 
     // Eliminar un usuario por índice
     public void removeUsuario(int rowIndex) {
-        if (rowIndex >= 0 && rowIndex < usuarios.size()) {
+    	if (rowIndex >= 0 && rowIndex < usuarios.size()) {
             usuarios.remove(rowIndex);
             fireTableRowsDeleted(rowIndex, rowIndex);
         }
+    	fireTableDataChanged();
     }
 
     // Actualizar un usuario existente
-    public void updateUsuario(int rowIndex, String nombre, String contrasena, boolean isAdmin) {
+    public void updateUsuario(int rowIndex, String nombre, String password, boolean isAdmin) {
+    	String[] usuario = new String[3];
+        usuario[0] = nombre;
+        usuario[1] = password;
+        usuario[2] = String.valueOf(isAdmin);
+        usuarios.add(usuario);
         if (rowIndex >= 0 && rowIndex < usuarios.size()) {
-            usuarios.set(rowIndex, new String[]{
-                nombre,
-                contrasena,
-                String.valueOf(isAdmin)
-            });
+        	usuarios.set(rowIndex, usuario);
             fireTableRowsUpdated(rowIndex, rowIndex);
         }
     }

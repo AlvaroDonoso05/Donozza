@@ -1,5 +1,6 @@
 package controlador;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -10,6 +11,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -22,11 +24,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import modelo.Carta;
 import modelo.Database;
 import modelo.Ingredientes;
 import modelo.TablaPedidos;
+import modelo.TablaProductos;
+import modelo.TablaUsuarios;
 import vista.Vista;
 
 public class Controlador implements ActionListener {
@@ -56,10 +61,6 @@ public class Controlador implements ActionListener {
         this.vista.btnModificarProducto.addActionListener(this);
         this.vista.btnAddProducto.addActionListener(this);
 
-        this.vista.btnEliminarIngredienteAdmin.addActionListener(this);
-        this.vista.btnModificarIngredienteAdmin.addActionListener(this);
-        this.vista.btnAddIngredienteAdmin.addActionListener(this);
-
         this.vista.btnEliminarUser.addActionListener(this);
         this.vista.btnModificarUser.addActionListener(this);
         this.vista.btnAddUser.addActionListener(this);
@@ -82,8 +83,41 @@ public class Controlador implements ActionListener {
         }
 
        generarBotonesMesas();
+       
+       try {
+    	// Cargar Productos
+    	   TablaProductos modelo = (TablaProductos) this.vista.tableProductos.getModel();
+           
+           for (JsonNode pizza : carta.getPizzas()) {
+               modelo.addProducto("pizza",
+                   pizza.get("nombre").asText(),
+                   pizza.get("precio").asDouble(),
+                   pizza.get("url").asText()
+               );
+           }
+       } catch(Exception e) {
+    	   logger.error(e);
+       }
+       
+       try {
+       	// Cargar Usuarios
+    	   ArrayNode usuarios = database.getAccounts();
+              
+    	   this.vista.tableUsuariosModel.clearData();
+    	   
+    	   for (JsonNode userNode : usuarios) {
+    	        String nombre = userNode.get("name").asText();
+    	        String password = userNode.get("password").asText();
+    	        boolean isAdmin = userNode.get("isAdmin").asBoolean();
 
+    	        // Agregar cada usuario al modelo de la tabla
+    	        this.vista.tableUsuariosModel.addUsuarioFirst(nombre, password, isAdmin);
+    	    }
+          } catch(Exception e) {
+       	   logger.error(e);
+          }
 
+         this.vista.tableUsuarios.updateUI();
     }
 
     public void generarBotonesMesas() {
@@ -313,57 +347,95 @@ public class Controlador implements ActionListener {
             int selectedRow = this.vista.tableProductos.getSelectedRow();
             if (selectedRow != -1) {
                 this.vista.tableProductosModel.removeProducto(selectedRow);
+                String categoria = this.vista.cmbCategoriaProducto.getSelectedItem().toString().toLowerCase();
+                boolean eliminado = carta.deleteProducto(selectedRow, categoria);
+                
+                if (eliminado) {
+                    logger.success("Producto eliminado correctamente");
+                } else {
+                    logger.warning("Error al eliminar el producto.");
+                }
             }
+            
         } else if (e.getSource() == this.vista.btnModificarProducto) {
             int selectedRow = this.vista.tableProductos.getSelectedRow();
+            
             if (selectedRow != -1) {
-                this.vista.tableProductosModel.updateProducto(
-                    selectedRow,
-                    this.vista.txtTipoProducto.getText(),
-                    this.vista.txtNombreProducto.getText(),
-                    Double.parseDouble(this.vista.txtPrecioProducto.getText()),
-                    this.vista.txtExtrasProducto.getText()
-                );
-                limpiarCampos();
+                try {
+                    String categoria = this.vista.cmbCategoriaProducto.getSelectedItem().toString().toLowerCase();
+                    String nombre = this.vista.txtNombreProducto.getText();
+                    double precio = Double.parseDouble(this.vista.txtPrecioProducto.getText());
+                    String ingredientesExtra = this.vista.txtExtrasProducto.getText();
+                    List<Integer> ingredientes = null;
+
+                    // Actualiza el modelo de la tabla
+                    this.vista.tableProductosModel.updateProducto(
+                        selectedRow,
+                        categoria,
+                        nombre,
+                        precio,
+                        ingredientesExtra
+                    );
+
+                    // Procesa ingredientes si es una pizza
+                    if (categoria.equals("pizzas")) {
+                        if (ingredientesExtra != null && !ingredientesExtra.isEmpty()) {
+                            String[] ingredientesTexto = ingredientesExtra.split(",");
+                            ingredientes = new ArrayList<>();
+
+                            for (String id : ingredientesTexto) {
+                                try {
+                                    ingredientes.add(Integer.parseInt(id.trim()));
+                                } catch (Exception ex) {
+                                    logger.error(ex);
+                                    return; // Salir si hay un error en los ingredientes
+                                }
+                            }
+                        } else {
+                            logger.warning("Advertencia: No se especificaron ingredientes para la pizza.");
+                        }
+                    }
+
+                    // Elimina y vuelve a agregar el producto en la carta
+                    carta.deleteProducto(selectedRow, categoria);
+
+                    carta.addProducto(categoria, nombre, precio, ingredientes, carta.getPizzas().get(selectedRow).get("url").asText());
+
+                    // Limpia los campos de entrada
+                    limpiarCampos();
+                    logger.success("Producto modificado correctamente.");
+                } catch (Exception ex) {
+                    logger.error(ex);
+                }
+            } else {
+                logger.warning("Seleccione un producto para modificar.");
             }
         } else if (e.getSource() == this.vista.btnAddProducto) {
+        	String categoria = this.vista.cmbCategoriaProducto.getSelectedItem().toString().toLowerCase();
+            String nombre = this.vista.txtNombreProducto.getText();
+            double precio = Double.parseDouble(this.vista.txtPrecioProducto.getText());
+            String txtExtrasProducto = this.vista.txtExtrasProducto.getText();
+            List<Integer> ingredientes = null;
+            
+            if (categoria.equals("pizzas")) {
+                String[] ingredientesTexto = txtExtrasProducto.split(",");
+                ingredientes = new ArrayList<>();
+                for (String id : ingredientesTexto) {
+                    ingredientes.add(Integer.parseInt(id.trim()));
+                }
+            }
+            
+            carta.addProducto(categoria, nombre, precio, ingredientes, "resources/img/default.png");
+            
             this.vista.tableProductosModel.addProducto(
-                this.vista.txtTipoProducto.getText(),
-                this.vista.txtNombreProducto.getText(),
-                Double.parseDouble(this.vista.txtPrecioProducto.getText()),
-                this.vista.txtExtrasProducto.getText()
+                categoria,
+                nombre,
+                precio,
+                txtExtrasProducto
             );
             limpiarCampos();
-        }
-        
-        // Botones de Administracion de Ingredientes
-        if (e.getSource() == this.vista.btnEliminarIngredienteAdmin) {
-            int selectedRow = this.vista.tableIngredientes.getSelectedRow();
-            if (selectedRow != -1) {
-                this.vista.tableIngredientesModel.removeIngrediente(selectedRow);
-            } else {
-                JOptionPane.showMessageDialog(vista, "Seleccione un ingrediente para eliminar.");
-            }
-        } else if (e.getSource() == this.vista.btnModificarIngredienteAdmin) {
-            int selectedRow = this.vista.tableIngredientes.getSelectedRow();
-            if (selectedRow != -1) {
-                this.vista.tableIngredientesModel.updateIngrediente(
-                    selectedRow,
-                    this.vista.txtNombreIngrediente.getText(),
-                    Double.parseDouble(this.vista.txtPrecioIngrediente.getText()),
-                    Integer.parseInt(this.vista.txtStockIngrediente.getText()),
-                    this.vista.txtUrlIngrediente.getText()
-                );
-                limpiarCampos();
-            }
-        } else if (e.getSource() == this.vista.btnAddIngredienteAdmin) {
-            this.vista.tableIngredientesModel.addIngrediente(
-                this.vista.txtNombreIngrediente.getText(),
-                Double.parseDouble(this.vista.txtPrecioIngrediente.getText()),
-                Integer.parseInt(this.vista.txtStockIngrediente.getText()),
-                this.vista.txtUrlIngrediente.getText()
-            );
-            limpiarCampos();
+            
+            logger.success("Producto añadido correctamente.");
         }
         
         // Botones de Administracion de Usuarios
@@ -371,37 +443,25 @@ public class Controlador implements ActionListener {
             int selectedRow = this.vista.tableUsuarios.getSelectedRow();
             if (selectedRow != -1) {
                 this.vista.tableUsuariosModel.removeUsuario(selectedRow);
+                database.eliminarUsuario(selectedRow);
             }
         } else if (e.getSource() == this.vista.btnModificarUser) {
             int selectedRow = this.vista.tableUsuarios.getSelectedRow();
             if (selectedRow != -1) {
-                this.vista.tableUsuariosModel.updateUsuario(
-                    selectedRow,
-                    this.vista.txtNombreUser.getText(),
-                    this.vista.txtPasswordUser.getText(),
-                    this.vista.tglbtnAdminUser.isSelected()
-                );
+                this.vista.tableUsuariosModel.updateUsuario(selectedRow, this.vista.txtNombreUser.getText(), this.vista.txtPasswordUser.getText(), this.vista.tglbtnAdminUser.isSelected());
+                database.modificarUsuario(selectedRow, this.vista.txtNombreUser.getText(), this.vista.txtPasswordUser.getText(), this.vista.tglbtnAdminUser.isSelected());
                 limpiarCampos();
             }
         } else if (e.getSource() == this.vista.btnAddUser) {
-            this.vista.tableUsuariosModel.addUsuario(
-                this.vista.txtNombreUser.getText(),
-                this.vista.txtPasswordUser.getText(),
-                this.vista.tglbtnAdminUser.isSelected()
-            );
+            this.vista.tableUsuariosModel.addUsuarioFirst(this.vista.txtNombreUser.getText(), this.vista.txtPasswordUser.getText(), this.vista.tglbtnAdminUser.isSelected());
+            database.añadirUsuario(this.vista.txtNombreUser.getText(), this.vista.txtPasswordUser.getText(), this.vista.tglbtnAdminUser.isSelected());
             limpiarCampos();
         }
     }
     
     private void limpiarCampos() {
-        this.vista.txtTipoProducto.setText("");
-        this.vista.txtNombreProducto.setText("");
         this.vista.txtPrecioProducto.setText("");
         this.vista.txtExtrasProducto.setText("");
-        this.vista.txtNombreIngrediente.setText("");
-        this.vista.txtPrecioIngrediente.setText("");
-        this.vista.txtStockIngrediente.setText("");
-        this.vista.txtUrlIngrediente.setText("");
         this.vista.txtNombreUser.setText("");
         this.vista.txtPasswordUser.setText("");
         this.vista.tglbtnAdminUser.setSelected(false);
@@ -566,6 +626,26 @@ public class Controlador implements ActionListener {
 
         this.vista.panelIngredientes.revalidate();
         this.vista.panelIngredientes.repaint();
+    }
+    
+    private void cargarProductosEnTabla() {
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) this.vista.tableProductos.getModel();
+            modelo.setRowCount(0);
+
+            for (JsonNode pizza : carta.getPizzas()) {
+                modelo.addRow(new Object[]{
+                    pizza.get("id").asInt(),
+                    pizza.get("nombre").asText(),
+                    pizza.get("precio").asDouble(),
+                    pizza.get("url").asText()
+                });
+            }
+
+            // Similar para otras categorías (bebidas, entrantes, postres)
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(vista, "Error al cargar productos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }

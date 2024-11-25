@@ -6,7 +6,7 @@ import java.util.List;
 
 public class TablaProductos extends AbstractTableModel {
 
-    private final String[] columnNames = {"ID", "Tipo", "Nombre", "Precio", "Extras"};
+    private final String[] columnNames = {"Tipo", "Nombre", "Precio", "Extras"};
     private final List<Object[]> data;
 
     public TablaProductos() {
@@ -40,7 +40,7 @@ public class TablaProductos extends AbstractTableModel {
     }
 
     public void addProducto(String tipo, String nombre, double precio, String extras) {
-        Object[] row = {data.size() + 1, tipo, nombre, precio, extras};
+        Object[] row = {tipo, nombre, precio, extras};
         data.add(row);
         fireTableRowsInserted(data.size() - 1, data.size() - 1);
     }
@@ -54,7 +54,7 @@ public class TablaProductos extends AbstractTableModel {
 
     public void updateProducto(int rowIndex, String tipo, String nombre, double precio, String extras) {
         if (rowIndex >= 0 && rowIndex < data.size()) {
-            data.set(rowIndex, new Object[]{rowIndex + 1, tipo, nombre, precio, extras});
+            data.set(rowIndex, new Object[]{tipo, nombre, precio, extras});
             fireTableRowsUpdated(rowIndex, rowIndex);
         }
     }

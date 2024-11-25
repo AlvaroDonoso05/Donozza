@@ -120,6 +120,62 @@ public class Database {
 
         logger.success("Base de datos de Comandas Generada");
     }
+    
+    public void añadirUsuario(String nombre, String password, boolean isAdmin) {
+        synchronized (object) {
+            try {
+                ArrayNode usuarios = (ArrayNode) rootNode.get("usuarios");
+                ObjectNode nuevoUsuario = mapper.createObjectNode();
+                nuevoUsuario.put("name", nombre);
+                nuevoUsuario.put("password", password);
+                nuevoUsuario.put("isAdmin", isAdmin);
+                usuarios.add(nuevoUsuario);
+                actualizarDatabase(true);
+            } catch (Exception e) {
+                logger.error(e);
+            }
+        }
+    }
+    
+    public void modificarUsuario(int index, String nombre, String password, boolean isAdmin) {
+        synchronized (object) {
+            try {
+                ArrayNode usuarios = (ArrayNode) rootNode.get("usuarios");
+                ObjectNode usuario = (ObjectNode) usuarios.get(index);
+
+                // No se pueda modificar el usuario admin
+                if (!usuario.get("name").asText().equalsIgnoreCase("admin")) {
+                    usuario.put("name", nombre);
+                    usuario.put("password", password);
+                    usuario.put("isAdmin", isAdmin);
+                    actualizarDatabase(true);
+                } else {
+                    logger.log("No se puede modificar el usuario admin.");
+                }
+            } catch (Exception e) {
+                logger.error(e);
+            }
+        }
+    }
+    
+    public void eliminarUsuario(int indice) {
+        synchronized (object) {
+            try {
+                ArrayNode usuarios = (ArrayNode) rootNode.get("usuarios");
+                ObjectNode usuario = (ObjectNode) usuarios.get(indice);
+
+                // No se pueda eliminar el usuario admin
+                if (!usuario.get("name").asText().equalsIgnoreCase("admin")) {
+                    usuarios.remove(indice);
+                    actualizarDatabase(true);
+                } else {
+                    logger.log("No se puede eliminar el usuario admin.");
+                }
+            } catch (Exception e) {
+                logger.error(e);
+            }
+        }
+    }
 
     public boolean comprobarUsuario(String username, String password) {
         for (JsonNode account : accounts) {
@@ -258,8 +314,15 @@ public class Database {
         return comandas;
     }
 
+    public ArrayNode getAccounts() {
+		return accounts;
+	}
 
-    public String getUrl() {
+	public void setAccounts(ArrayNode accounts) {
+		this.accounts = accounts;
+	}
+
+	public String getUrl() {
         return url;
     }
 
