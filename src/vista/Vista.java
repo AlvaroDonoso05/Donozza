@@ -241,9 +241,6 @@ public class Vista extends JFrame {
 
         cmbCategoriaProducto = new JComboBox<>();
         cmbCategoriaProducto.addItem("Pizzas");
-        cmbCategoriaProducto.addItem("Bebidas");
-        cmbCategoriaProducto.addItem("Entrantes");
-        cmbCategoriaProducto.addItem("Postres");
         cmbCategoriaProducto.setBounds(530, 60, 150, 25);
         panel.add(cmbCategoriaProducto);
 
