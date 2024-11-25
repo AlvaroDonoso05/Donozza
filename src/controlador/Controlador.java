@@ -48,6 +48,7 @@ public class Controlador implements ActionListener {
         this.vista.btnAgregarIngrediente.addActionListener(this);
         this.vista.btnEliminarIngrediente.addActionListener(this);
         this.vista.btnCobrar.addActionListener(this);
+        this.vista.btnCerrarSesion.addActionListener(this);
 
 
         try {
@@ -241,9 +242,18 @@ public class Controlador implements ActionListener {
                 vista.logIn.setVisible(false);
                 vista.lblwrongPassword.setVisible(false);
                 vista.mainPanel.setVisible(true);
+                vista.usernameField.setText("");
+                vista.passwordField.setText("");
             } else {
                 vista.lblwrongPassword.setVisible(true);
+                vista.usernameField.setText("");
+                vista.passwordField.setText("");
             }
+
+        }
+        if(e.getSource() == vista.btnCerrarSesion) {
+            vista.mainPanel.setVisible(false);
+            vista.logIn.setVisible(true);
 
         }
 
