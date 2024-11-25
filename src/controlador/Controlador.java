@@ -212,10 +212,17 @@ public class Controlador implements ActionListener {
 
         if (e.getSource() == vista.btnIniciarSesion) {
             if (database.comprobarUsuario(vista.usernameField.getText(), vista.passwordField.getText())) {
-                vista.loading.setVisible(false);
-                vista.logIn.setVisible(false);
-                vista.lblwrongPassword.setVisible(false);
-                vista.mainPanel.setVisible(true);
+                if(database.isAdmin(vista.usernameField.getText())) {
+                	vista.loading.setVisible(false);
+                    vista.logIn.setVisible(false);
+                    vista.lblwrongPassword.setVisible(false);
+                    vista.adminPanel.setVisible(true);
+                } else {
+                	vista.loading.setVisible(false);
+                    vista.logIn.setVisible(false);
+                    vista.lblwrongPassword.setVisible(false);
+                    vista.mainPanel.setVisible(true);
+                }
             } else {
                 vista.lblwrongPassword.setVisible(true);
             }
