@@ -112,7 +112,7 @@ public class Vista extends JFrame {
         logIn.setVisible(false);
 
         generateMainPanel();
-        mainPanel.setVisible(true);
+        mainPanel.setVisible(false);
 
         Timer timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
