@@ -49,6 +49,8 @@ public class Controlador implements ActionListener {
         this.vista.btnEliminarIngrediente.addActionListener(this);
         this.vista.btnCobrar.addActionListener(this);
         this.vista.btnCerrarSesion.addActionListener(this);
+        this.vista.btnCerrarSesionProd.addActionListener(this);
+        this.vista.btnCerrarSesionUsuarios.addActionListener(this);
 
 
         try {
@@ -251,15 +253,22 @@ public class Controlador implements ActionListener {
                 }
             } else {
                 vista.lblwrongPassword.setVisible(true);
-                vista.usernameField.setText("");
-                vista.passwordField.setText("");
+
             }
 
         }
         if(e.getSource() == vista.btnCerrarSesion) {
             vista.mainPanel.setVisible(false);
             vista.logIn.setVisible(true);
-
+            vista.usernameField.setText("");
+            vista.passwordField.setText("");
+        }
+        
+        if(e.getSource() == vista.btnCerrarSesionProd || e.getSource() == vista.btnCerrarSesionUsuarios) {
+        	vista.logIn.setVisible(true);
+        	vista.adminPanel.setVisible(false);
+            vista.usernameField.setText("");
+            vista.passwordField.setText("");
         }
 
         //BOTONES SECCIÓN COMANDAS

@@ -37,6 +37,7 @@ import modelo.TablaPedidos;
 import modelo.TablaProductos;
 import modelo.TablaUsuarios;
 import javax.swing.JToggleButton;
+import java.awt.Toolkit;
 
 
 public class Vista extends JFrame {
@@ -90,13 +91,17 @@ public class Vista extends JFrame {
     public JButton btnAddIngrediente;
     public JButton btnAddUser;
     public JButton btnCerrarSesion;
+    public JButton btnCerrarSesionProd;
+    public JButton btnCerrarSesionUsuarios;
 
     public Vista() throws Exception {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Ismael\\Documents\\practicaIsmael\\src\\assets\\icon\\81SyIywo3GL._AC_SX679_.jpg"));
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 934, 840);
 
         contentPane = new JLayeredPane();
+        
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(null);
         setContentPane(contentPane);
@@ -139,6 +144,9 @@ public class Vista extends JFrame {
                     Vista frame = new Vista();
                     vista.controlador = new Controlador(frame);
                     frame.setVisible(true);
+                    frame.setResizable(false);
+                    ImageIcon programIcon = new ImageIcon("resources/img/logos/logoventana.png");
+                    frame.setIconImage(programIcon.getImage());
                 } catch (Exception e) {
                     logger.error(e);
                 }
@@ -157,7 +165,7 @@ public class Vista extends JFrame {
         adminPanel.add(tabbedPane, BorderLayout.CENTER);
 
         // Panel de Productos
-        JPanel productosPanel = new JPanel();
+        ImagePanel productosPanel = new ImagePanel("resources/img/fondos/fondococina.jpg");
         productosPanel.setLayout(null);
         tabbedPane.addTab("Gestión de Productos/Ingredientes", productosPanel);
 
@@ -193,9 +201,15 @@ public class Vista extends JFrame {
 
         // Formulario para agregar ingredientes
         addIngredientForm(productosPanel, tableIngredientesModel);
+        
+        btnCerrarSesionProd = new JButton("Cerrar Sesion");
+        btnCerrarSesionProd.setBackground(new Color(255, 255, 255));
+        btnCerrarSesionProd.setFont(new Font("Segoe Print", Font.PLAIN, 15));
+        btnCerrarSesionProd.setBounds(750, 10, 150, 40);
+        productosPanel.add(btnCerrarSesionProd);
 
         // Panel de Usuarios
-        JPanel usuariosPanel = new JPanel();
+        ImagePanel usuariosPanel = new ImagePanel("resources/img/fondos/fondococina.jpg");
         usuariosPanel.setLayout(null);
         tabbedPane.addTab("Gestión de Usuarios", usuariosPanel);
 
@@ -214,6 +228,12 @@ public class Vista extends JFrame {
         usuariosPanel.add(scrollUsuarios);
 
         addUserForm(usuariosPanel, tableUsuariosModel);
+        
+        btnCerrarSesionUsuarios = new JButton("Cerrar Sesion");
+        btnCerrarSesionUsuarios.setBackground(new Color(255, 255, 255));
+        btnCerrarSesionUsuarios.setFont(new Font("Segoe Print", Font.PLAIN, 15));
+        btnCerrarSesionUsuarios.setBounds(750, 10, 150, 40);
+        usuariosPanel.add(btnCerrarSesionUsuarios);
     }
 
     // Formulario para productos
@@ -251,6 +271,7 @@ public class Vista extends JFrame {
         panel.add(txtExtras);
 
         btnAddProducto = new JButton("Agregar Producto");
+        btnAddProducto.setBackground(new Color(255, 255, 255));
         btnAddProducto.setBounds(450, 220, 150, 30);
         panel.add(btnAddProducto);
 
@@ -304,6 +325,7 @@ public class Vista extends JFrame {
         panel.add(txtUrl);
 
         btnAddIngrediente = new JButton("Agregar Ingrediente");
+        btnAddIngrediente.setBackground(new Color(255, 255, 255));
         btnAddIngrediente.setBounds(450, 488, 150, 30);
         panel.add(btnAddIngrediente);
 
@@ -349,6 +371,7 @@ public class Vista extends JFrame {
         panel.add(tglbtnAdmin);
 
         btnAddUser = new JButton("Agregar Usuario");
+        btnAddUser.setBackground(new Color(255, 255, 255));
         btnAddUser.setBounds(450, 200, 150, 30);
         panel.add(btnAddUser);
 
@@ -366,7 +389,7 @@ public class Vista extends JFrame {
     }
 
     private void generateMainPanel() {
-        mainPanel = new ImagePanel("resources/img/background.png");
+        mainPanel = new ImagePanel("resources/img/fondos/madera.jpg");
         mainPanel.setBackground(new Color(255, 204, 204));
         mainPanel.setForeground(new Color(255, 255, 255));
         mainPanel.setBounds(0, 0, 918, 801);
