@@ -1,66 +1,65 @@
 package modelo;
 
+import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.table.AbstractTableModel;
-
 public class TablaProductos extends AbstractTableModel {
-    private String[] columnNames = {"Tipo", "Nombre", "Precio", "Ingredientes"};
-    private List<String[]> usuarios = new ArrayList<>();
 
+    private final String[] columnNames = {"ID", "Tipo", "Nombre", "Precio", "Extras"};
+    private final List<Object[]> data;
+
+    public TablaProductos() {
+        data = new ArrayList<>();
+    }
 
     @Override
     public int getRowCount() {
-        // TODO Auto-generated method stub
-        return usuarios.size();
+        return data.size();
     }
 
     @Override
     public int getColumnCount() {
-        // TODO Auto-generated method stub
         return columnNames.length;
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        // TODO Auto-generated method stub
-        return usuarios.get(rowIndex)[columnIndex];
-    }
-
-    public void clearData() {
-    	usuarios.clear();
-        fireTableDataChanged();
-
-    }
-
     public String getColumnName(int column) {
         return columnNames[column];
     }
 
-    public String[] getColumnNames() {
-        return columnNames;
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        return data.get(rowIndex)[columnIndex];
     }
 
-    public void setColumnNames(String[] columnNames) {
-        this.columnNames = columnNames;
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        data.get(rowIndex)[columnIndex] = aValue;
+        fireTableCellUpdated(rowIndex, columnIndex);
     }
 
-    public List<String[]> getPedidos() {
-        return usuarios;
-    }
-    
-    public void addProducto(String tipo, String nombre, Double precio, String ingredientes) {
-        usuarios.add(new String[]{
-            tipo,
-        	nombre,
-            String.valueOf(precio),
-            ingredientes
-        });
-        fireTableDataChanged();
+    public void addProducto(String tipo, String nombre, double precio, String extras) {
+        Object[] row = {data.size() + 1, tipo, nombre, precio, extras};
+        data.add(row);
+        fireTableRowsInserted(data.size() - 1, data.size() - 1);
     }
 
-    public void setPedidos(List<String[]> pedidos) {
-        this.usuarios = pedidos;
+    public void removeProducto(int rowIndex) {
+        if (rowIndex >= 0 && rowIndex < data.size()) {
+            data.remove(rowIndex);
+            fireTableRowsDeleted(rowIndex, rowIndex);
+        }
+    }
+
+    public void updateProducto(int rowIndex, String tipo, String nombre, double precio, String extras) {
+        if (rowIndex >= 0 && rowIndex < data.size()) {
+            data.set(rowIndex, new Object[]{rowIndex + 1, tipo, nombre, precio, extras});
+            fireTableRowsUpdated(rowIndex, rowIndex);
+        }
+    }
+
+    public Object[] getProductoAt(int rowIndex) {
+        return data.get(rowIndex);
     }
 }

@@ -49,6 +49,7 @@ public class Controlador implements ActionListener {
         this.vista.btnEliminarIngrediente.addActionListener(this);
         this.vista.btnCobrar.addActionListener(this);
         this.vista.btnCerrarSesion.addActionListener(this);
+        this.vista.btnEliminarProducto.addActionListener(this);
 
 
         try {
@@ -285,7 +286,113 @@ public class Controlador implements ActionListener {
         	recargarMesas();
         	generarBotonesMesas();
         }
+        
+        
+        // Botones de Aministración de Productos
+        if (e.getSource() == this.vista.btnEliminarProducto) {
+            int selectedRow = this.vista.tableProductos.getSelectedRow();
+            if (selectedRow != -1) {
+                this.vista.tableProductosModel.removeProducto(selectedRow);
+            }
+        } else if (e.getSource() == this.vista.btnModificarProducto) {
+            int selectedRow = this.vista.tableProductos.getSelectedRow();
+            if (selectedRow != -1) {
+                this.vista.tableProductosModel.updateProducto(
+                    selectedRow,
+                    this.vista.txtTipoProducto.getText(),
+                    this.vista.txtNombreProducto.getText(),
+                    Double.parseDouble(this.vista.txtPrecioProducto.getText()),
+                    this.vista.txtExtrasProducto.getText()
+                );
+                limpiarCampos();
+            }
+        } else if (e.getSource() == this.vista.btnAddProducto) {
+            this.vista.tableProductosModel.addProducto(
+                this.vista.txtTipoProducto.getText(),
+                this.vista.txtNombreProducto.getText(),
+                Double.parseDouble(this.vista.txtPrecioProducto.getText()),
+                this.vista.txtExtrasProducto.getText()
+            );
+            limpiarCampos();
+        }
+        
+        // Botones de Administracion de Ingredientes
+        if (e.getSource() == this.vista.btnEliminarIngredienteAdmin) {
+            int selectedRow = this.vista.tableIngredientes.getSelectedRow();
+            if (selectedRow != -1) {
+                this.vista.tableIngredientesModel.removeIngrediente(selectedRow);
+            } else {
+                JOptionPane.showMessageDialog(vista, "Seleccione un ingrediente para eliminar.");
+            }
+        } else if (e.getSource() == this.vista.btnModificarIngredienteAdmin) {
+            int selectedRow = this.vista.tableIngredientes.getSelectedRow();
+            if (selectedRow != -1) {
+                this.vista.tableIngredientesModel.updateIngrediente(
+                    selectedRow,
+                    this.vista.txtNombreIngrediente.getText(),
+                    Double.parseDouble(this.vista.txtPrecioIngrediente.getText()),
+                    Integer.parseInt(this.vista.txtStockIngrediente.getText()),
+                    this.vista.txtUrlIngrediente.getText()
+                );
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(vista, "Seleccione un ingrediente para modificar.");
+            }
+        } else if (e.getSource() == this.vista.btnAddIngredienteAdmin) {
+            this.vista.tableIngredientesModel.addIngrediente(
+                this.vista.txtNombreIngrediente.getText(),
+                Double.parseDouble(this.vista.txtPrecioIngrediente.getText()),
+                Integer.parseInt(this.vista.txtStockIngrediente.getText()),
+                this.vista.txtUrlIngrediente.getText()
+            );
+            limpiarCampos();
+        }
+        
+        // Botones de Administracion de Usuarios
+        if (e.getSource() == this.vista.btnEliminarUser) {
+            int selectedRow = this.vista.tableUsuarios.getSelectedRow();
+            if (selectedRow != -1) {
+                this.vista.tableUsuariosModel.removeUsuario(selectedRow);
+            } else {
+                JOptionPane.showMessageDialog(vista, "Seleccione un usuario para eliminar.");
+            }
+        } else if (e.getSource() == this.vista.btnModificarUser) {
+            int selectedRow = this.vista.tableUsuarios.getSelectedRow();
+            if (selectedRow != -1) {
+                this.vista.tableUsuariosModel.updateUsuario(
+                    selectedRow,
+                    this.vista.txtNombreUser.getText(),
+                    this.vista.txtPasswordUser.getText(),
+                    this.vista.tglbtnAdminUser.isSelected()
+                );
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(vista, "Seleccione un usuario para modificar.");
+            }
+        } else if (e.getSource() == this.vista.btnAddUser) {
+            this.vista.tableUsuariosModel.addUsuario(
+                this.vista.txtNombreUser.getText(),
+                this.vista.txtPasswordUser.getText(),
+                this.vista.tglbtnAdminUser.isSelected()
+            );
+            limpiarCampos();
+        }
     }
+    
+    private void limpiarCampos() {
+        this.vista.txtTipoProducto.setText("");
+        this.vista.txtNombreProducto.setText("");
+        this.vista.txtPrecioProducto.setText("");
+        this.vista.txtExtrasProducto.setText("");
+        this.vista.txtNombreIngrediente.setText("");
+        this.vista.txtPrecioIngrediente.setText("");
+        this.vista.txtStockIngrediente.setText("");
+        this.vista.txtUrlIngrediente.setText("");
+        this.vista.txtNombreUser.setText("");
+        this.vista.txtPasswordUser.setText("");
+        this.vista.tglbtnAdminUser.setSelected(false);
+    }
+
 
     public void mostrarTabla(int idMesa) {
         //Recuperación del modelo de tabla

@@ -86,10 +86,42 @@ public class Vista extends JFrame {
     public JLabel lblwrongPassword;
     public JButton btnIniciarSesion;
     public JPanel adminPanel;
-    public JButton btnAddProducto;
     public JButton btnAddIngrediente;
-    public JButton btnAddUser;
     public JButton btnCerrarSesion;
+    
+    public JButton btnAddProducto;
+    public JButton btnModificarProducto;
+    public JButton btnEliminarProducto;
+    
+    public JButton btnAddIngredienteAdmin;
+    public JButton btnModificarIngredienteAdmin;
+    public JButton btnEliminarIngredienteAdmin;
+    
+    public JButton btnAddUser;
+    public JButton btnModificarUser;
+    public JButton btnEliminarUser;
+
+    public JTextField txtTipoProducto;
+    public JTextField txtNombreProducto;
+    public JTextField txtPrecioProducto;
+    public JTextField txtExtrasProducto;
+
+    public JTextField txtNombreIngrediente;
+    public JTextField txtPrecioIngrediente;
+    public JTextField txtStockIngrediente;
+    public JTextField txtUrlIngrediente;
+
+    public JTextField txtNombreUser;
+    public JTextField txtPasswordUser;
+    public JToggleButton tglbtnAdminUser;
+    
+    public TablaProductos tableProductosModel;
+    public TablaIngredientes tableIngredientesModel;
+    public TablaUsuarios tableUsuariosModel;
+    
+    public JTable tableProductos;
+    public JTable tableIngredientes;
+    public JTable tableUsuarios;
 
     public Vista() throws Exception {
 
@@ -166,8 +198,8 @@ public class Vista extends JFrame {
         lblProductos.setBounds(20, 20, 200, 30);
         productosPanel.add(lblProductos);
 
-        TablaProductos tableProductosModel = new TablaProductos();
-        JTable tableProductos = new JTable(tableProductosModel);
+        tableProductosModel = new TablaProductos();
+        tableProductos = new JTable(tableProductosModel);
         tableProductos.getTableHeader().setReorderingAllowed(false);
 
         JScrollPane scrollProductos = new JScrollPane(tableProductos);
@@ -183,8 +215,8 @@ public class Vista extends JFrame {
         productosPanel.add(lblIngredientes_1);
 
         // Tabla de ingredientes
-        TablaIngredientes tableIngredientesModel = new TablaIngredientes();
-        JTable tableIngredientes = new JTable(tableIngredientesModel);
+        tableIngredientesModel = new TablaIngredientes();
+        tableIngredientes = new JTable(tableIngredientesModel);
         tableIngredientes.getTableHeader().setReorderingAllowed(false);
 
         JScrollPane scrollIngredientes = new JScrollPane(tableIngredientes);
@@ -205,8 +237,8 @@ public class Vista extends JFrame {
         usuariosPanel.add(lblUsuarios);
 
         // Tabla de usuarios
-        TablaUsuarios tableUsuariosModel = new TablaUsuarios();
-        JTable tableUsuarios = new JTable(tableUsuariosModel);
+        tableUsuariosModel = new TablaUsuarios();
+        tableUsuarios = new JTable(tableUsuariosModel);
         tableUsuarios.getTableHeader().setReorderingAllowed(false);
 
         JScrollPane scrollUsuarios = new JScrollPane(tableUsuarios);
@@ -222,50 +254,58 @@ public class Vista extends JFrame {
         lblTipo.setBounds(450, 60, 80, 25);
         panel.add(lblTipo);
 
-        JTextField txtTipo = new JTextField();
-        txtTipo.setBounds(530, 60, 150, 25);
-        panel.add(txtTipo);
+        txtTipoProducto = new JTextField();
+        txtTipoProducto.setBounds(530, 60, 150, 25);
+        panel.add(txtTipoProducto);
 
         JLabel lblNombre = new JLabel("Nombre:");
         lblNombre.setBounds(450, 100, 80, 25);
         panel.add(lblNombre);
 
-        JTextField txtNombre = new JTextField();
-        txtNombre.setBounds(530, 100, 150, 25);
-        panel.add(txtNombre);
+        txtNombreProducto = new JTextField();
+        txtNombreProducto.setBounds(530, 100, 150, 25);
+        panel.add(txtNombreProducto);
 
         JLabel lblPrecio = new JLabel("Precio:");
         lblPrecio.setBounds(450, 140, 80, 25);
         panel.add(lblPrecio);
 
-        JTextField txtPrecio = new JTextField();
-        txtPrecio.setBounds(530, 140, 150, 25);
-        panel.add(txtPrecio);
+        txtPrecioProducto = new JTextField();
+        txtPrecioProducto.setBounds(530, 140, 150, 25);
+        panel.add(txtPrecioProducto);
 
         JLabel lblExtras = new JLabel("Ingredientes/URL:");
         lblExtras.setBounds(450, 180, 120, 25);
         panel.add(lblExtras);
 
-        JTextField txtExtras = new JTextField();
-        txtExtras.setBounds(580, 180, 150, 25);
-        panel.add(txtExtras);
+        txtExtrasProducto = new JTextField();
+        txtExtrasProducto.setBounds(580, 180, 150, 25);
+        panel.add(txtExtrasProducto);
 
         btnAddProducto = new JButton("Agregar Producto");
         btnAddProducto.setBounds(450, 220, 150, 30);
         panel.add(btnAddProducto);
+        
+        btnModificarProducto = new JButton("Modificar Producto");
+        btnModificarProducto.setBounds(620, 220, 150, 30);
+        panel.add(btnModificarProducto);
+        
+        btnEliminarProducto = new JButton("Eliminar Producto");
+        btnEliminarProducto.setBounds(450, 260, 150, 30);
+        panel.add(btnEliminarProducto);
 
         btnAddProducto.addActionListener(e -> {
             tableModel.addProducto(
-                txtTipo.getText(),
-                txtNombre.getText(),
-                Double.parseDouble(txtPrecio.getText()),
-                txtExtras.getText()
+                txtTipoProducto.getText(),
+                txtNombreProducto.getText(),
+                Double.parseDouble(txtPrecioProducto.getText()),
+                txtExtrasProducto.getText()
             );
 
-            txtTipo.setText("");
-            txtNombre.setText("");
-            txtPrecio.setText("");
-            txtExtras.setText("");
+            txtTipoProducto.setText("");
+            txtNombreProducto.setText("");
+            txtPrecioProducto.setText("");
+            txtExtrasProducto.setText("");
         });
     }
 
@@ -275,50 +315,58 @@ public class Vista extends JFrame {
         lblNombre.setBounds(450, 328, 80, 25);
         panel.add(lblNombre);
 
-        JTextField txtNombre = new JTextField();
-        txtNombre.setBounds(530, 328, 150, 25);
-        panel.add(txtNombre);
+        txtNombreIngrediente = new JTextField();
+        txtNombreIngrediente.setBounds(530, 328, 150, 25);
+        panel.add(txtNombreIngrediente);
 
         JLabel lblPrecio = new JLabel("Precio:");
         lblPrecio.setBounds(450, 368, 80, 25);
         panel.add(lblPrecio);
 
-        JTextField txtPrecio = new JTextField();
-        txtPrecio.setBounds(530, 368, 150, 25);
-        panel.add(txtPrecio);
+        txtPrecioIngrediente = new JTextField();
+        txtPrecioIngrediente.setBounds(530, 368, 150, 25);
+        panel.add(txtPrecioIngrediente);
 
         JLabel lblStock = new JLabel("Stock:");
         lblStock.setBounds(450, 408, 80, 25);
         panel.add(lblStock);
 
-        JTextField txtStock = new JTextField();
-        txtStock.setBounds(530, 408, 150, 25);
-        panel.add(txtStock);
+        txtStockIngrediente = new JTextField();
+        txtStockIngrediente.setBounds(530, 408, 150, 25);
+        panel.add(txtStockIngrediente);
 
         JLabel lblUrl = new JLabel("URL:");
         lblUrl.setBounds(450, 448, 80, 25);
         panel.add(lblUrl);
 
-        JTextField txtUrl = new JTextField();
-        txtUrl.setBounds(530, 448, 150, 25);
-        panel.add(txtUrl);
+        txtUrlIngrediente = new JTextField();
+        txtUrlIngrediente.setBounds(530, 448, 150, 25);
+        panel.add(txtUrlIngrediente);
+        
+        btnAddIngredienteAdmin = new JButton("Agregar Producto");
+        btnAddIngredienteAdmin.setBounds(450, 488, 150, 30);
+        panel.add(btnAddIngredienteAdmin);
+        
+        btnModificarIngredienteAdmin = new JButton("Modificar Producto");
+        btnModificarIngredienteAdmin.setBounds(620, 488, 150, 30);
+        panel.add(btnModificarIngredienteAdmin);
+        
+        btnEliminarIngredienteAdmin = new JButton("Eliminar Producto");
+        btnEliminarIngredienteAdmin.setBounds(450, 528, 150, 30);
+        panel.add(btnEliminarIngredienteAdmin);
 
-        btnAddIngrediente = new JButton("Agregar Ingrediente");
-        btnAddIngrediente.setBounds(450, 488, 150, 30);
-        panel.add(btnAddIngrediente);
-
-        btnAddIngrediente.addActionListener(e -> {
+        btnAddIngredienteAdmin.addActionListener(e -> {
             tableIngredientesModel.addIngrediente(
-                txtNombre.getText(),
-                Double.parseDouble(txtPrecio.getText()),
-                Integer.parseInt(txtStock.getText()),
-                txtUrl.getText()
+                txtNombreIngrediente.getText(),
+                Double.parseDouble(txtPrecioIngrediente.getText()),
+                Integer.parseInt(txtStockIngrediente.getText()),
+                txtUrlIngrediente.getText()
             );
 
-            txtNombre.setText("");
-            txtPrecio.setText("");
-            txtStock.setText("");
-            txtUrl.setText("");
+            txtNombreIngrediente.setText("");
+            txtPrecioIngrediente.setText("");
+            txtStockIngrediente.setText("");
+            txtUrlIngrediente.setText("");
         });
     }
 
@@ -328,40 +376,48 @@ public class Vista extends JFrame {
         lblNombre.setBounds(450, 60, 80, 25);
         panel.add(lblNombre);
 
-        JTextField txtNombre = new JTextField();
-        txtNombre.setBounds(530, 60, 150, 25);
-        panel.add(txtNombre);
+        txtNombreUser = new JTextField();
+        txtNombreUser.setBounds(530, 60, 150, 25);
+        panel.add(txtNombreUser);
 
         JLabel lblPassword = new JLabel("Contraseña:");
         lblPassword.setBounds(450, 100, 80, 25);
         panel.add(lblPassword);
 
-        JTextField txtPassword = new JTextField();
-        txtPassword.setBounds(530, 100, 150, 25);
-        panel.add(txtPassword);
+        txtPasswordUser = new JTextField();
+        txtPasswordUser.setBounds(530, 100, 150, 25);
+        panel.add(txtPasswordUser);
         
         JLabel lblisAdmin = new JLabel("Admin:");
         lblisAdmin.setBounds(450, 140, 80, 25);
         panel.add(lblisAdmin);
         
-        JToggleButton tglbtnAdmin = new JToggleButton("Admin");
-        tglbtnAdmin.setBounds(530, 140, 150, 25);
-        panel.add(tglbtnAdmin);
-
+        tglbtnAdminUser = new JToggleButton("Admin");
+        tglbtnAdminUser.setBounds(530, 140, 150, 25);
+        panel.add(tglbtnAdminUser);
+        
         btnAddUser = new JButton("Agregar Usuario");
-        btnAddUser.setBounds(450, 200, 150, 30);
-        panel.add(btnAddUser);
+        btnAddIngredienteAdmin.setBounds(450, 200, 150, 30);
+        panel.add(btnAddIngredienteAdmin);
+        
+        btnModificarUser = new JButton("Modificar Usuario");
+        btnModificarUser.setBounds(620, 200, 150, 30);
+        panel.add(btnModificarUser);
+        
+        btnEliminarUser = new JButton("Eliminar Usuario");
+        btnEliminarUser.setBounds(450, 240, 150, 30);
+        panel.add(btnEliminarUser);
 
         btnAddUser.addActionListener(e -> {
         	tableUsuariosModel.addUsuario(
-        		txtNombre.getText(),
-        		txtPassword.getText(),
-        		tglbtnAdmin.isSelected()
+        		txtNombreUser.getText(),
+        		txtPasswordUser.getText(),
+        		tglbtnAdminUser.isSelected()
         		
         	);
-            txtNombre.setText("");
-            txtPassword.setText("");
-            tglbtnAdmin.setSelected(false);
+            txtNombreUser.setText("");
+            txtPasswordUser.setText("");
+            tglbtnAdminUser.setSelected(false);
         });
     }
 
@@ -444,10 +500,6 @@ public class Vista extends JFrame {
 
         btnCartaEntrantes = new JButton("Entrantes");
         btnCartaEntrantes.setFont(new Font("Segoe Print", Font.PLAIN, 14));
-        btnCartaEntrantes.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
         btnCartaEntrantes.setBackground(new Color(255, 255, 128));
         btnCartaEntrantes.setBounds(0, 0, 105, 82);
         panelCarta.add(btnCartaEntrantes);
