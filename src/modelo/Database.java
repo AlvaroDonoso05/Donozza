@@ -6,9 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import modelo.Carta;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -23,6 +25,7 @@ public class Database {
 
     private ArrayNode comandas;
     private ArrayNode accounts;
+
 
     private JsonNode rootNode;
 
@@ -241,6 +244,47 @@ public class Database {
                 logger.error(e);
             }
         }
+    }
+    
+    public void anadirPizza(int idMesa, List<String> ingredientesExtra, String pizza, double pizzaTotal) {
+    	
+    	 synchronized (object) {
+  		 
+    		 try {
+    			 // Cargamos pedidos desde rootNode para garantizar que la estructura esté sincronizada
+    			 ArrayNode mesas = (ArrayNode) rootNode.get("mesas");
+    			 ObjectNode mesa = (ObjectNode) mesas.get(idMesa);
+    			 ArrayNode pedidos = (ArrayNode) mesa.get("pedido");
+    			 mesa.put("ocupado", true);      
+    			
+
+    			 ObjectNode producto = mapper.createObjectNode();
+    			 producto.put("nombre", pizza);
+    			 producto.put("cantidad", 1);
+    			 producto.put("precio", pizzaTotal);
+    			 
+    			 ArrayNode ingExtra = mapper.createArrayNode();
+    			 for(int i = 0;i<ingredientesExtra.size();i++) {
+    				 ingExtra.add(ingredientesExtra.get(i));
+    			 }
+    			 
+    			 producto.set("ingredientesExtra", ingExtra);
+    			 
+    			 
+    			 pedidos.add(producto);
+
+    			 double total = 0;
+    			 for (JsonNode item : pedidos) {
+    				 total += item.get("precio").asDouble();
+    			 }
+    			 mesa.put("total", total);
+
+    			 actualizarDatabase(true);
+
+    		 } catch (Exception e) {
+    			 logger.error(e);
+    		 }
+    	 }
     }
 
     
