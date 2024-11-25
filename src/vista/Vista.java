@@ -117,6 +117,7 @@ public class Vista extends JFrame {
     public JTable tableUsuarios;
     public JButton btnCerrarSesionProd;
     public JButton btnCerrarSesionUsuarios;
+    public JButton btnConfirmarIng;
 
     public Vista() throws Exception {
     	setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Ismael\\Documents\\practicaIsmael\\src\\assets\\icon\\81SyIywo3GL._AC_SX679_.jpg"));
@@ -469,7 +470,8 @@ public class Vista extends JFrame {
         panelCarta.setOpaque(false);
         panelCarta.setBounds(433, 78, 450, 436);
         mainPanel.add(panelCarta);
-        panelCarta.setLayout(null);
+        panelCarta.setLayout(null); 
+     
 
         btnCartaEntrantes = new JButton("Entrantes");
         btnCartaEntrantes.setFont(new Font("Segoe Print", Font.PLAIN, 14));
@@ -533,6 +535,13 @@ public class Vista extends JFrame {
         Image letreroEscalado = letreroOriginal.getScaledInstance(lblLetrero.getWidth(), lblLetrero.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon letrero = new ImageIcon(letreroEscalado);
         lblLetrero.setIcon(letrero);
+        
+        btnConfirmarIng = new JButton("Confirmar");
+        btnConfirmarIng.setBounds(433, 570, 130, 56);
+        btnConfirmarIng.setFont(new Font("Segoe Print", Font.PLAIN, 14));
+        btnConfirmarIng.setBackground(new Color(255, 255, 128));
+        mainPanel.add(btnConfirmarIng);
+        
     }
 
     private void generateLoadingPanel() {

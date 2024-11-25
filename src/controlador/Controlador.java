@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -37,6 +38,9 @@ public class Controlador implements ActionListener {
     private Carta carta;
     private Ingredientes listaIngredientes;
     private String categoriaActual = "";
+    private List<String> ingredientesExtra = new ArrayList<String>();
+    private List<String> ingredientesExtraHelp = new ArrayList<String>();
+    private String productoActual;
 
     public Controlador(Vista frame) {
         this.vista = frame;
@@ -52,7 +56,9 @@ public class Controlador implements ActionListener {
         this.vista.btnEliminarProducto.addActionListener(this);
         this.vista.btnCerrarSesionProd.addActionListener(this);
         this.vista.btnCerrarSesionUsuarios.addActionListener(this);
-        this.vista.btnEliminarProducto.addActionListener(this);
+        this.vista.btnConfirmarIng.addActionListener(this);
+
+       
         this.vista.btnModificarProducto.addActionListener(this);
         this.vista.btnAddProducto.addActionListener(this);
 
@@ -63,6 +69,7 @@ public class Controlador implements ActionListener {
         this.vista.btnEliminarUser.addActionListener(this);
         this.vista.btnModificarUser.addActionListener(this);
         this.vista.btnAddUser.addActionListener(this);
+
 
 
         try {
@@ -258,10 +265,12 @@ public class Controlador implements ActionListener {
                     vista.lblwrongPassword.setVisible(false);
                     vista.adminPanel.setVisible(true);
                 } else {
+                	
                 	vista.loading.setVisible(false);
                     vista.logIn.setVisible(false);
                     vista.lblwrongPassword.setVisible(false);
                     vista.mainPanel.setVisible(true);
+                    deseleccionarMesa();
                 }
             } else {
                 vista.lblwrongPassword.setVisible(true);
@@ -307,6 +316,36 @@ public class Controlador implements ActionListener {
         	generarBotonesMesas();
         }
         
+
+        if(e.getSource() == this.vista.btnConfirmarIng) {
+        	int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
+        	double total = 0;
+        	ArrayNode lIngredientes = listaIngredientes.getListaIngredientes();
+
+        	ArrayNode lPizzas = carta.getPizzas();   
+        	
+        	for(int i= 0; i<lPizzas.size();i++) {
+        		if(lPizzas.get(i).get("nombre").asText().equalsIgnoreCase(productoActual)) {
+        			total = lPizzas.get(i).get("precio").asDouble();
+        			break;
+        		}
+        	}      	
+        	for (int i=0; i<ingredientesExtra.size();i ++) {
+        		int numIng = Integer.parseInt(ingredientesExtra.get(i));
+        		total = total + lIngredientes.get(numIng).get("precio").asDouble();
+        		int nuevoStock = lIngredientes.get(numIng).get("stock").asInt() - 1;
+        		ObjectNode nIngredientes = (ObjectNode) lIngredientes.get(numIng);
+        		nIngredientes.put("stock", nuevoStock);       			      		
+        	}
+        	listaIngredientes.actualizarIngredientes(true);
+        	database.anadirPizza(idMesa, ingredientesExtra, productoActual, total);
+        	ingredientesExtra.clear();
+        	mostrarTabla(idMesa);
+        	this.vista.panelIngredientes.removeAll();
+        	this.vista.panelIngredientes.revalidate();
+        	this.vista.panelIngredientes.repaint();
+        }
+
         
         // Botones de Aministración de Productos
         if (e.getSource() == this.vista.btnEliminarProducto) {
@@ -405,6 +444,7 @@ public class Controlador implements ActionListener {
         this.vista.txtNombreUser.setText("");
         this.vista.txtPasswordUser.setText("");
         this.vista.tglbtnAdminUser.setSelected(false);
+
     }
 
 
@@ -471,11 +511,13 @@ public class Controlador implements ActionListener {
         //Obtener IDs de los ingredientes de la pizza en concreto
         for(int j=0;j<lPizzas.size();j++) {
         	if(lPizzas.get(j).get("nombre").asText().equalsIgnoreCase(pizza)) {
+        		productoActual = lPizzas.get(j).get("nombre").asText();
         		iPizza = (ArrayNode) lPizzas.get(j).get("ingredientes");
         	}
         }
         for(int i=0;i<iPizza.size();i++) {
-        	System.out.println(iPizza.get(i).asInt());
+        	int j = i;
+        	ingredientesExtraHelp.add(iPizza.get(i).asText());
         	String nombreIngrediente = lIngredientes.get(iPizza.get(i).asInt()).get("nombre").asText();
             String urlImagen = lIngredientes.get(iPizza.get(i).asInt()).get("url").asText();
             double precioProducto = lIngredientes.get(iPizza.get(i).asInt()).get("precio").asDouble();
@@ -507,7 +549,7 @@ public class Controlador implements ActionListener {
             etiquetaPrecio.setFont(new Font("Arial", Font.ITALIC, 12));
             etiquetaPrecio.setForeground(Color.GRAY);
 
-            // Boton seleccion producto
+           // Boton seleccion producto
             JButton botonAnadir = new JButton("+");
             botonAnadir.setAlignmentX(Component.CENTER_ALIGNMENT);
             botonAnadir.setPreferredSize(new Dimension(50, 15));
@@ -516,7 +558,14 @@ public class Controlador implements ActionListener {
             botonAnadir.setForeground(Color.WHITE);
             botonAnadir.setFocusPainted(false);
             botonAnadir.setFont(new Font("Arial", Font.PLAIN, 12));
+            if(lIngredientes.get(iPizza.get(i).asInt()).get("stock").asInt()>0){
+            	botonAnadir.setEnabled(true);
+            }else {
+            	botonAnadir.setEnabled(false);
+            }
             
+            
+
             JButton botonQuitar = new JButton("-");
             botonQuitar.setAlignmentX(Component.CENTER_ALIGNMENT);
             botonQuitar.setPreferredSize(new Dimension(50, 15));
@@ -525,6 +574,8 @@ public class Controlador implements ActionListener {
             botonQuitar.setForeground(Color.WHITE);
             botonQuitar.setFocusPainted(false);
             botonQuitar.setFont(new Font("Arial", Font.PLAIN, 12));
+            botonQuitar.setEnabled(false);
+            
             
             JLabel cantidad = new JLabel("Cantidad");
             cantidad.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -535,20 +586,36 @@ public class Controlador implements ActionListener {
             tCantidad.setAlignmentX(Component.CENTER_ALIGNMENT);
             tCantidad.setFont(new Font("Arial", Font.ITALIC, 12));
             tCantidad.setForeground(Color.GRAY);
-            tCantidad.setText("8");
+            tCantidad.setText(String.valueOf(lIngredientes.get(iPizza.get(i).asInt()).get("stock").asInt()));
+            lIngredientes.get(iPizza.get(i).asInt()).get("stock").asInt();
+            
+            botonAnadir.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {						
+					ingredientesExtra.add(ingredientesExtraHelp.get(j));
+					botonQuitar.setEnabled(true);
+					botonAnadir.setEnabled(false);						
+				}
+            	            	
+            });
+         
+            botonQuitar.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					ingredientesExtra.remove(ingredientesExtraHelp.get(j));	
+					botonQuitar.setEnabled(false);
+					botonAnadir.setEnabled(true);				
+				}
+            	
+            	
+            });
+            
             
 
-            botonAnadir.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    int idMesa = Integer.parseInt(vista.lblMesa.getText().substring(vista.lblMesa.getText().indexOf(" ") + 1)) - 1;
-                    boolean encontrado = false;
-                    ArrayNode pizzas = carta.getPizzas();
-                    
-                    recargarMesas();
-                    generarBotonesMesas();
-   
-                }
-            });
+        
+            
 
             panelIngrediente.add(etiquetaImagen);
             panelIngrediente.add(Box.createVerticalStrut(5));

@@ -4,10 +4,10 @@
       "nombre": "Barbacoa",
       "precio": 12.5,
       "ingredientes": [
+        0,
         1,
-        2,
-        6,
-        8
+        5,
+        7
       ],
       "url": "resources/img/pizzas/barbacoa.png"
     },
@@ -15,10 +15,10 @@
       "nombre": "Carbonara",
       "precio": 10.5,
       "ingredientes": [
+        0,
         1,
-        2,
-        4,
-        7
+        3,
+        6
       ],
       "url": "resources/img/pizzas/carbonara.png"
     },
@@ -26,9 +26,9 @@
       "nombre": "Atun",
       "precio": 10.5,
       "ingredientes": [
+        0,
         1,
-        2,
-        3
+        2
       ],
       "url": "resources/img/pizzas/atun.png"
     },
@@ -36,8 +36,8 @@
       "nombre": "Margarita",
       "precio": 10.5,
       "ingredientes": [
-        1,
-        2
+        0,
+        1
       ],
       "url": "resources/img/pizzas/margarita.png"
     }
