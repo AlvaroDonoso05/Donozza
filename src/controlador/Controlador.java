@@ -178,8 +178,10 @@ public class Controlador implements ActionListener {
         if (categoriaActual.equals(categoria)) {
             descargarCarta();
             categoriaActual = "";
+            this.vista.btnConfirmarIng.setEnabled(false);
         } else {
             cargarCarta(categoria);
+            this.vista.btnConfirmarIng.setEnabled(true);
             categoriaActual = categoria;
         }
     }
