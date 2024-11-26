@@ -151,6 +151,7 @@ public class Controlador implements ActionListener {
         this.vista.btnCartaEntrantes.setEnabled(false);
         this.vista.btnCartaPizzas.setEnabled(false);
         this.vista.btnCartaPostres.setEnabled(false);
+        this.vista.btnConfirmarIng.setEnabled(false);
         descargarCarta();
     }
 
@@ -271,7 +272,8 @@ public class Controlador implements ActionListener {
         this.vista.panelBotonesEntrantes.repaint();
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == vista.btnCartaEntrantes) {
@@ -360,6 +362,7 @@ public class Controlador implements ActionListener {
                     break;
                 }
             }
+            
             for (int i = 0; i < ingredientesExtra.size(); i++) {
                 int numIng = Integer.parseInt(ingredientesExtra.get(i));
                 total = total + lIngredientes.get(numIng).get("precio").asDouble();
@@ -423,7 +426,7 @@ public class Controlador implements ActionListener {
                                     ingredientes.add(Integer.parseInt(id.trim()));
                                 } catch (Exception ex) {
                                     logger.error(ex);
-                                    return; // Salir si hay un error en los ingredientes
+                                    return;
                                 }
                             }
                         } else {
@@ -432,9 +435,8 @@ public class Controlador implements ActionListener {
                     }
 
                     // Elimina y vuelve a agregar el producto en la carta
-                    carta.deleteProducto(selectedRow, categoria);
-
                     carta.addProducto(categoria, nombre, precio, ingredientes, carta.getPizzas().get(selectedRow).get("url").asText());
+                    carta.deleteProducto(selectedRow, categoria);
 
                     // Limpia los campos de entrada
                     limpiarCampos();
@@ -684,26 +686,6 @@ public class Controlador implements ActionListener {
 
         this.vista.panelIngredientes.revalidate();
         this.vista.panelIngredientes.repaint();
-    }
-
-    private void cargarProductosEnTabla() {
-        try {
-            DefaultTableModel modelo = (DefaultTableModel) this.vista.tableProductos.getModel();
-            modelo.setRowCount(0);
-
-            for (JsonNode pizza : carta.getPizzas()) {
-                modelo.addRow(new Object[]{
-                        pizza.get("id").asInt(),
-                        pizza.get("nombre").asText(),
-                        pizza.get("precio").asDouble(),
-                        pizza.get("url").asText()
-                });
-            }
-
-            // Similar para otras categorías (bebidas, entrantes, postres)
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(vista, "Error al cargar productos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
 }

@@ -1,52 +1,43 @@
 {
-  "ingredientes": [
-    {
-      "nombre": "Mozzarella",
-      "precio": 2,
-      "stock": 7,
-      "url": "resources/img/ingredientes/mozzarella.png"
-    },
-    {
-      "nombre": "Tomate",
-      "precio": 1,
-      "stock": 0,
-      "url": "resources/img/ingredientes/tomate.png"
-    },
-    {
-      "nombre": "Atun",
-      "precio": 1.25,
-      "stock": 15,
-      "url": "resources/img/ingredientes/atun.png"
-    },
-    {
-      "nombre": "Bacon",
-      "precio": 2,
-      "stock": 0,
-      "url": "resources/img/ingredientes/bacon.png"
-    },
-    {
-      "nombre": "Cheddar",
-      "precio": 1.5,
-      "stock": 50,
-      "url": "resources/img/ingredientes/cheddar.png"
-    },
-    {
-      "nombre": "Pollo",
-      "precio": 1.75,
-      "stock": -2,
-      "url": "resources/img/ingredientes/pollo.png"
-    },
-    {
-      "nombre": "Champi",
-      "precio": 1,
-      "stock": 34,
-      "url": "resources/img/ingredientes/champi.png"
-    },
-    {
-      "nombre": "Barbacoa",
-      "precio": 1.75,
-      "stock": 9,
-      "url": "resources/img/ingredientes/barbacoa.png"
-    }
-  ]
+  "ingredientes" : [ {
+    "nombre" : "Mozzarella",
+    "precio" : 2,
+    "stock" : 5,
+    "url" : "resources/img/ingredientes/mozzarella.png"
+  }, {
+    "nombre" : "Tomate",
+    "precio" : 1,
+    "stock" : 4,
+    "url" : "resources/img/ingredientes/tomate.png"
+  }, {
+    "nombre" : "Atun",
+    "precio" : 1.25,
+    "stock" : 15,
+    "url" : "resources/img/ingredientes/atun.png"
+  }, {
+    "nombre" : "Bacon",
+    "precio" : 2,
+    "stock" : 2,
+    "url" : "resources/img/ingredientes/bacon.png"
+  }, {
+    "nombre" : "Cheddar",
+    "precio" : 1.5,
+    "stock" : 50,
+    "url" : "resources/img/ingredientes/cheddar.png"
+  }, {
+    "nombre" : "Pollo",
+    "precio" : 1.75,
+    "stock" : 7,
+    "url" : "resources/img/ingredientes/pollo.png"
+  }, {
+    "nombre" : "Champi",
+    "precio" : 1,
+    "stock" : 34,
+    "url" : "resources/img/ingredientes/champi.png"
+  }, {
+    "nombre" : "Barbacoa",
+    "precio" : 1.75,
+    "stock" : 6,
+    "url" : "resources/img/ingredientes/barbacoa.png"
+  } ]
 }

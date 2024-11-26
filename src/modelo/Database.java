@@ -177,11 +177,10 @@ public class Database {
 
     public boolean comprobarUsuario(String username, String password) {
         for (JsonNode account : accounts) {
-            if (account.get("name").asText().equalsIgnoreCase(username) && account.get("password").asText().equalsIgnoreCase(password)) {
+            if (account.get("name").asText().equalsIgnoreCase(username) && account.get("password").asText().equals(password)) {
                 return true;
             }
         }
-
         return false;
     }
 

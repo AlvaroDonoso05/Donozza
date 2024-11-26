@@ -7,7 +7,8 @@ import javax.swing.table.AbstractTableModel;
 
 public class TablaProductos extends AbstractTableModel {
 
-    private final String[] columnNames = {"Tipo", "Nombre", "Precio", "Extras"};
+	private static final long serialVersionUID = 1L;
+	private final String[] columnNames = {"Tipo", "Nombre", "Precio", "Extras"};
     private final List<Object[]> data;
 
     public TablaProductos() {

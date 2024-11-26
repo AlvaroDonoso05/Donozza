@@ -6,7 +6,8 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public class TablaPedidos extends AbstractTableModel {
-    private String[] columnNames = {"Producto", "Información/Cantidad", "Precio"};
+	private static final long serialVersionUID = 1L;
+	private String[] columnNames = {"Producto", "Información/Cantidad", "Precio"};
     private List<String[]> pedidos = new ArrayList<>();
 
 
