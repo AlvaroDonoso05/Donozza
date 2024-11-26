@@ -245,6 +245,7 @@ public class Controlador implements ActionListener {
                     }
                     if (encontrado) {
                         cargarIngredientes(nombreProducto);
+                        vista.btnConfirmarIng.setEnabled(true);
 
                     } else {
                         database.añadirProducto(idMesa, carta.obtenerProducto(j, categoria), precioProducto);
@@ -379,6 +380,7 @@ public class Controlador implements ActionListener {
             this.vista.panelIngredientes.removeAll();
             this.vista.panelIngredientes.revalidate();
             this.vista.panelIngredientes.repaint();
+            this.vista.btnConfirmarIng.setEnabled(false);
         }
 
 

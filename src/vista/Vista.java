@@ -463,6 +463,7 @@ public class Vista extends JFrame {
         btnConfirmarIng.setBounds(433, 570, 130, 56);
         btnConfirmarIng.setFont(new Font("Segoe Print", Font.PLAIN, 14));
         btnConfirmarIng.setBackground(new Color(255, 255, 128));
+        btnConfirmarIng.setEnabled(false);
         mainPanel.add(btnConfirmarIng);
 
     }
