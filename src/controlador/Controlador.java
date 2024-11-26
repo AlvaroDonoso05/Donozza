@@ -559,6 +559,7 @@ public class Controlador implements ActionListener {
         }
     }
 
+    // Cargar Los Ingredientes
     public void cargarIngredientes(String pizza) {
         this.vista.panelIngredientes.removeAll();
         ArrayNode lIngredientes = listaIngredientes.getListaIngredientes();
