@@ -376,6 +376,7 @@ public class Controlador implements ActionListener {
             listaIngredientes.actualizarIngredientes(true);
             database.anadirPizza(idMesa, ingredientesExtra, productoActual, total);
             ingredientesExtra.clear();
+            ingredientesExtraHelp.clear();
             mostrarTabla(idMesa);
             this.vista.panelIngredientes.removeAll();
             this.vista.panelIngredientes.revalidate();

@@ -1,111 +1,79 @@
 {
-  "pizzas": [
-    {
-      "nombre": "Barbacoa",
-      "precio": 12.5,
-      "ingredientes": [
-        0,
-        1,
-        5,
-        7
-      ],
-      "url": "resources/img/pizzas/barbacoa.png"
-    },
-    {
-      "nombre": "Carbonara",
-      "precio": 10.5,
-      "ingredientes": [
-        0,
-        1,
-        3,
-        6
-      ],
-      "url": "resources/img/pizzas/carbonara.png"
-    },
-    {
-      "nombre": "Atun",
-      "precio": 10.5,
-      "ingredientes": [
-        0,
-        1,
-        2
-      ],
-      "url": "resources/img/pizzas/atun.png"
-    },
-    {
-      "nombre": "Margarita",
-      "precio": 10.5,
-      "ingredientes": [
-        0,
-        1
-      ],
-      "url": "resources/img/pizzas/margarita.png"
-    }
-  ],
-  "bebidas": [
-    {
-      "nombre": "Agua",
-      "precio": 12.5,
-      "url": "resources/img/bebidas/agua.png"
-    },
-    {
-      "nombre": "Cocacola",
-      "precio": 10.5,
-      "url": "resources/img/bebidas/cocacola.png"
-    },
-    {
-      "nombre": "Nestea",
-      "precio": 10.5,
-      "url": "resources/img/bebidas/nestea.png"
-    },
-    {
-      "nombre": "Cerveza",
-      "precio": 10.5,
-      "url": "resources/img/bebidas/cerveza.png"
-    }
-  ],
-  "postres": [
-    {
-      "nombre": "Tarta de Queso",
-      "precio": 12.5,
-      "url": "resources/img/postres/tartaqueso.png"
-    },
-    {
-      "nombre": "Helado",
-      "precio": 10.5,
-      "url": "resources/img/postres/helado.png"
-    },
-    {
-      "nombre": "Fruta",
-      "precio": 10.5,
-      "url": "resources/img/postres/fruta.png"
-    },
-    {
-      "nombre": "Buñuelos",
-      "precio": 10.5,
-      "url": "resources/img/postres/bunuelos.png"
-    }
-  ],
-  "entrantes": [
-    {
-      "nombre": "Alitas",
-      "precio": 12.5,
-      "url": "resources/img/entrantes/alitas.png"
-    },
-    {
-      "nombre": "Queso Frito",
-      "precio": 10.5,
-      "url": "resources/img/entrantes/quesofrito.png"
-    },
-    {
-      "nombre": "Aros de Cebolla",
-      "precio": 10.5,
-      "url": "resources/img/entrantes/cebolla.png"
-    },
-    {
-      "nombre": "Nuggets",
-      "precio": 10.5,
-      "url": "resources/img/entrantes/nuggets.png"
-    }
-  ]
+  "pizzas" : [ {
+    "nombre" : "Barbacoa",
+    "precio" : 12.5,
+    "ingredientes" : [ 0, 1, 5, 7 ],
+    "url" : "resources/img/pizzas/barbacoa.png"
+  }, {
+    "nombre" : "Carbonara",
+    "precio" : 10.5,
+    "ingredientes" : [ 0, 1, 3, 6 ],
+    "url" : "resources/img/pizzas/carbonara.png"
+  }, {
+    "nombre" : "Atun",
+    "precio" : 10.5,
+    "ingredientes" : [ 0, 1, 2 ],
+    "url" : "resources/img/pizzas/atun.png"
+  }, {
+    "nombre" : "Margarita",
+    "precio" : 10.5,
+    "ingredientes" : [ 0, 1 ],
+    "url" : "resources/img/pizzas/margarita.png"
+  }, {
+    "nombre" : "4Quesos",
+    "precio" : 20.0,
+    "url" : "resources/img/default.png",
+    "ingredientes" : [ 1, 2, 3, 4 ]
+  } ],
+  "bebidas" : [ {
+    "nombre" : "Agua",
+    "precio" : 12.5,
+    "url" : "resources/img/bebidas/agua.png"
+  }, {
+    "nombre" : "Cocacola",
+    "precio" : 10.5,
+    "url" : "resources/img/bebidas/cocacola.png"
+  }, {
+    "nombre" : "Nestea",
+    "precio" : 10.5,
+    "url" : "resources/img/bebidas/nestea.png"
+  }, {
+    "nombre" : "Cerveza",
+    "precio" : 10.5,
+    "url" : "resources/img/bebidas/cerveza.png"
+  } ],
+  "postres" : [ {
+    "nombre" : "Tarta de Queso",
+    "precio" : 12.5,
+    "url" : "resources/img/postres/tartaqueso.png"
+  }, {
+    "nombre" : "Helado",
+    "precio" : 10.5,
+    "url" : "resources/img/postres/helado.png"
+  }, {
+    "nombre" : "Fruta",
+    "precio" : 10.5,
+    "url" : "resources/img/postres/fruta.png"
+  }, {
+    "nombre" : "Buñuelos",
+    "precio" : 10.5,
+    "url" : "resources/img/postres/bunuelos.png"
+  } ],
+  "entrantes" : [ {
+    "nombre" : "Alitas",
+    "precio" : 12.5,
+    "url" : "resources/img/entrantes/alitas.png"
+  }, {
+    "nombre" : "Queso Frito",
+    "precio" : 10.5,
+    "url" : "resources/img/entrantes/quesofrito.png"
+  }, {
+    "nombre" : "Aros de Cebolla",
+    "precio" : 10.5,
+    "url" : "resources/img/entrantes/cebolla.png"
+  }, {
+    "nombre" : "Nuggets",
+    "precio" : 10.5,
+    "url" : "resources/img/entrantes/nuggets.png"
+  } ]
 }

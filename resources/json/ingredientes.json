@@ -2,27 +2,27 @@
   "ingredientes" : [ {
     "nombre" : "Mozzarella",
     "precio" : 2,
-    "stock" : 5,
+    "stock" : 2,
     "url" : "resources/img/ingredientes/mozzarella.png"
   }, {
     "nombre" : "Tomate",
     "precio" : 1,
-    "stock" : 4,
+    "stock" : 1,
     "url" : "resources/img/ingredientes/tomate.png"
   }, {
     "nombre" : "Atun",
     "precio" : 1.25,
-    "stock" : 15,
+    "stock" : 13,
     "url" : "resources/img/ingredientes/atun.png"
   }, {
     "nombre" : "Bacon",
     "precio" : 2,
-    "stock" : 2,
+    "stock" : 0,
     "url" : "resources/img/ingredientes/bacon.png"
   }, {
     "nombre" : "Cheddar",
     "precio" : 1.5,
-    "stock" : 50,
+    "stock" : 49,
     "url" : "resources/img/ingredientes/cheddar.png"
   }, {
     "nombre" : "Pollo",
@@ -32,7 +32,7 @@
   }, {
     "nombre" : "Champi",
     "precio" : 1,
-    "stock" : 34,
+    "stock" : 32,
     "url" : "resources/img/ingredientes/champi.png"
   }, {
     "nombre" : "Barbacoa",
