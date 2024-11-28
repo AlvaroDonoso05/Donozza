@@ -240,7 +240,7 @@ public class Database {
         }
     }
 
-    public void anadirPizza(int idMesa, List<String> ingredientesExtra, String pizza, double pizzaTotal) {
+    public void anadirPizza(int idMesa, List<Integer> ingredientesExtra, String pizza, double pizzaTotal) {
 
         synchronized (object) {
 

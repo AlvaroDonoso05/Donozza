@@ -40,8 +40,8 @@ public class Controlador implements ActionListener {
     private Carta carta;
     private Ingredientes listaIngredientes;
     private String categoriaActual = "";
-    private final List<String> ingredientesExtra = new ArrayList<String>();
-    private final List<String> ingredientesExtraHelp = new ArrayList<String>();
+    private final List<Integer> ingredientesExtra = new ArrayList<Integer>();
+    private final List<Integer> ingredientesExtraHelp = new ArrayList<Integer>();
     private String productoActual;
 
     public Controlador(Vista frame) {
@@ -367,7 +367,7 @@ public class Controlador implements ActionListener {
             }
             
             for (int i = 0; i < ingredientesExtra.size(); i++) {
-                int numIng = Integer.parseInt(ingredientesExtra.get(i));
+                int numIng = ingredientesExtra.get(i);
                 total = total + lIngredientes.get(numIng).get("precio").asDouble();
                 int nuevoStock = lIngredientes.get(numIng).get("stock").asInt() - 1;
                 ObjectNode nIngredientes = (ObjectNode) lIngredientes.get(numIng);
@@ -581,7 +581,7 @@ public class Controlador implements ActionListener {
         }
         for (int i = 0; i < iPizza.size(); i++) {
             int j = i;
-            ingredientesExtraHelp.add(iPizza.get(i).asText());
+            ingredientesExtraHelp.add(iPizza.get(i).asInt());
             String nombreIngrediente = lIngredientes.get(iPizza.get(i).asInt()).get("nombre").asText();
             String urlImagen = lIngredientes.get(iPizza.get(i).asInt()).get("url").asText();
             double precioProducto = lIngredientes.get(iPizza.get(i).asInt()).get("precio").asDouble();
